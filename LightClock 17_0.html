@@ -1,0 +1,3159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+<!--    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-55097100-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-55097100-1');
+    </script> -->
+
+    <title>LightClock</title>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <meta name="description" content="Light Clock">
+    <meta name="author" content="joekahr@gmail.com">
+    <meta name="generator" content="Joe Kahr">
+    <meta name="version" content="17.0">
+    <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	
+    <style type="text/css">
+			canvas {background-color:rgba(0,0,0,0); overflow:hidden}
+			body  {margin:0; padding:0}
+			td, th {padding:2px}
+      input[type=range] {-webkit-appearance: none;  -moz-appearance: none;}
+      input[type=checkbox]
+        {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        height: 12px;
+        width: 12px;
+        margin-left: 2px;
+        margin-right: 2px;
+        margin-top: 3px;
+        margin-bottom: 0px;
+        border: 0px;
+        border-radius: 4px;
+        outline: none;
+        background-color: white;
+        }
+      input[type=checkbox]:checked {background-color: blue;}
+      input[type=checkbox]:disabled {background-color: grey;}
+      input[type=radio]
+        {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        height: 12px;
+        width: 12px;
+        margin-left: 2px;
+        margin-right: 2px;
+        margin-top: 3px;
+        margin-bottom: 0px;
+        border: 0px;
+        border-radius: 4px;
+        outline: none;
+        background-color: white;
+        }
+      input[type=radio]:checked {background-color: blue;}
+      input[type=radio]:disabled {background-color: grey;}
+    </style>
+  </head>
+
+  <body id="body" onload="init();" onresize="resize();" style="background-color:rgb(0,0,0)">
+
+    <canvas id="canvas" oncontextmenu="return false;" style="background-color:rgb(0, 0, 0); position:absolute; overflow:hidden; z-index:1; visibility:hidden;"></canvas>
+        
+    <div id="controls" style="font-family:Arial,Helvetica,sans-serif; background-color:rgba(0,0,0,0); margin-top:auto; margin-bottom:auto; position:absolute; color:rgb(255,255,255); font-size:large; z-index:2; visibility:hidden;">
+		  <span id="controls_part1">
+        <span style="font-family:cambria_math">D = </span>proper distance between mirrors<br>
+        <span style="font-family:cambria_math">T = </span>proper light clock period<span style="font-family:cambria_math"> = D/c</span><br>
+        <span title="Special Relativity Reference Frames" id="SR">SR:</span>
+        <span title="Special Relativity: Laboratory Frame S" id="Lab"><input id="SR_lab_button" type="radio" name="reference" onmouseup="ref_frame('SR_lab');" ontouchend="ref_frame('SR_lab');"><span style="color:lime">Lab</span></span>
+        <span title="Special Relativity: Rocket Frame S'" id="Rocket"><input id="SR_rocket_button" type="radio" name="reference" onmouseup="ref_frame('SR_rocket');" ontouchend="ref_frame('SR_rocket');"><span style="color:cyan">Rocket</span></span><br>
+        <span title="General Relativity Reference Frames" id="GR">GR:</span>
+        <span title="General Relativity: Free-Falling Rain Frame S" id="Rain"><input id="GR_rain_button" type="radio" name="reference" onmouseup="ref_frame('GR_rain')" ontouchend="ref_frame('GR_rain')"><span style="color:lime">Rain</span></span>
+        <span title="General Relativity: Stationary Shell Frame S'" id="Shell"><input id="GR_shell_button" type="radio" name="reference" onmouseup="ref_frame('GR_shell')" ontouchend="ref_frame('GR_shell')"><span style="color:cyan">Shell</span></span>
+        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference" onmouseup="ref_frame('GR_far')" onmtouchend="ref_frame('GR_far')"><Span style="color:orange">Far</span></span><br>
+        <span title="Relative Light Clock Speed v&#013;(-c < v < c)" id="SpeedSlider"">
+          <span style="font-family:cambria_math">speed (v): -c</span>
+          <input id="speed_range" type="range" min="-1000" max="1000" value="0" class="slider"
+          style="background:rgb(126,126,126); width:210px; height:10px; vertical-align:middle"
+          ontouchstart="speed_slider=true;" ontouchmove="speed_change();" ontouchend="speed_change(); speed_slider=false;"
+          onmousedown="speed_slider=true;"  onmousemove="speed_change();" onmouseup="speed_change();  speed_slider=false;"><span style="font-family:cambria_math">c</span>
+        </span><br>
+        <span id="speed_span" title="" style="padding:0px; font-family:cambria_math">
+          <span>v/c = </span><span style="font-family:cambria_math"><span id="v_over_c" onmousedown="speedSpan();" ontouchend="speedSpan();">0</span></span>
+        </span>&nbsp;&nbsp;
+        <span id="gamma_span" title="gamma is the Lorentz factor: ratio for length contraction and time dilation&#013;[Click value to change it]" style="padding:0px; font-family:cambria_math">
+          <span>&gamma; = </span><span id="gamma" style="font-family:cambria_math" onmousedown="gammaSpan();" ontouchend="gammaSpan();">1</span></span>&nbsp;&nbsp;
+        <span id="r_span" title="r is the r-coordinate (reduced circumference) for a Schwarzschild geometry&#013;[Click value to change it]" style="padding:0px; font-family:cambria_math">
+          <span>rc&sup2;/GM = </span><span style="font-family:cambria_math"><span id="r_reduced" onmousedown="rSpan();" ontouchend="rSpan();">&infin;</span></span></span><br>
+        <span title="Light Particles of Light Clock" id="Photons"><input id="photons_checkbox" type="checkbox">Photons</span>
+        <span title="Notation Explaining Animation" id="Annotation"><input id="annotation_checkbox" type="checkbox">Annotation</span>&nbsp;&nbsp;
+        <button title="Keep Light Clock in Center of Window" id="centered_button" type="button" style="font-weight:bold; text-align:center; padding:0px; width:105px;"
+          onmouseup="centeredButton(!centered);" ontouchend="centeredButton(!centered);">Center</button><br>
+        <span title="Light Waves of Light Clock" id="waves">waves:</span>
+        <span title="Forward-in-Time Light Waves" id="Retarded"><input id="retarded_waves_checkbox" type="checkbox"  onmouseup="wavesCheckbox(true);" ontouchend="wavesCheckbox(true);">Retarded</span>
+        <span title="Backward-in-Time Light Waves" id="Advanced"><input id="advanced_waves_checkbox" type="checkbox" onmouseup="wavesCheckbox(false);" ontoiuchend="wavesCheckbox(false);">Advanced</span>
+        <span title="Geometry of Original and Reflected Waves" id="full_arcs_span"><input id="full_arcs_checkbox" type="checkbox">Full</span><br>
+        <span title="Grids of Spatial Coordinates" id="space">space:</span>
+        <span title="" id="S_grid_span"><input id="S_grid_checkbox" type="checkbox"><span style="color:lime; font-family:cambria_math">xy</span></span>
+        <span title="" id="Sprime_grid_span"><input id="Sprime_grid_checkbox" type="checkbox"><span style="color:cyan; font-family:cambria_math">x'y'</span></span>
+        <span title='Grid of Far-Away Bookkeeper (Schwarzschild Frame) x"y" Coordinates' id="Sdblprime_grid_span"><input id="Sdblprime_grid_checkbox" type="checkbox"><span style="color:orange; font-family:cambria_math">x"y"</span></span><br>
+        <span title="Grids of Time Coordinates" id="time">time:</span>
+        <span title="" id="S_clocks_span"><input id="S_clocks_checkbox" type="checkbox"><span style="color:lime; font-family:cambria_math">t</span></span>
+        <span title="" id="Sprime_clocks_span"><input id="Sprime_clocks_checkbox" type="checkbox"><span style="color:cyan; font-family:cambria_math">t'</span></span>
+        <span title='Grid of Far-Away Bookkeeper (Schwarzschild Frame) t" Clocks' id="Sdblprime_clocks_span" ><input id="Sdblprime_clocks_checkbox" type="checkbox"><span style="color:orange; font-family:cambria_math">t"</span></span>
+        <span title='Lattice of Mini Light Clocks (10x)' id="mini_light_clocks"><input id="mini_light_clocks_checkbox" type="checkbox"><span style="color:white">mini light clocks</span></span><br>
+        <span title="Spacetime Diagrams for Light Clock photons" id="diagrams">diagrams:</span>
+        <span title="" id="S_diagrams_span"><input id="S_diagrams" type="checkbox"><span style="color:lime">S</span></span>
+        <span title="" id="Sprime_diagrams_span"><input id="Sprime_diagrams" type="checkbox"><span style="color:cyan">S'</span></span>
+        <span title="Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)" id="Sdblprime_diagrams_span"><input id="Sdblprime_diagrams" type="checkbox"><span style="color:orange">S"</span></span><br>
+        <span title="x-t diagram for photons moving left and right" id="XT_span" style="font-family:cambria_math"><input id="XT_button" type="radio" name="diagram"
+          onmouseup="$i('XT_button').checked = true; clearEvents();" ontouchend="$i('XT_button').checked = true; clearEvents();"><span>&harr; xt</span></span>
+        <span title="x-t diagram for upward moving photon" id="XT_Yplus_span" style="font-family:cambria_math"><input id="XT_Yplus_button" type="radio" name="diagram"
+          onmouseup="$i('XT_Yplus_button').checked = true; clearEvents();" ontouchend="$i('XT_Yplus_button').checked = true; clearEvents();"><span>&uarr; xt</span></span>
+        <span title="x-t diagram for downward moving photon" id="XT_Yminus_span" style="font-family:cambria_math"><input id="XT_Yminus_button" type="radio" name="diagram"
+          onmouseup="$i('XT_Yminus_button').checked = true; clearEvents();" ontouchend="$i('XT_Yminus_button').checked = true; clearEvents();"><span>&darr; xt</span></span>
+        <span title="y-t diagram for photons moving up and down" id="YT_span" style="font-family:cambria_math"><input id="YT_button" type="radio" name="diagram"
+          onmouseup="$i('YT_button').checked = true; clearEvents();" ontouchend="$i('YT_button').checked = true; clearEvents();"><span>&#x2195; yt</span></span><br>
+        <span title="Change Animation Scale" id="zoom">zoom:</span>
+        <button title="Zoom Out" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
+          ontouchstart="holdButtonOn(100, function() {updateScale(scale*0.99);});" ontouchend="prev_scale = scale; holdButtonOff();" ontouchmove="prev_scale = scale; holdButtonOff();"
+          onmousedown="holdButtonOn(100, function() {updateScale(scale*0.99);});" onmouseup="prev_scale = scale; holdButtonOff();" onmouseout="prev_scale = scale; holdButtonOff();">-</button>
+        <button title="Undo Zooming" onmousedown="initScaling(); drawFrame();" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
+        <button title="Zoom In" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
+          ontouchstart="holdButtonOn(100, function() {updateScale(scale*1.01);});" ontouchend="prev_scale = scale; holdButtonOff();" ontouchmove="prev_scale = scale; holdButtonOff();"
+          onmousedown="holdButtonOn(100, function() {updateScale(scale*1.01);});" onmouseup="prev_scale = scale; holdButtonOff();" onmouseout="prev_scale = scale; holdButtonOff();">+</button>
+        <span title="Change Angle of Light Clock Mirrors" id="rotate">rotate:</span>
+        <button title="Rotate Counter-Clockwise" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
+          ontouchstart="holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();"
+          onmousedown="holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();">-</button>
+        <button title="Undo Rotation" onmousedown="initRotation(); drawFrame();" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
+        <button title="Rotate Clockwise" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
+          ontouchstart="holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();"
+          onmousedown="holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});" onmouseup="holdButtonOff();" onmouseout="prev_theta = theta; holdButtonOff();">+</button><br>
+        <span title="Change Animation Time Direction" id="timedirection">time direction:</span>
+        <span title="Normal Time Progression" id="Forward"><input id="forward_button" type="radio" name="time_direction"
+          onmouseup="delta_t = Math.abs(delta_t); $i('forward_button').checked = true;" ontouchend="delta_t = Math.abs(delta_t); $i('forward_button').checked = true;"><span>Forward</span></span>
+        <span title="Reversed Time Progression" id="Backward"><input id="backward_button" type="radio" name="time_direction"
+          onmouseup="delta_t = -Math.abs(delta_t); $i('backward_button').checked = true;" ontouchend="delta_t = -Math.abs(delta_t); $i('backward_button').checked = true;"><span>Backward</span></span><br>
+      </span>
+      <button id="slower_button" title="Slow Down the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
+        onmouseup="steps_per_tick = steps_per_tick*2;" ontouchend="steps_per_tick = steps_per_tick*2;">Slower</button>
+      <button id="faster_button" title="Speed Up the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
+        onmouseup="steps_per_tick = steps_per_tick/2;" ontouchend="steps_per_tick = steps_per_tick/2;">Faster</button>
+      <button id="reset_button" title="Reset the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
+        onmouseup="reset();" ontouchend="reset();">Reset</button>
+			&nbsp;
+			<span id="current_time_span" onmousedown="get_t();">
+        <span id="current_time_span1" style="font-family:cambria_math"></span>
+        <span style="font-family:cambria_math">/T =</span>
+				<span id="current_time_span2"></span>
+			</span><br>
+			<button id="exit_button" title="Exit the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
+        onmouseup="return_to_start(); stop(); init();" ontouchend="return_to_start(); stop(); init();">Exit</button>
+      <button id="pause_resume_button" title="Pause the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
+        onmouseup="pause_resumeButton();" ontouchend="pause_resumeButton();">Pause</button>
+      <span id="single_steps">
+        <span title="While Animation is Paused, Step to Previous/Next Time Slice" id="single_step">single step:</span>
+        <button id="stepbackward_button" title="Step Animation Backward One Time Unit" type="button" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
+        onmousedown="holdButtonOn(200, function() {step(false); setCurrentTime();});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();"
+        ontouchstart="holdButtonOn(200, function() {step(false); setCurrentTime();});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();">-</button>
+        <button id="stepforward_button" title="Step Animation Forward One Time Unit" type="button" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
+        onmousedown="holdButtonOn(200, function() {step(true); setCurrentTime();});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();"
+        ontouchstart="holdButtonOn(200, function() {step(true); setCurrentTime();});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();">+</button>
+      </span><br>
+      <span id="coordinates">
+        <span title="Spacetime Events Coordinates and Interval" id="Events"><input id="coord_checkbox" type="checkbox">Events:</span>&nbsp;
+        <span id="coord_buttons">
+          <span title="Spacetime Event A" id="A_event" style="font-family:Arial,Helvetica,sans-serif; font-size:14pt;">A</span>
+          <button id="set_E1" title="Define Position and Time of Event A" type="button" style="width:40px; vertical-align:middle; text-align:center; padding:0px; font-weight:bold;"
+            onmouseup="E1_setting = true; E2_setting = false; show_E_setting('A');" ontouchend="E1_setting = true; E2_setting = false; show_E_setting('A');">Set</button>
+          <button id="gotoE1_button" title="Jump to Time of Event A" type="button" style="width:48px; vertical-align:middle; text-align:center; padding:0px; font-weight:bold;"
+            onmouseup="if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();"
+            ontouchend="if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();">GoTo</button>
+          <span title="Spacetime Event B" id="B_event" style="font-family:Arial,Helvetica,sans-serif; font-size:14pt;">B</span>
+          <button id="set_E2" title="Define Position and Time of Event B" type="button" style="width:40px; vertical-align:middle; padding:0; font-weight:bold;"
+            onmouseup="E2_setting = true; E1_setting = false; show_E_setting('B');" ontouchend="E2_setting = true; E1_setting = false; show_E_setting('B');">Set</button>
+          <button id="gotoE2_button" title="Jump to Time of Event B" type="button" style="width:48px; vertical-align:middle; padding:0; font-weight:bold;"
+            onmouseup="if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();"
+            ontouchend="if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();">GoTo</button><br>
+          <span id="E_setting" style="color:red; text-indent:30px;"> </span><br>
+        </span>
+      </span>
+    </div>
+				
+    <div id="description" style="font-family:Cambria,Math; text-align:center; background-color:rgb(0,0,0); color:rgb(255,255,255); position:absolute; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px;">
+			<p>
+		  Using an animation of light and mirrors functioning as a Light Clock we explore the nature of space and time.<br>
+      Spacetime kinematics are depicted, without dynamical effects (no massive particles, forces, or accelerations).<br>
+			We adhere to Einstein's stipulation that the local speed of light is the same in all directions.<br>
+			To keep the Light Clock ticking while it is moving at a constant speed,<br>
+			the mirrors are positioned so the round trip times are the same in all directions.<br>
+			This results in length contraction (in the direction of motion) and time dilation, consistent with Relativity.<br>
+			</p>
+			<br>
+			<button type="button" style="font-weight:bold" onmouseup="SR_Button();">Special Relativity</button>
+      <button type="button" style="font-weight:bold" onmouseup="GR_Button();">General Relativity</button>
+			<br><br>
+			<button type="button" style="font-weight:bold" onmouseup="return_to_start();">RETURN</button>
+    </div>
+        
+    <div id="SR_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+      <div style="text-align:center">
+      Lorentz-Einstein transformations between<br>
+      coordinate systems <span style="color:lime">S</span> and <span style="color:cyan">S'</span> with  <span style="color:cyan">S'</span> moving<br>
+      at speed v in +x direction relative to <span style="color:lime">S</span><br>
+      </div>
+      <table style="margin-left:auto; margin-right:auto;">
+        <tr>
+          <td style="text-align:left; padding:10px;">
+          x' = &gamma;(x-vt)<br>
+          y' = y<br>
+          z' = z<br>
+          t' = &gamma;(t-vx/c&sup2;)
+          </td>
+          <td style="text-align:left; padding:10px;">
+          x = &gamma;(x'+vt')<br>
+          y = y'<br>
+          z = z'<br>
+          t = &gamma;(t'+vx'/c&sup2;)
+          </td>
+        </tr>
+      </table>
+      <div style="text-align:center">
+        Lorentz factor: &gamma; &equiv; (1-v&sup2;/c&sup2;)<sup>- &half;</sup><br>
+        <br>
+        relativity of length contraction<br>
+        <span style="color:lime">S length</span>:  &Delta;t = 0   &Implies;   &Delta;x = &Delta;x'/&gamma;<br>
+        <span style="color:cyan">S' length</span>: &Delta;t' = 0   &Implies;   &Delta;x'  = &Delta;x/&gamma;<br>
+        <br>
+        relativity of time dilation<br>
+        <span style="color:lime">S duration</span>:  &Delta;x = 0   &Implies;   &Delta;t = &Delta;t'/&gamma;<br>
+        <span style="color:cyan">S' duration</span>: &Delta;x' = 0   &Implies;   &Delta;t'  = &Delta;t/&gamma;<br>
+        <br>
+        invariant spacetime interval<br>
+        (&Delta;<font color='lime'>x</font>)&sup2; + (&Delta;<font color='lime'>y</font>)&sup2; + (&Delta;<font color='lime'>z</font>)&sup2; - (c&Delta;<font color='lime'>t</font>)&sup2;
+        = (&Delta;<font color='cyan'>x'</font>)&sup2; + (&Delta;<font color='cyan'>y'</font>)&sup2; + (&Delta;<font color='cyan'>z'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;
+      </div>
+			<br><br>
+			<button type="button" style="font-weight:bold" onmouseup="return_to_description();">RETURN</button>
+    </div>
+        
+		<div id="GR_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+      Given a non-rotating neutrally charged point mass M (Schwarzschild geometry), the general relativistic effects at radial distance r from M<br>
+			are the same as the special relativistic effects due to relative velocity v = (2GM/r)<sup>&half;</sup> [see derivation below].<br>
+			Thus, warped 4D spacetime is equivalent to 3D space moving at velocity v toward M (relative to a stationary observer at distance r from M).<br>
+			<br>
+			References:<br>
+      <div style="margin-left:10px">
+        <a style="color:white" href="http://arxiv.org/abs/gr-qc/0411060">Andrew Hamilton's "River Model"</a><br>
+        <a style="color:white" href="http://jila.colorado.edu/~ajsh/insidebh/waterfall.html">Andrew Hamilton's "Waterfall of Space"</a><br>
+        <a style="color:white" href="http://www.eftaylor.com/general.html">Taylor and Wheeler's "Rain Frame"</a><br>
+        <a style="color:white" href="http://en.wikipedia.org/wiki/Gullstrand%E2%80%93Painlev%C3%A9_coordinates">Gullstrand-Painleve coordinates</a>
+      </div>
+			<br>
+      To see the equivalence of gravity and moving space select <font color='lime'>Rain</font> and 'Center'.<br>
+			Consider the Light Clock to be stationary in a gravitational field (constant r).<br>
+			<div style="display:inline-block; text-align:left;">
+        <font color='lime'>x, y</font> Grid: local free-fall (rain) spatial coordinates<br>
+        <font color='lime'>t</font> Clocks: local free-fall (rain) time coordinates</div><br>
+      Select <font color='cyan'>Shell</font> to see Schwarzschild geometry from a Shell Frame Observer's point of view (at constant distance r from M).<br>
+      <div style="display:inline-block; text-align:left;">
+        <font color='cyan'>x', y'</font> Grid: local stationary (shell) spatial coordinates<br>
+        <font color='cyan'>t'</font> Clocks: local stationary (shell) time coordinates</div><br>
+			Select <font color='orange'>Far</font> to see Schwarzschild geometry from a far-away bookkeeper's point of view (at large distance from M).<br>
+			<div style="display:inline-block; text-align:left;">
+        <font color='orange'>x", y"</font> : spatial coordinates of far-away bookkeeper, extended to radius r<br>
+        <font color='orange'>t"</font> : ephemeris time coordinates of far-away bookkeeper, extended to radius r
+			</div><br>
+			[the far-away frame is also the Schwarzschild frame which is usually represented by (t, x, y), but here (<font color='orange'>t", x", y"</font>) is used instead]<br>
+			<br>
+			<button style="text-align:center; font-weight:bold" type="button" onmouseup="return_to_description();">RETURN</button><br>
+			<br>
+		
+			<u>Derivation of the "velocity of space"</u><br>
+			<br>
+			Modeling gravity as a flow of space means a test particle free-falling from far away rides along with space.<br>
+			The test particle's motion, comoving with space, reveals the motion of space.<br>
+			We use Newton's laws to derive the velocity of free-fall (velocity of space), equal in magnitude to the Newtonian escape velocity.<br>
+      This is valid because, in the special case of radial free-fall from far away in Schwarzschild geometry, General Relativity and Newtonian physics agree.<br>
+      The time used in velocity and acceleration is the proper time of the free-falling particle, because a free-falling clock maintains Newtonian time throughout its fall (always an inertial frame).<br>
+			<br>
+			Let m<span style="vertical-align:sub; font-size:small;">g</span> be the gravitational mass of the test particle.<br>
+			Let m<span style="vertical-align:sub; font-size:small;">i</span> be the inertial mass of the test particle.<br>
+			Newtonian force of gravity on the test particle is F = -Gm<span style="vertical-align:sub; font-size:small;">g</span>M/r&sup2;<br>
+			Newtonian acceleration is directly proportional to the force of gravity: F = m<span style="vertical-align:sub; font-size:small;">i</span>a<br>
+			Therefore, F = m<span style="vertical-align:sub; font-size:small;">i</span>a = -Gm<span style="vertical-align:sub; font-size:small;">g</span>M/r&sup2;<br>
+			Using the Equivalence Principle (m<span style="vertical-align:sub; font-size:small;">g</span> = m<span style="vertical-align:sub; font-size:small;">i</span>)
+			gives:  a = -GM/r&sup2;<br>
+			<br>
+			To prove this is consistent with v&sup2; = 2GM/r<br>
+			Differentiate wrt proper time:&nbsp; 2vv&#775; = (-2GM/r&sup2;)r&#775; = -2vGM/r&sup2;<br>
+			Divide by 2v:&nbsp; v&#775; = a = -GM/r&sup2;  <b>&check;</b></font><br>
+			<br>
+			At the Schwarzschild radius (event horizon in Schwarzschild geometry) r = 2GM/c&sup2; and v = -c 
+		</div>
+		
+		<div id="FAQ" style="font-family:Cambria,Math; text-align:left; visibility:hidden; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2">
+			<div style="text-align:center; font-weight:bold"> <button type="button" onmouseup="return_to_start();">RETURN</button></div>
+			<br>
+			<span style="font-weight:bold">What is a Light Clock?</span><br>	
+			Following Einstein we define time to be what is measured with a clock, and the ideal time measurement device is a Light Clock.<br>
+			A Light Clock uses a light pulse sent from one location to a mirror at another location, which reflects the pulse back.  The distance to the mirror is held constant.<br>
+			The completion of each roundtrip increments the clock by one 'tick' and initiates the next cycle.  Counting only completed roundtrips complies with the "all physics is local" rule.<br>
+			Whichever observer you choose to be, the tick count of your clock is in the bottom right corner of the window; it shows your proper time progressing at a constant rate unaffected by the Lorentz factor (&gamma;).<br>
+			The animation uses four mirrors for the Light Clock so the length contraction in the direction of motion can be seen clearly.
+      The tick count (proper time) of the Light Clock is centered between the mirrors.<br>
+			The Light Clock is always stationary in the <font color='cyan'>Rocket</font>, <font color='cyan'>Shell</font>, and <font color='orange'>Far</font> frames.  For non-zero values of v, the Light Clock is in motion relative to the <font color='lime'>Lab</font> and <font color='lime'>Rain</font> frames.<br>
+      Tip: Click the <font color='lime'>t</font> time button, then click the 'mini light clocks' button to see how light clocks look in the <font color='lime'>Lab</font> or <font color='lime'>Rain</font> frames.<br>
+      <br>
+			<span style="font-weight:bold">What is the scale of the animation?</span><br>
+      The scale is assumed to be appropriate for the animation to depict an inertial reference frame (flat spacetime).<br>
+      For the <font color='lime'>Lab</font> and <font color='cyan'>Rocket</font> animations of Special Relativity the scale can be from the sub-microscopic to the very large, but smaller than cosmological distances where expanding space would be a factor.<br>
+			For the <font color='lime'>Rain</font>, <font color='cyan'>Shell</font> and <font color='orange'>Far</font> animations of General Relativity the scale is small enough for gravitational effects (e.g. tidal distortions) to be insignificant.<br>
+      Lengths are expressed as dimensionless fractions of the proper distance D between the mirrors, with no spatial scale specified.<br>
+      Similarly, time durations are expressed as dimensionless fractions of the proper period T, with no time scale specified.<br>
+      Tip:Note that times are shown as decimal fractions of the clock period (e.g.,<font color='lime'> t/T=0.750 </font> has the <font color='lime'> S </font> clock hand in the "9 o'clock" position).<br>
+      <br>
+			<span style="font-weight:bold">What do the colors signify?</span><br>
+			Colors are used to indicate different reference frames.<br>
+			<font color='lime'>Lime</font> represents the <font color='lime'>S</font> inertial reference frame of a stationary observer (laboratory frame) in Special Relativity.<br>
+			<font color='lime'>S</font> is also the frame of a Free-Falling observer in General Relativity (local rain frame).<br>
+			<font color='cyan'>Cyan</font> represents the <font color='cyan'>S'</font> inertial reference frame of the moving unaccelerated Light Clock (rocket frame) in Special Relativity.<br>
+			<font color='cyan'>S'</font> is also the frame of a stationary fiducial observer in General Relativity (local shell frame).<br>
+			<font color='orange'>Orange</font> represents the <font color='orange'>S"</font> reference frame of a far-away bookkeeper in General Relativity (global Schwarzschild frame).<br>
+      <font color='orange'>S"</font> is an idealized global coordinate system which extends far-away flat spacetime to radius r as if there where no gravitating mass M.<br>
+      You can select whether the animation shows Special or General Relativity, and which reference frame is yours:<br>
+      <br>
+      <table>
+        <tr style="vertical-align:top">
+          <td><font color='lime'>S</font></td>
+          <td><font color='lime'>Lab</font></td>
+          <td>Laboratory Frame</td>
+          <td>Special Relativity</td>
+          <td>You are a local observer with the Light Clock moving to the right (left) at speed v (-v) through motionless space.</td>
+          <td></td>
+        </tr>
+        <tr style="vertical-align:top">
+          <td><font color='cyan'>S'</font></td>
+          <td><font color='cyan'>Rocket</font></td>
+          <td>Rocket Frame</td>
+          <td>Special Relativity</td>
+          <td>You are a local observer with the Light Clock stationary in your frame, space is motionless.</td>
+          <td></td>
+        </tr>
+        <tr style="vertical-align:top">
+          <td><font color='lime'>S</font></td>
+          <td><font color='lime'>Rain</font></td>
+          <td>Rain Frame</td>
+          <td>General Relativity</td>
+          <td>You are a local observer free-falling past the Light Clock.<br>
+            The Light Clock is at a constant distance r from mass M.<br>
+            You are comoving with space at speed [2GM/r]<sup>1/2</sup> toward mass M.</td>
+          <td></td>
+        </tr>
+        <tr style="vertical-align:top">
+          <td><font color='cyan'>S'</font></td>
+          <td><font color='cyan'>Shell</font></td>
+          <td>Shell Frame</td>
+          <td>General Relativity</td>
+          <td>You are a local observer with the Light Clock stationary in your frame.<br>
+            The Light Clock is at a constant distance r from mass M.<br>
+            Space is moving past you at speed [2GM/r]<sup>1/2</sup> toward mass M.</td>
+          <td></td>
+        </tr>
+        <tr style="vertical-align:top">
+          <td><font color='orange'>S"</font></td>
+          <td><font color='orange'>Far</font></td>
+          <td>Far-Away Frame</td>
+          <td>General Relativity</td>
+          <td>You are a global bookkeeper far away from mass M (your location is at r = &infin;).<br>
+            The Light Clock is at a constant distance r from mass M.<br>
+            You are unaware (or choose to ignore) that space is moving at speed &gamma;<sup>-2</sup>[2GM/r]<sup>1/2</sup>, in your frame, past the stationary Light Clock toward mass M.</td>
+          <td></td>
+        </tr>
+      </table>
+      <br>
+      Local reference frames with the same color have the same relativistic effects (<font color='lime'>Lab</font> = <font color='lime'>Rain</font>, <font color='cyan'>Rocket</font> = <font color='cyan'>Shell</font>).
+      In special relativity the effects are due to relative motion through space (motionless space, flat spacetime),<br>
+      while in general relativity the effects are due to relative motion of space (moving space, warped spacetime).  This is how the Special and General Theories are linked.<br>
+      Tip: Toggle between the <font color='lime'>Lab</font> frame and the <font color='lime'>Rain</font> frame to see that there is no difference in space or time effects.
+      The same is true for toggling between the <font color='cyan'>Rocket</font> frame and the <font color='cyan'>Shell</font> frame.<br>
+      The <font color='orange'>Far</font> frame is not like any of the other frames;
+      the extra space and time distortions (spacetime warping) you see are due to not accounting for the motion of space.<br>
+      <br>
+
+			<span style="font-weight:bold">Why does the Light Clock stay contracted and its time dilated when 'Center' and <font color='lime'>Lab</font> are selected?</span><br>
+			Centering the Light Clock with <font color='lime'>Lab</font> selected automatically drags the scene to the left (right) at constant speed -v (+v), with the Light Clock artificially held in the center of the window.<br>
+			It is an animation trick for the convenience of you the <font color='lime'>Lab</font> observer.  It is <u>not</u> the same as viewing the Light Clock in its own rest frame.<br>
+			From the point of view of the Light Clock's <font color='cyan'>Rocket</font> frame you are moving and it is <u>your</u> lengths and clocks that are distorted.<br>
+			With 'Center' selected you are not moving at the same speed as the <font color='cyan'>Rocket</font> frame; it just looks that way.  By definition, you and your space coordinate grid have no relative motion, despite how it appears when the Light Clock is centered.<br>
+      Centering the Light Clock with <font color='cyan'>Shell</font> selected accurately depicts the stationary Light Clock in General Relativity.
+      Check <font color='lime'>xy</font> to see the length contracted <font color='lime'>Rain</font> frame moving downward toward M.<br>
+      Tip: Set v to a high positive value.  Select <font color='lime'>Lab</font> and 'Center'.  Check the <font color='lime'>xy</font> space grid to see it being dragged to the left.
+      You can tell the scene is artificial because the grid is not contracted in the x direction.<br>
+      Select 'Uncenter' to see a more intuitive depiction of the physics, without the illusion that your <font color='lime'>Lab</font> frame is in motion.<br>
+			<br>
+				
+			<span style="font-weight:bold">How are the spatial coordinate axes oriented in the animation?</span><br>
+			The <font color='lime'>x</font>, <font color='cyan'>x'</font>, and <font color='orange'>x"</font> axes are collinear and horizontal, increasing to the right.
+      The <font color='lime'>y</font>, <font color='cyan'>y'</font>, and <font color='orange'>y"</font> axes are vertical, increasing upward.
+			Only the <font color='lime'>xy</font>, <font color='cyan'>x'y'</font>, and <font color='orange'>x"y"</font> planes are shown in the animation
+      (<font color='lime'>z</font> = <font color='cyan'>z'</font> = <font color='orange'>z"</font> = 0) so each circular wavefront is a 2D slice through the center of a 3D spherical wavefront. 
+			Lorentz contraction is limited to the x-axes, because all motion is in the x direction. 
+      The <font color='lime'>y</font>, <font color='cyan'>y'</font>, and <font color='orange'>y"</font> axes are identical, and the <font color='lime'>z</font>, <font color='cyan'>z'</font>, and <font color='orange'>z"</font> axes are identical.
+			The positive <font color='lime'>z</font>, <font color='cyan'>z'</font>, and <font color='orange'>z"</font> axes extend out of the screen toward you.
+      For the General Relativity cases the gravitating mass M is on the x-axis, at a distance r from the <font color='cyan'>S'</font> Light Clock as measured in the <font color='orange'>Far</font> frame (r is the Schwarschild radial coordinate).<br>
+      Tip: Select the <font color='lime'>xy</font>, <font color='cyan'>x'y'</font>, and <font color='orange'>x"y"</font> grids with v set to a non-zero value.  Notice the horizontal grid lines stay aligned, and the vertical grid lines for the three frames have different spacing.<br>
+			<br>
+			
+			<span style="font-weight:bold">What is Time Dilation?</span><br>
+      Time Dilation is the lengthening of time durations of a moving clock, as measured by a stationary clock.<br>
+			A clock measures time differences between two events at the <u>same position</u> within a reference frame:  
+			<font color='lime'>S</font> clock has &Delta;<font color='lime'>x</font> = 0, 
+			<font color='cyan'>S'</font> clock has &Delta;<font color='cyan'>x'</font> = 0<br>
+			The slower ticking <font color='cyan'>S'</font> moving clock measures less elapsed time &Delta;<font color='cyan'>t'</font> than the elapsed time &Delta;<font color='lime'>t</font> of the stationary clock.<br>
+			The ratio of measured durations between the two frames is the Lorentz factor: &Delta;<font color='lime'>t</font> = &gamma;&Delta;<font color='cyan'>t'</font><br>
+			Tip: Select the <font color='lime'>Lab</font> reference frame. Set &gamma; to 2 and compare clock ticks.  The <font color='cyan'>S'</font> clock runs two times <u>slower</u> than your <font color='lime'>S</font> clock, or equivalently,
+			your <font color='lime'>S</font> clock runs twice as fast as the <font color='cyan'>S'</font> clock.<br>
+			<br>
+			
+			<span style="font-weight:bold">What is Lorentz Contraction?</span><br>	
+      Lorentz Contraction is the shortening of the length of a moving object in the direction of its motion as measured by a stationary observer,<br>
+      which requires the distance between two positions be measured at the <u>same time</u> by the stationary observer:
+      <font color='lime'>S</font> length &Delta; <font color='lime'>x</font> has &Delta;<font color='lime'>t</font> = 0.<br>
+      The ratio of measured lengths between the two frames is the Lorentz factor: &Delta;<font color='cyan'>x'</font> = &gamma;(&Delta;<font color='lime'>x</font>-v&Delta;<font color='lime'>t</font>)=&gamma;&Delta;<font color='lime'>x</font>.<br>
+			In this animation two pairs of mirrors are used to demonstrate that length contraction happens only in the direction of motion, not perpendicular to the motion.<br>
+			Shortened separation between mirrors in the direction of motion is necessary to keep the clock ticking by ensuring all light pulses return to the source at the same time.<br>
+			Tip: Pause the animation to see a snapshot with all events having the same time in your reference frame, e.g. in the <font color='lime'>S</font> frame (&Delta;<font color='lime'>t</font> = 0 for all event pairs).<br>
+			<br>
+			
+			<span style="font-weight:bold">	What is a Spacetime Interval?</span><br>	
+			The Spacetime Interval is defined to be the combination of space and time coordinates for two events such that same value results in all inertial reference frames:
+			<p style="margin-left:50px">
+			Invariant Spacetime Interval in SR <br>
+      &equiv; (&Delta;<font color='lime'>x</font>)&sup2; + (&Delta;<font color='lime'>y</font>)&sup2; + (&Delta;<font color='lime'>z</font>)&sup2; - (c&Delta;<font color='lime'>t</font>)&sup2;
+ 			= (&Delta;<font color='cyan'>x'</font>)&sup2; + (&Delta;<font color='cyan'>y'</font>)&sup2; + (&Delta;<font color='cyan'>z'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;
+			<br>
+      Invariant Spacetime Interval in GR (small spacetime region)<br>
+      ds&sup2; &equiv; (<font color='lime'>dx</font>)&sup2; + (<font color='lime'>dy</font>)&sup2; + (<font color='lime'>dz</font>)&sup2; - (<font color='lime'>dt</font>)&sup2;
+ 			= (<font color='cyan'>dx'</font>)&sup2; + (<font color='cyan'>dy'</font>)&sup2; + (<font color='cyan'>dz'</font>)&sup2; - (<font color='cyan'>dt'</font>)&sup2;
+			= (&gamma;<font color='orange'>dx"</font>)&sup2; + (<font color='orange'>dy"</font>)&sup2; + (<font color='orange'>dz"</font>)&sup2; - (c<font color='orange'>dt"</font>/&gamma;)&sup2;<br>
+      <br>
+      The Lorentz factor &gamma; in the <font color='orange'>dx"</font> and <font color='orange'>dt"</font> terms represent the warping of spacetime (flowing space).<br>
+      For a sufficiently small spacetime region the Spacetime Intervals of SR and GR are identical (&Delta;<font color='lime'>x</font> = <font color='lime'>dx</font>, ...)
+      </p>
+      Types of Spacetime Intervals: negative is "timelike", zero is "lightlike", positive is "spacelike".<br>
+			Relative motion in only the <font color='lime'>x</font>, <font color='cyan'>x'</font> or <font color='orange'>x"</font> direction means the Interval is (&Delta;<font color='lime'>x</font>)&sup2; - (c&Delta;<font color='lime'>t</font>)&sup2;
+			= (&Delta;<font color='cyan'>x'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;  
+			= (&gamma;&Delta;<font color='orange'>x"</font>)&sup2; - (c&Delta;<font color='orange'>t"</font>/&gamma;)&sup2; 
+			because &Delta;<font color='lime'>y</font> = &Delta;<font color='cyan'>y'</font> = &Delta;<font color='orange'>y"</font> and &Delta;<font color='lime'>z</font> = &Delta;<font color='cyan'>z'</font> = &Delta;<font color='orange'>z"</font>.<br>
+			All events in each <font color='lime'>Lab</font> or <font color='lime'>Rain</font> animation frame have the same <font color='lime'>t</font>,
+			therefore the Interval is (&Delta;<font color='lime'>x</font>)&sup2; = (&Delta;<font color='cyan'>x'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;
+			= (&gamma;&Delta;<font color='orange'>x"</font>)&sup2; - (c&Delta;<font color='orange'>t"</font>/&gamma;)&sup2; for all event pairs in an animation frame.<br>
+			All events in each <font color='cyan'>Rocket</font> or <font color='cyan'>Shell</font> animation frame have the same <font color='cyan'>t'</font>,
+			therefore the Interval is (&Delta;<font color='lime'>x</font>)&sup2; - (c&Delta;<font color='lime'>t</font>)&sup2; = (&Delta;<font color='cyan'>x'</font>)&sup2;
+			= (&gamma;&Delta;<font color='orange'>x"</font>)&sup2; - (c&Delta;<font color='orange'>t"</font>/&gamma;)&sup2; for all event pairs in an animation frame.<br>
+			All events in each <font color='orange'>Far</font> animation frame have the same <font color='orange'>t"</font>,
+			therefore the Interval is (&Delta;<font color='lime'>x</font>)&sup2; - (c&Delta;<font color='lime'>t</font>)&sup2; = (&Delta;<font color='cyan'>x'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;
+			= (&Delta;<font color='orange'>x"</font>)&sup2; for all event pairs in an animation frame.<br>
+			Tip: Check Retarded Waves. Pause and Reset the animation. Check Events and Set Event A at the center of the Light Clock. Step the animation forward a few steps to expand the wave without reflection.
+			<br>Set Event B on the wave and notice the Interval is lightlike (= 0).  Drag Event B inside the wave for timelike (< 0), or outside the wave for spacelike (> 0).<br>
+			<br>
+			
+			<span style="font-weight:bold">What is Relativity of Simultaneity?</span><br>	
+			By definition an observer's simultaneous events happen at the same time, so they have the same time coordinate: &Delta;<font color='lime'>t</font> = 0 within <font color='lime'>S</font>, &Delta;<font color='cyan'>t'</font> = 0 within <font color='cyan'>S'</font>, &Delta;<font color='orange'>t"</font> = 0 within <font color='orange'>S"</font>.<br>
+      However, two reference frames that are moving relative to each another will generally assign different times to two events, hence simultaneity is relative to the reference frame.<br>
+      The only case where both frames assign the same time is when the relative motion is perpendicular to the line connecting the locations of the two events.<br>
+			Consider, for example, frames <font color='lime'>S</font> and <font color='cyan'>S'</font> with two events that have times &Delta;<font color='lime'>t</font> = &Delta;<font color='cyan'>t'</font> = 0,
+			therefore &Delta;<font color='lime'>x</font>&sup2; = &Delta;<font color='cyan'>x'</font>&sup2;.  With &Delta;<font color='lime'>x</font> = &Delta;<font color='cyan'>x'</font>/&gamma;, this means &gamma; = 1 or &Delta;<font color='lime'>x</font> = &Delta;<font color='cyan'>x'</font> = 0.<br>
+			If &gamma; is not 1 and two <font color='cyan'>S'</font> clocks have non-zero &Delta;<font color='cyan'>x'</font> separation then they do not measure the same time as observed by <font color='lime'>S</font>.<br>
+			Note that all events depicted in an animation frame are simultaneous from the selected observer's perspective, all the observer's clocks within an animation frame are synchronized with each other.<br>
+			Tip: Select the <font color='lime'>Lab</font> frame.  Set &gamma; to 2 and show <font color='cyan'>t'</font> time.  Notice the clocks are only synchronized where &Delta;<font color='lime'>x</font> = &Delta;<font color='cyan'>x'</font> = 0.
+			Check the <font color='lime'>t</font> time to see that all the <font color='lime'>S</font> clocks are synchronized with each other.<br>
+      <br>
+      
+      <span style="font-weight:bold">What is Relativistic Causality?</span><br>
+      If event A is said to <span style="font-style:italic">cause</span> event B, then relativity requires B to be on or inside the future light cone of A (A must lie on or inside the past light cone of B).<br> 
+      Event A can <span style="font-style:italic">cause</span> event B (A and B are said to be <span style="font-style:italic">causally connected</span>) only if a signal can pass from A to B at a speed less than or equal to the speed of light.<br>
+      Two causally connected (timelike or lightlike separated) events always appear in the <span style="font-style:italic">same time order</span> as viewed from any frame of reference.<br>
+      Two causally disconnected (spacelike separated) events, however, can appear in <span style="font-style:italic">any time order</span> by choosing to view them from different frames of reference. [For three or more events see <a style="color:white" href="https://www.technologyreview.com/2012/08/22/184151/special-relativity-and-the-curious-physics-of-chronology/">this reference</a>].<br>
+      Tip: Select the <font color='lime'>Lab</font> frame. Set &gamma; to 2. Check Retarded Waves. Pause and Reset the animation. Check Events and Set Event A at the center of the Light Clock.  Event A has <font color='lime'>Lab</font> frame time <font color='lime'>t</font> = 0.<br>
+      Step the animation forward a few steps to advance the time. Set Event B somewhere inside the circular wavefront. Event B has <font color='lime'>Lab</font> frame time <font color='lime'>t</font> > 0. Event A always precedes Event B in the <font color='lime'>Lab</font> frame.<br>
+      Drag Event B to other positions inside the wavefront (timelike separation) and notice how its time changes in the <font color='cyan'>Rocket</font> frame, with Event B always later than Event A in that frame.<br>
+      Drag Event B to positions outside the wavefront (spacelike separation) and notice that Event B's spatial position determines whether its <font color='cyan'>Rocket</font> frame time is earlier than, simultaneous with, or later than Event A's <font color='cyan'>Rocket</font> frame time.<br>
+      <br>
+			
+			<span style="font-weight:bold">Why do waves and photons reflect off a moving mirror differently than off a stationary mirror?</span><br>
+			The apparent angle of a rotated mirror is due to length contraction along the direction of motion.<br>
+			The waves obey the Huygens Principle with each wavelet centered on a different spot in space due to the mirror's motion.<br>
+			The photons obey the principle of least time. [see <a style="color:rgb(255,255,255)" href="https://www.google.com/search?q=%22reflection+from+a+moving+mirror%22">references</a>]<br>
+			Tip: Set gamma to 2, Pause, and Reset. Check Retarded Waves and Full Arcs.  Check Events and Set Event A at center of Light Clock, Resume.<br>
+			Pause when the center of the Full Arc of the reflected wave for the right mirror first appears. Set Event B there. Notice that Events A and B have the same <font color='cyan'>t'</font> time.<br>
+			<br>
+      
+      <span style="font-weight:bold">Why are the light waves elliptical when the <font color='orange'>Far</font> frame option is selected?</span><br>
+			<font color='orange'>Far</font> depicts how a far-away bookkeeper represents the events in the vicinity of the light clock.  It is not what the bookkeeper observes directly; he is not a local observer of those events.<br>
+      The free-falling observer (<font color='lime'>Rain</font> frame) and the stationary observer (<font color='cyan'>Shell</font>) frame are local observers, therefore they see events consistent with special relativity.<br>
+      The <font color='orange'>Far</font> distortions are the result of extrapolating from far-away flat spacetime to the vicinity of the light clock, without compensationg for the effects of the downward flowing space.<br>
+      These distortions (apparent spacetime warping) include contracted radial lengths (&Delta;<font color='orange'>x"</font> = &Delta;<font color='lime'>x</font> = &Delta;<font color='cyan'>x'</font>/&gamma;)
+      and slowed clocks (&Delta;<font color='orange'>t"</font> = &gamma;<sup>2</sup>&Delta;<font color='lime'>t</font> = &gamma;&Delta;<font color='cyan'>t'</font>).
+      This explains the <font color='orange'>Far</font> view of <font color='cyan'>Shell</font> frame length contractions
+      (e.g. elliptical appearence of the light waves, contracted appearance of the Light Clock even though it is motionless in the <font color='orange'>Far</font> frame),
+      time dilations (e.g. slowed clocks), and the extra slow inward speed (v/&gamma;<sup>2</sup>) of the free-falling <font color='lime'>Rain</font> frame.<br>
+      Tip: Set the speed to zero to see the distortions disappear: same effects are seen by the <font color='orange'>far-away bookkeeper</font>, <font color='lime'>free-falling observer</font>, and <font color='cyan'>stationary shell observer</font>.<br>
+      This is because zero relative speed between the <font color='cyan'>stationary shell observer</font> and the <font color='lime'>free-falling observer</font> happens only at r &rarr; &infin; (or M=0), which means in this special case the <font color='orange'>far-away bookkeeper</font> is a local observer.<br>
+      <br>
+      
+			<span style="font-weight:bold">What is an Inertial Reference Frame?</span><br>	
+			An Inertial Reference Frame is defined as a frame of reference in which Newton's first law holds (constant motion with no forces).  An inertial observer does not detect acceleration, or forces, or gravity.<br>
+      We represent an inertial frame as a uniform spatial coordinate grid with identical synchronized clocks at each position in the grid, to locally measure the position and time of spacetime events.
+			Clocks are synchronized using Einstein's method of round-trip light signals that are <u>assumed</u> to travel at the same speed c in all directions (light travel time A-to-B is the same as B-to-A).<br>
+			Check any of the <font color='lime'>xy</font>  <font color='cyan'>x'y'</font>  <font color='orange'>x"y"</font> space grids to see the spatial coordinates.
+			Check any of the <font color='lime'>t</font>  <font color='cyan'>t'</font>  <font color='orange'>t"</font> times to see the time coordinates depicted as clocks.<br>
+			Tip: Watch the four photons travel round-trip from <font color='cyan'>S'</font> clock tick to the next tick.
+			Notice the mirror reflection events are all at half-tick <font color='cyan'>t'</font> times, even with the mirrors rotated.<br>
+			<br>
+      
+      <span style="font-weight:bold">Is the <font color='cyan'>Shell</font> frame an Inertial Reference Frame?</span><br>
+      Locally, Yes.  Globally, No.<br>
+      <br>
+      <span style="font-weight:bold">Yes:</span> If the scale of the spacetime region is sufficiently small to exclude gravitational effects (see next FAQ) then the <font color='cyan'>Shell</font> frame is "locally inertial", but not "globally inertial".
+      The animation does not depict space as accelerating toward the gravitating mass; it assumes the radial extent of the <font color='cyan'>Shell</font> frame is small enough that the speed of downward moving space is constant across the window width.
+      The <font color='cyan'>Shell</font> frame is depicted as a stationary inertial frame while the inertial <font color='lime'>Rain</font> frame (comoving with space) moves downward.
+      Effectively, the spacetime region has been magnified enough to appear flat and only Special Relativity applies.<br>
+      <br>
+      <span style="font-weight:bold">No:</span> If the scale of the spacetime region is not sufficiently small then gravitational effects arise and the <font color='cyan'>Shell</font> frame is neither "locally inertial" nor "globally inertial".
+      If accelerations were included then gravity would appear, because space accelerating downward past the <font color='cyan'>Shell</font> observer is equivalent to the <font color='cyan'>Shell</font> observer accelerating upward through space,
+      which Einstein tells us is equivalent to the <font color='cyan'>Shell</font> observer being motionless in a gravitational field.<br>
+      Tip: Set v to zero and select the <font color='lime'>Rain</font> frame.
+      Notice how the Light Clock, the waves, the <font color='lime'>xy</font> spatial grid, and the <font color='lime'>t</font> clocks look inertial.
+      Change v to a non-zero value and select the <font color='cyan'>Shell</font> frame to see the same (locally) inertial view.
+      The vertical <font color='cyan'>x'</font>=0 line through the center of the Light Clock is correct.  The "locally inertial" approximations become less correct as the distance from <font color='cyan'>x'</font>=0 increases.<br>
+      <br>
+      
+      <span style="font-weight:bold">Where are the gravitational effects of General Relativity?</span><br>
+      For simplicity, the animation is limited to only the kinematic effects of Special and General Relativity. This means no accelerations are depicted.
+      The <font color='cyan'>Rocket</font> frame moves at constant speed relative to the <font color='lime'>Lab</font> frame,
+      and the <font color='lime'>Rain</font> frame falls at constant speed relative to the <font color='cyan'>Shell</font> and <font color='orange'>Far</font> frames.
+      Without accelerations we can focus on the effects of radial length contraction and time dilation which are identical for both Special and General Relativity.
+      In the GR cases we see the effects of space moving radially downward toward the gravitating mass, but the scale is assumed to be small enough so only the SR effects are significant.<br>
+      <br>
+      At sufficiently small scale (as depicted in the animation) GR effects are neglible:<br>
+      a) the region of spacetime has negligible curvature (locally flat spacetime)<br>
+      b) the accelerating downward flow of the <font color='lime'>Rain</font> frame past the <font color='cyan'>Shell</font> frame is neglible (no increasing speed as it falls)<br>
+      c) the radial stretching and transverse shrinking of falling objects is neglible (no tidal distortions)<br>
+      d) the spherical symmetry of the spatial grid is not noticeable (uniform rectangular spatial grid is sufficient)<br>
+      e) the gradient of radial flow velocity and its effect on light frequency is negligible (no gravitational redshift or blueshift)<br>
+      f) the combined time and space gradient effects are neglible (no bending of light or perihelion advance)<br>
+      g) the expansion of the universe has virtually no effect (no cosmological redshift)<br>
+      See <a style="color:white" href="https://youtu.be/wrwgIjBUYVc">this video</a> and <a style="color:white" href="http://jila.colorado.edu/~ajsh/insidebh/waterfall.html">this web site</a> for animations that include accelerating downward flow of space.<br>
+      Tip: To compare relativistic effects at multiple radial distances from M, open two (or more) windows and position them to be vertically adjacent.
+      Start an animation in each, select <font color='lime'>Rain</font> frame and <font color='lime'>t</font> time in each window.
+      Set rc&sup2;/GM to progressively lower values from rightmost to leftmost window (v > 0).
+      Notice radial length contraction and time dilation effects are greater closer to M. This gradient is equivalent to gravity.<br>
+      <br>
+
+      <span style="font-weight:bold">What are Retarded and Advanced waves?</span><br>
+      A Retarded wave propagates forward in time, producing effects which are retarded from (later than) the originating event at the wave source.
+      An Advanced wave propagates backward in time, producing effects which are in advance of (earlier than) the originating event at the wave source.
+      A Retarded wave from a source is the top half of a lightcone with the source event at the vertex; an Advanced wave from that event is the bottom half of that light cone.<br>
+      When viewed forward-in-time a Retarded wave expands outward from its source, and an Advanced wave contracts inward toward its source.
+      When viewed backward-in-time a Retarded wave contracts inward toward its source, and an Advanced wave expands outward from its source.<br>
+      Notice that a Retarded wave from an emission event overlaps at only one point with the Advanced wave from the corresponding absorption event.
+      This results in particle-like behavior from waves: point-like superposition moves at light speed in a straight line from emission to absorption, tracking exactly the photon path(s).<br>
+      Add many iterations forward-and-backward in time, plus a &pi; phase shift at the end points,
+      and one arrives at the Transactional Interpretation of Quantum Mechanics (TIQM).
+      [see <a style="color:white" href="https://www.google.com/search?q=transactional+interpretation+of+quantum+mechanics">references</a>,
+      especially John Cramer's <a style="color:white" href="https://www.amazon.com/Quantum-Handshake-Entanglement-Nonlocality-Transactions-ebook/dp/B019WU3NT8/ref=sr_1_1">book</a> and <a style="color:white" href="https://www.youtube.com/watch?v=FcmA3xq0Dk4">video</a>]<br>
+      Tip: Consider whether combining TIQM with the flowing-space model of General Relativity might be a path toward Quantum Gravity:<br>
+      if (QM is time-symmetric waves in 3D space) and (GR is flowing 3D space) then (QG is time-symmetric waves in flowing 3D space)<br>
+      <br>
+      
+			<div style="text-align:center; font-weight:bold"> <button type="button"onmouseup="return_to_start();">RETURN</button> </div>
+		</div>
+		
+  	<div id="start" style="font-family:Arial,Helvetica,sans-serif; text-align:center; font-weight:bold; background-color:rgb(0,0,0); position:absolute; width:100%; height:100%; left:0%; top:0px">
+			<br>
+			<button title="Start the Light Clock Animation" type="button" style="text-align:center; background-color:rgb(0,255,0);" onmouseup="startButton(event);">START ANIMATION</button>
+			<br><br>
+			<button title="LightClock App Description" type="button" style="text-align:center; font-weight:bold" onmouseup="descriptionButton();">Description</button>
+			<br><br>
+      <button type="button" style="font-weight:bold" onmouseup="FAQ_Button();">FAQ</button>
+			<br><br>
+			<button title="Mouse and Touch Screen Controls" type="button" style="text-align:center; font-weight:bold" onmouseup="UI_Button();">User Interface Help</button>
+    </div>
+		
+		<div id="UI" style="font-family:Arial,Helvetica,sans-serif; visibility:hidden; text-align:center; background-color:rgb(0,0,0); color:rgb(255,255,255); position:absolute; width:100%; left:0%; top:0px">
+			<table style="text-align:center; border-collapse:collapse; margin-left:auto; margin-right:auto">
+				<tr style="border-bottom:3px solid blue"> <th></th> <th style="border-left:3px solid blue">web browser</th> <th style="border-left:1px solid blue">smart phone or tablet</th> </tr>
+				<tr style="border-bottom:1px solid blue"> <td style="text-align:left">show/hide control menu</td> <td style="border-left:3px solid blue; font-style:italic;">left click</td>  <td style="border-left:1px solid blue; font-style:italic;">tap</td> </tr>
+				<tr style="border-bottom:1px solid blue"> <td style="text-align:left">move grid and clock</td>    <td style="border-left:3px solid blue; font-style:italic;">left mouse drag</td>   <td style="border-left:1px solid blue; font-style:italic;">touch and drag</td> </tr>
+				<tr> <td style="text-align:left">zoom grid/rotate clock</td> <td style="border-left:3px solid blue; font-style:italic;">right mouse drag</td> <td style="border-left:1px solid blue; font-style:italic;">two finger gesture</td> </tr>
+			</table>
+			<br>
+			<button type="button" style="font-weight:bold" onmouseup="return_to_start();">RETURN</button>
+    </div>
+		
+    <script type="text/javascript">
+			
+function $i(id) {return document.getElementById(id);}
+
+function Angle() {this.radians;}
+function point2D() {this.x; this.y;} // 2D point in space (x,y)
+function canvasPoint() {this.X; this.Y;} // canvas coordinates [X,Y]
+function Event() {this.t; this.x; this.y; this.t_prime; this.x_prime; this.y_prime; this.t_dblprime; this.x_dblprime; this.y_dblprime;}
+
+// transformations
+function t_to_tprime(t,x)                       {return (gamma*(t - v*x));}
+function x_to_xprime(x,t)                       {return (gamma*(x - v*t));}
+function t_to_tdblprime(t,x)                    {return (gamma*gamma*(t - v*x));}
+function x_to_xdblprime(x,t)                    {return (x - v*t);}
+function tprime_to_t(t_prime,x_prime)           {return (gamma*(t_prime + v*x_prime));}
+function xprime_to_x(x_prime,t_prime)           {return (gamma*(x_prime + v*t_prime));}
+function tprime_to_tdblprime(t_prime)           {return (gamma*t_prime);}
+function xprime_to_xdblprime(x_prime)           {return (x_prime/gamma);}
+function tdblprime_to_t(t_dblprime,x_dblprime)  {return (t_dblprime + gamma*gamma*v*x_dblprime);}
+function xdblprime_to_x(x_dblprime,t_dblprime)  {return (v*t_dblprime + gamma*gamma*x_dblprime);}
+function tdblprime_to_tprime(t_dblprime)        {return (t_dblprime/gamma);}
+function xdblprime_to_xprime(x_dblprime)        {return (gamma*x_dblprime);}
+
+function setEvent_S(E,t,x,y)                                    { E.t = t;                                      E.x = x;                                      E.y = y;
+                                                                  E.t_prime = t_to_tprime(t,x);                 E.x_prime = x_to_xprime(x,t);                 E.y_prime = y;
+                                                                  E.t_dblprime = t_to_tdblprime(t,x);           E.x_dblprime = x_to_xdblprime(x,t);           E.y_dblprime = y; }
+function setEvent_Sprime(E,t_prime,x_prime,y_prime)             { E.t = tprime_to_t(t_prime,x_prime);           E.x = xprime_to_x(x_prime,t_prime);           E.y = y_prime;
+                                                                  E.t_prime = t_prime;                          E.x_prime = x_prime;                          E.y_prime = y_prime;
+                                                                  E.t_dblprime = tprime_to_tdblprime(t_prime);  E.x_dblprime = xprime_to_xdblprime(x_prime);  E.y_dblprime = y_prime; }
+function setEvent_Sdblprime(E,t_dblprime,x_dblprime,y_dblprime) { E.t = tdblprime_to_t(t_dblprime,x_dblprime);  E.x = xdblprime_to_x(x_dblprime,t_dblprime);  E.y = y_dblprime;
+                                                                  E.t_prime = tdblprime_to_tprime(t_dblprime);  E.x_prime = xdblprime_to_xprime(x_dblprime);  E.y_prime = y_dblprime;
+                                                                  E.t_dblprime = t_dblprime;                    E.x_dblprime = x_dblprime;                    E.y_dblprime = y_dblprime; }
+
+function setEvent(E,t,x,y) //x,y are S coordinates
+{
+  if      (refS())          setEvent_S(E,t,x,y); // t is S time  
+	else if (refSprime())     setEvent_S(E,t/gamma + v*x,x,y); // t is S' time
+	else if (refSdblprime())  setEvent_S(E,t/(gamma*gamma) + v*x,x,y); // t is S" time
+}
+
+var isMac;
+var speed_slider;
+
+var ref; //animation reference frame
+var frame_timerID;  //interval timer ID
+var opacity;
+var started=false;
+var scaling_enabled, rotation_enabled;
+var retarded_waves, advanced_waves, paused, centered, coords;  //toggles
+var ticks=0;
+var t_tick;  //S time to complete one roundtrip = S_tick (if dr'= 0 or dr"= 0 then S_tick = S'_tick*gamma = S"_tick)
+var t,delta_t; //lab,rain: S time since start; far: S" time since start
+var t_cycle;  //time since start of current tick cycle
+var r_left,r_right;
+var d;   //distance2D between mirrors (in Light Clock frame)
+var steps_per_tick=128;  // power of 2 for clean calculation
+var mark_left, mark_right, mark_up, mark_down;
+
+// x,y coordinates of space
+var x0,y0;  //center of clock at start of tick, moves with each tick
+var x0_init, y0_init;  //initial center of clock
+
+// P_ points have canvas coordinates [X,Y] of the unscaled, untranslated screen: [0,0] at upper left   [w,h] at lower right
+var P_mousedown = new canvasPoint();
+var P_mousemove = new canvasPoint();
+var P_mouseup = new canvasPoint();
+var prev_P_mouseup = new canvasPoint();
+var P_clock_down = new canvasPoint(); // center of clock, at mousedown event during scaling
+var P_center = new canvasPoint(); //center of canvas
+
+var E1 = new Event();
+var E2 = new Event();
+var P0 = new point2D();
+var P1 = new point2D();
+var P2 = new point2D();
+var P3 = new point2D();
+var P4 = new point2D();
+var P1d = new point2D();
+var P1u = new point2D();
+var P2l = new point2D();
+var P2r = new point2D();
+var P3l = new point2D();
+var P3r = new point2D();
+var P4d = new point2D();
+var P4u = new point2D();
+var P1reflect = new point2D();
+var P2reflect = new point2D();
+var P3reflect = new point2D();
+var P4reflect = new point2D();
+
+var A = new Angle();
+var B = new Angle();
+var C = new Angle();
+var D = new Angle();
+var E = new Angle();
+var F = new Angle();
+var G = new Angle();
+var H = new Angle();
+
+var c=1;  // speed of light
+var v=0;  // S frame speed of clock moving toward right, as fraction of c
+var current_x; // current value of x = v*t
+var gamma=1;  // Lorentz factor
+var v_text, gamma_text, r_over_GM_text;  //text to show user
+var r_over_GM; // r/GM > 2
+var w=0; //full width of client window and drawing frame
+var h=0; //full height of client window and drawing frame
+var mthick,mlen;  //in Lorentz frame
+var mlen_prime;  //Lorentz contracted
+var annotation_font="16pt cambria_math";
+var annotation_color='white';
+var opacity=0.1;
+
+var animate_func = 'animate()';
+var dragging=false;
+var scaling_and_rotating=false;
+var E1_dragging=false;
+var E1_setting=false;
+var E2_dragging=false;
+var E2_setting=false;
+var E1set;
+var E2set;
+var r_mouse, r_mousedown;
+var rotation; //degrees
+var angle_mousedown;
+var gesture=false;
+var scale=1;
+var prev_scale=1;
+var theta;  //rotation in radians
+var prev_theta;  //previous rotation in radians
+var offset_x_down=0; // offset_x at mousedown event
+var offset_y_down=0; // offset_y at mousedown event
+var offset_x=0; //x location of space coord origin
+var offset_y=0; //y location of space coord origin
+
+var controls, SRtext, GRtext, FAQtext, descriptiontext, UItext, canvas;
+var context;
+
+var fps=24;
+var msec_delay;
+
+function S_color(opacity) {return("rgba(0,255,0," + opacity + ")");}
+function Sprime_color(opacity) {return("rgba(0,255,255," + opacity + ")");}
+function Sdblprime_color(opacity) {return("rgba(255,165,0," + opacity + ")");}
+function wave_color(opacity) {return("rgba(255,255,255," + opacity + ")");}
+function photon_color(opacity) {return("rgba(255,255,0," + opacity + ")");}
+function lightpath_color(opacity) {return("rgba(255,255,255," + opacity + ")");}
+
+function getPosition(el)
+{
+	var xPos = 0;
+	var yPos = 0;
+ 
+	while (el)
+	{
+		if (el.tagName == "BODY")
+		{
+		  // deal with browser quirks with body/window/document and page scroll
+		  var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+		  var yScroll = el.scrollTop || document.documentElement.scrollTop;
+	 
+		  xPos += (el.offsetLeft - xScroll + el.clientLeft);
+		  yPos += (el.offsetTop - yScroll + el.clientTop);
+		} else {
+		  // for all other non-BODY elements
+		  xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+		  yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+		}
+		el = el.offsetParent;
+	}
+	return {x: xPos, y: yPos};
+}
+
+function quadratic_root1(A,B,C)
+{
+  return ((-B+Math.sqrt(B*B-4*A*C))/(2*A));
+}
+
+function quadratic_root2(A,B,C)
+{
+  return ((-B-Math.sqrt(B*B-4*A*C))/(2*A));
+}
+
+// angle of slope between two canvas points
+function canvasAngle(P0,P1) {return Math.atan((P1.Y-P0.Y)/(P1.X-P0.X));}
+
+function show_speed(vtext,gammatext,r_over_GMtext)
+{
+  if (v == 0) v_text = '0'; 
+  else if (vtext.length < 8) v_text = vtext; else v_text = v.toExponential(1);
+  $i('v_over_c').innerHTML = v_text;
+  if (gammatext.length < 7) gamma_text = gammatext; else gamma_text =  gamma.toExponential(1);
+  $i('gamma').innerHTML = gamma_text;
+  if (r_over_GMtext.length < 7 || r_over_GMtext == '\u221E') r_over_GM_text = r_over_GMtext; else r_over_GM_text= r_over_GM.toExponential(1);
+  $i('r_reduced').innerHTML = r_over_GM_text;
+  document.querySelector('#speed_range').value = v*1000;
+  if (v != 0) inherit('centered_button'); else hidden('centered_button');
+}
+
+function zoom_change()
+{
+	var v_over_c;
+	
+  current_x = v*t;
+	if (!speed_slider) return;
+	v_over_c = document.querySelector('#speed_range').value/100;
+  if (v_over_c == 1) {v_over_c = 0.9999; document.querySelector('#speed_range').value = v_over_c*100;}
+  else if (v_over_c == -1) {v_over_c = -0.9999; document.querySelector('#speed_range').value = v_over_c*100;}
+	v = v_over_c; gamma = 1/Math.sqrt(1-(v*v)/(c*c)); if (v != 0) r_over_GM = 2/(v*v); 
+	if (v == 0) show_speed(v.toPrecision(5), gamma.toPrecision(5), '\u221E');
+  else        show_speed(v.toPrecision(5), gamma.toPrecision(5), r_over_GM.toPrecision(5));
+  reset();
+}
+
+function speed_change()
+{
+	var v_over_c;
+	
+  current_x = v*t;
+  if (!speed_slider) return;
+  v_over_c = $i('speed_range').value/1000;
+	//v_over_c = document.querySelector('#speed_range').value/1000;
+	if (v_over_c == 1) {v_over_c = 0.999; $i('speed_range').value = v_over_c*100;}
+  else if (v_over_c == -1) {v_over_c = -0.999; $i('speed_range').value = v_over_c*100;}
+	v = v_over_c; gamma = 1/Math.sqrt(1-(v*v)/(c*c)); if (v != 0) r_over_GM = 2/(v*v); 
+	if (v == 0) show_speed(v.toPrecision(3), gamma.toPrecision(4), '\u221E');
+  else        show_speed(v.toPrecision(3), gamma.toPrecision(4), r_over_GM.toPrecision(4));
+  reset();
+}
+
+function get_t()
+{
+  var user_input;
+  
+  do
+  {
+    if      (refS())          user_input = prompt("Enter t/T",t/d);  // t is S time  
+	  else if (refSprime())     user_input = prompt("Enter t'/T",t/d); // t is S' time
+	  else if (refSdblprime())  user_input = prompt('Enter t"/T',t/d); // t is S" time
+    if (user_input == null) return(false); // user has canceled
+    else // user has entered something
+      if (isNaN(Number(user_input))) alert(user_input + " is not a number"); // not a number
+      else // is a number
+      {
+        t = d*Number(user_input);
+        calcTime(); drawFrame();
+        return(true);
+      }
+  }
+  while(true);
+}
+
+function get_v()
+{
+  var user_input,v_over_c;
+  
+  do
+  {
+    user_input = prompt("Enter v/c (speed divided by the speed of light)",v);
+    if (user_input == null) return(false); // user has canceled
+    else // user has entered something
+      if (isNaN(Number(user_input))) alert(user_input + " is not a number"); // not a number
+      else // is a number
+      {
+        v_over_c = Number(user_input);
+        if (v_over_c >= 1 || v_over_c <= -1) alert("v/c must be between -1 and 1");
+        else // OK to use
+        {
+          v = v_over_c;
+          gamma = 1/Math.sqrt(1-(v*v)/(c*c)); if (v != 0) r_over_GM = 2/(v*v); 
+          if (v == 0) show_speed(user_input, "1", '\u221E');
+          else        show_speed(user_input, gamma.toPrecision(4), r_over_GM.toPrecision(4));
+          offset_x = offset_x + v*t_cycle;
+          return(true);
+        }
+      }
+  }
+  while(true);
+}
+
+function get_gamma()
+{
+  var user_input,gamma_value;
+  do
+  {
+    user_input = prompt("Enter gamma (Lorentz factor >=1)",gamma);
+    if (user_input == null) return(false); // user has canceled
+    else // user has entered something
+      if (isNaN(Number(user_input))) alert(user_input + " is not a number");
+      else // is a number
+      {
+        gamma_value = Number(user_input);
+        if (gamma_value < 1) alert("gamma must be greater than or equal to 1");
+        else
+        {
+          gamma = gamma_value;
+          if (v >= 0) v = Math.sqrt(1-(1/gamma)*(1/gamma));
+          else if (v < 0) v = -Math.sqrt(1-(1/gamma)*(1/gamma));
+          if (v != 0) r_over_GM = 2/(v*v); 
+          if (v == 0) show_speed(v.toPrecision(3), user_input, '\u221E');
+          else        show_speed(v.toPrecision(3), user_input, r_over_GM.toPrecision(4));
+          return(true);
+        }
+      }
+  }
+  while(true);
+}
+
+function get_r()
+{
+  var user_input,r_over_GM_value;
+  
+  do
+  {
+    user_input = prompt("Enter rc" + '\u00B2' + "/GM (>2)",r_over_GM);
+    if (user_input == null) return(false); // user has canceled
+    else
+      if (user_input == '\u221E') // infinity
+      {
+        v = 0; gamma =1;
+        show_speed(v.toPrecision(5), "1", '\u221E');
+        return(true);
+      }
+      else if (isNaN(Number(user_input))) alert(user_input + " is not a number");
+      else // is a number
+      {
+        r_over_GM_value = Number(user_input);
+        if (r_over_GM_value <= 2) alert("rc" + '\u00B2' + "/GM must be greater than 2");
+        else // OK to use
+        {
+          r_over_GM = r_over_GM_value;
+          if (v >= 0) v = Math.sqrt(2/r_over_GM);
+          else if (v < 0) v = -Math.sqrt(2/r_over_GM);
+          gamma = 1/Math.sqrt(1-(v*v)/(c*c));
+          show_speed(v.toPrecision(3), gamma.toPrecision(4), user_input);
+          return(true);
+        }
+      }
+  }
+  while(true);
+}
+
+function translate(x,y)
+{
+  context.translate(x+offset_x,y+offset_y);
+}
+
+function drawText(text,x,y,align,base,angle,color)
+{
+  context.save();
+  context.fillStyle = color;
+  context.font = annotation_font;
+  context.textAlign = align;
+  context.textBaseline = base;
+  context.translate(x,y);
+  context.rotate(angle);
+  context.fillText(text,0,0);
+  context.restore();
+}
+    
+function annotate(text,x,y,align,base,angle,color)
+{
+  if ($i('annotation_checkbox').checked)
+  {
+    drawText(text,x,y,align,base,angle,color);
+  }
+}
+
+function annotateArrow(type,x1,y1,x2,y2,color)
+{
+  if ($i('annotation_checkbox').checked)
+  {
+    context.save();
+    if (type=="fill") {context.fillStyle = 'rgb(0,0,255)'; fillArrow(x1,y1,x2,y2);}
+    else if (type=="stroke") {context.strokeStyle = color; strokeArrow(x1,y1,x2,y2);}
+    else alert("bad type in annotateArrow");
+    context.restore();
+  }
+}
+
+function drawLine(x1,y1,x2,y2)
+{
+  var x1_int,y1_int,x2_int,y2_int;
+  
+  x1_int = Math.round(x1);
+  y1_int = Math.round(y1);
+  x2_int = Math.round(x2);
+  y2_int = Math.round(y2);
+  context.beginPath();
+  context.moveTo(x1_int,y1_int);
+  context.lineTo(x2_int,y2_int);
+  context.stroke();
+}
+
+function strokeArrow(x1,y1,x2,y2)
+{
+  var headlen = 10;   // length of head in pixels
+  var angle = Math.atan2(y2-y1,x2-x1);
+  
+  context.beginPath();
+  context.moveTo(x1,y1);
+  context.lineTo(x2,y2);
+  context.moveTo(x2,y2);
+  context.lineTo(x2-headlen*Math.cos(angle-(Math.PI/6)),y2-headlen*Math.sin(angle-(Math.PI/6)));
+  context.moveTo(x2,y2);
+  context.lineTo(x2-headlen*Math.cos(angle+(Math.PI/6)),y2-headlen*Math.sin(angle+(Math.PI/6)));
+  context.stroke();
+}
+
+function fillArrow(x1,y1,x2,y2)
+{
+  var headlen = 10;   // length of head in pixels
+  var angle = Math.atan2(y2-y1,x2-x1);
+  
+  context.beginPath();
+  context.moveTo(x1,y1);
+  context.lineTo(x2,y2);
+  context.stroke();
+  context.beginPath();
+  context.moveTo(x2,y2);
+  context.lineTo(x2-headlen*Math.cos(angle-(Math.PI/6)),y2-headlen*Math.sin(angle-(Math.PI/6)));
+  context.lineTo(x2-headlen*Math.cos(angle+(Math.PI/6)),y2-headlen*Math.sin(angle+(Math.PI/6)));
+  context.closePath();
+  context.fill();
+}
+
+function fillCircle(x,y,r)
+{
+  context.beginPath();
+  context.arc(x, y, r, 0, 2*Math.PI, false); // clockwise starting at (1,0) [top angle = -0.5pi = 1.5pi]
+  context.closePath();
+  context.stroke();
+  context.fill();
+}
+
+function x_scaleLattice(type)
+{
+	if      (type == 'S'  && (ref == 'SR_lab'   || ref == 'GR_rain'))   {return (1);}
+  else if (type == 'S'  && (ref == 'SR_rocket'|| ref == 'GR_shell'))  {return (1/gamma);}
+	else if (type == 'S'  && refSdblprime())                            {return (1/(gamma*gamma));}
+	else if (type == "S'" && (ref == 'SR_lab'   || ref == 'GR_rain'))   {return (1/gamma);}
+  else if (type == "S'" && (ref == 'SR_rocket'|| ref == 'GR_shell'))  {return (1);}
+	else if (type == "S'" && refSdblprime())                            {return (1/gamma);}
+	else if (type == 'S"' && ref == 'GR_rain')                          {return (1);}
+  else if (type == 'S"' && ref == 'GR_shell')                         {return (gamma);}
+	else if (type == 'S"' && refSdblprime())                            {return (1);}
+}
+
+function angleLatticeClock(type,t,x)
+{
+	if      (type == 'S'  && (ref == 'SR_lab'   || ref == 'GR_rain'))   {return (2*Math.PI*t/d);} //t is S time
+  else if (type == 'S'  && (ref == 'SR_rocket'|| ref == 'GR_shell'))  {return (2*Math.PI*tprime_to_t(t,x)/d);} // t,x are S'
+	else if (type == 'S'  && refSdblprime())                            {return (2*Math.PI*tdblprime_to_t(t,x)/d);} // t,x are S"
+	else if (type == "S'" && (ref == 'SR_lab'   || ref == 'GR_rain'))   {return (2*Math.PI*t_to_tprime(t,x + v*t)/d);} // t,x are S
+  else if (type == "S'" && (ref == 'SR_rocket'|| ref == 'GR_shell'))  {return (2*Math.PI*t/d);} // t is S' time
+	else if (type == "S'" && refSdblprime())                            {return (2*Math.PI*tdblprime_to_tprime(t)/d);} // t is S"
+	else if (type == 'S"' && ref == 'GR_rain')                          {return (2*Math.PI*t_to_tdblprime(t,x + v*t)/d);} // t,x are S
+  else if (type == 'S"' && ref == 'GR_shell')                         {return (2*Math.PI*tprime_to_tdblprime(t,x + v*t)/d);} // t,x are S'
+  else if (type == 'S"' && refSdblprime())                            {return (2*Math.PI*t/d);} // t is S" time
+}
+
+function clockStime(ref) // S time at center of light clock
+{
+  if      (frameType(ref) == 'S')  return(t);
+  else if (frameType(ref) == "S'") return(tprime_to_t(t,0));
+  else if (frameType(ref) == 'S"') return(tdblprime_to_t(t,0));
+}
+
+function drawLattice(type, grid, clocks, mini_light_clocks)
+{
+  var dx,dy,x,y,delta_x,delta_y,grid_opacity;
+  var r,x_scale,dv,clock_angle,t_left,t_right,v_left,v_right;
+  var miniclock_angle,mini_t_cycle,minimirror_x, minimirror_y;
+
+  if (!grid && !clocks) return;
+  
+  x_scale = x_scaleLattice(type);
+  delta_x = x_scale*d/10; delta_y = d/10;
+	//if (scale > 1) {grid_opacity = 0.30} else {grid_opacity = Math.sqrt(scale)*0.30}
+	grid_opacity = Math.sqrt(scale/2);
+	if (type == 'S' && (refS()))
+	{
+		grid_color = S_color(grid_opacity);
+		if (centered) {dx = (w/2/scale - v*t) % delta_x;}  // S grid moving at speed -v
+		else          {dx = (offset_x + w/2/scale) % delta_x;}  // S grid stationary
+    minimirror_x = delta_x; minimirror_y = delta_y;
+	}
+	else if (type == 'S' && refSdblprime())
+	{
+		grid_color = S_color(grid_opacity);
+		if (centered) {dx = (w/2/scale - v*t/(gamma*gamma)) % delta_x;}  // S grid moving at speed -v
+		else          {dx = (offset_x + w/2/scale) % delta_x;}  // S grid stationary
+    minimirror_x = delta_x; minimirror_y = delta_y;
+	}
+  else if (type == 'S' && (refSprime()))
+  {
+    grid_color = S_color(grid_opacity);
+		if (centered) {dx = (w/2/scale - v*t) % delta_x;}  // S grid moving at speed -v
+		else          {dx = (offset_x + w/2/scale) % delta_x;}  // S grid stationary
+    minimirror_x = delta_x; minimirror_y = delta_y;
+  }
+  else if (type == "S'" && (refS()))
+	{
+		grid_color = Sprime_color(grid_opacity);
+		if (centered) {dx = (w/2/scale) % delta_x;}
+		else          {dx = (offset_x + v*t + w/2/scale) % delta_x;}
+    minimirror_x = delta_x; minimirror_y = delta_y;
+	}
+  else if (type == "S'" && (refSprime()))
+	{
+		grid_color = Sprime_color(grid_opacity);
+		if (centered) {dx = (w/2/scale) % delta_x;}
+		else          {dx = (offset_x + v*t + w/2/scale) % delta_x;}
+    minimirror_x = delta_x; minimirror_y = delta_y;
+	}
+	else if (type == "S'" && refSdblprime())
+	{
+		grid_color = Sprime_color(grid_opacity);
+		if (centered) {dx = (w/2/scale) % delta_x;}
+    else          {dx = (offset_x + x0_init + v*t/(gamma*gamma) + w/2/scale) % delta_x;}
+    minimirror_x = delta_x; minimirror_y = delta_y;
+	}
+  else if (type == 'S"' && ref == 'GR_rain')
+	{
+		grid_color = Sdblprime_color(grid_opacity);
+		if (centered) {dx = (w/2/scale) % delta_x;}
+		else          {dx = (offset_x + v*t + w/2/scale) % delta_x;}
+    minimirror_x = delta_x/(gamma*gamma); minimirror_y = delta_y/gamma;
+	}
+  else if (type == 'S"' && ref == 'GR_shell')
+	{
+		grid_color = Sdblprime_color(grid_opacity);
+		if (centered) {dx = (w/2/scale) % delta_x;}
+		else          {dx = (offset_x + v*t + w/2/scale) % delta_x;}
+    minimirror_x = delta_x/(gamma*gamma); minimirror_y = delta_y/gamma;
+	}
+	else if (type == 'S"' && refSdblprime())
+	{
+		grid_color = Sdblprime_color(grid_opacity);
+		if (centered) {dx = (w/2/scale) % delta_x;}
+		else          {dx = (offset_x + x0_init + v*t/(gamma*gamma) + w/2/scale) % delta_x;}
+    minimirror_x = delta_x/(gamma*gamma); minimirror_y = delta_y/gamma;
+	}
+	else return;
+  if (centered) dy = ((h/2)/scale) % delta_y; else dy = (offset_y + (h/2)/scale) % delta_y;
+  
+  context.save();
+  context.lineWidth = 2.0/scale;
+  context.strokeStyle = grid_color;
+  
+  if (grid)
+	{
+		x = (-w/2)/scale + dx;
+		while (x < w/2/scale) {drawLine(x,(-h/2)/scale,x,(h/2)/scale); x = x + delta_x;}  //draw vertical lines
+		y = (-h/2)/scale + dy;
+		while (y < (h/2)/scale) {drawLine((-w/2)/scale,y,w/2/scale,y); y = y + delta_y;}  //draw horizontal lines
+		if (type == "S") // draw cross at origin of S grid
+		{
+			context.save();
+			context.strokeStyle = S_color(1);
+			context.lineWidth = 4.0/scale;
+      drawLine((x_to_X(x0_init-10)-w/2)/scale,  (y_to_Y(y0_init)-h/2)/scale,    (x_to_X(x0_init+10)-w/2)/scale, (y_to_Y(y0_init)-h/2)/scale);
+      drawLine((x_to_X(x0_init)-w/2)/scale,     (y_to_Y(y0_init-10)-h/2)/scale, (x_to_X(x0_init)-w/2)/scale,    (y_to_Y(y0_init+10)-h/2)/scale);
+			context.restore();
+		}
+    else if (type == "S'") // draw cross at origin of S' grid
+		{
+			context.save();
+			context.strokeStyle = Sprime_color(1);
+			context.lineWidth = 4.0/scale;
+      //x = xprime_to_x(0,t_to_tprime(clockStime(ref),v*clockStime(ref)),v,gamma);
+      x = xprime_to_x(0,clockStime(ref)/gamma,v,gamma);
+      drawLine((x_to_X(x-10)-w/2)/scale,  (y_to_Y(y0_init)-h/2)/scale,    (x_to_X(x+10)-w/2)/scale, (y_to_Y(y0_init)-h/2)/scale);
+      drawLine((x_to_X(x)-w/2)/scale,     (y_to_Y(y0_init-10)-h/2)/scale, (x_to_X(x)-w/2)/scale,    (y_to_Y(y0_init+10)-h/2)/scale);
+			context.restore();
+		}
+    else if (type == 'S"') // draw cross at origin of S" grid
+		{
+			context.save();
+			context.strokeStyle = Sdblprime_color(1);
+			context.lineWidth = 4.0/scale;
+      //x = xdblprime_to_x(0,t_to_tdblprime(clockStime(ref),v*clockStime(ref)),v,gamma);
+      x = xdblprime_to_x(0,clockStime(ref),v,gamma);
+      drawLine((x_to_X(x-10)-w/2)/scale,  (y_to_Y(y0_init)-h/2)/scale,    (x_to_X(x+10)-w/2)/scale, (y_to_Y(y0_init)-h/2)/scale);
+      drawLine((x_to_X(x)-w/2)/scale,     (y_to_Y(y0_init-10)-h/2)/scale, (x_to_X(x)-w/2)/scale,    (y_to_Y(y0_init+10)-h/2)/scale);
+			context.restore();
+		}
+	}
+  
+	if (clocks) // clocks show coarse time at each location, miniclocks show fine time (10x faster)
+	{
+    context.save();
+    context.scale(x_scale,1); // change x scale
+		r = delta_y/4;
+		x = (-w/2)/scale + dx - delta_x;
+		while (x < w/2/scale + delta_x) 	 // draw vertical arrays of clocks
+		{
+      if (centered)             clock_angle = angleLatticeClock(type,t,x);
+      else if (refSdblprime())  clock_angle = angleLatticeClock(type,t,x - offset_x - v*t/(gamma*gamma)); // t is S" time
+      else if (refSprime())     clock_angle = angleLatticeClock(type,t,x - offset_x - v*t); // t is S' time
+      else if (refS())          clock_angle = angleLatticeClock(type,t,x - offset_x - v*t); // t is S time
+      if (mini_light_clocks) // set up mini light clocks
+      {
+        miniclock_angle = clock_angle*10; mini_t_cycle = (miniclock_angle % (2*Math.PI))/(2*Math.PI)*(t_tick/10);
+        if (miniclock_angle < 0) mini_t_cycle = (t_tick/10) + mini_t_cycle;
+        if (Math.abs(miniclock_angle % (2*Math.PI)) < Math.PI)
+              {dv = Math.abs(miniclock_angle % Math.PI)/Math.PI;}
+        else  {dv = 1.0 - Math.abs(miniclock_angle % Math.PI)/Math.PI;}
+        if (refS())
+        {
+          if      (type == 'S')   {v_left = 1/gamma;                v_right = 1/gamma;}
+          else if (type == "S'")  {v_left = (1 + v)*gamma;          v_right = (1 - v)*gamma;}
+          else if (type == 'S"')  {v_left = (1 + v)/gamma;          v_right = (1 - v)/gamma;}
+        }
+        if (refSprime())
+        {
+          if      (type == 'S')   {v_left = 1/gamma;                v_right = 1/gamma;}
+          else if (type == "S'")  {v_left = 1/gamma;                v_right = 1/gamma;}
+          else if (type == 'S"')  {v_left = 1/(gamma*gamma*gamma);        v_right = 1/(gamma*gamma*gamma);}
+        }
+        else if (refSdblprime())
+        {
+          if      (type == 'S')   {v_left = (1 - v)*gamma;          v_right = (1 + v)*gamma;}
+          else if (type == "S'")  {v_left = 1/gamma;                v_right = 1/gamma;}
+          else if (type == 'S"')  {v_left = 1/(gamma*gamma*gamma);  v_right = 1/(gamma*gamma*gamma);}
+        }
+        t_left = (minimirror_x/2)/(v_left*x_scale); t_right = (minimirror_x/2)/(v_right*x_scale);
+      }
+      y = (-h/2)/scale + dy - delta_y;
+			while (y < (h/2)/scale + delta_y)  // draw clocks
+      {
+        context.strokeStyle = grid_color;
+        drawArc(x/x_scale, y, r, 0, 2*Math.PI); // draw clock w/o hands
+        drawLine(x/x_scale, y, x/x_scale + r*Math.cos(clock_angle - Math.PI/2)*0.8, y + r*Math.sin(clock_angle - Math.PI/2)*0.8); // draw clock hand
+        if (mini_light_clocks) // draw mini light clocks
+        {
+          drawLine(x/x_scale, y, x/x_scale + r*Math.cos(miniclock_angle - Math.PI/2), y + r*Math.sin(miniclock_angle - Math.PI/2)); // draw miniclock hand
+          context.strokeStyle = 'silver';
+          drawLine((x - minimirror_x/2)/x_scale, y - minimirror_y/10, (x - minimirror_x/2)/x_scale, y + minimirror_y/10); // left mini mirror
+          drawLine((x - minimirror_x/10)/x_scale, y - minimirror_y/2, (x + minimirror_x/10)/x_scale, y - minimirror_y/2); // top mini mirror
+          drawLine((x + minimirror_x/2)/x_scale, y - minimirror_y/10, (x + minimirror_x/2)/x_scale, y + minimirror_y/10); // right mini mirror
+          drawLine((x - minimirror_x/10)/x_scale, y + minimirror_y/2, (x + minimirror_x/10)/x_scale, y + minimirror_y/2); // bottom mini mirror
+          context.fillStyle = photon_color(0.5);
+          fillCircle(x/x_scale, y - (minimirror_y/2)*dv, 1); fillCircle(x/x_scale, y + (minimirror_y/2)*dv, 1);  // vertical light
+          if (mini_t_cycle < t_left)  fillCircle(x/x_scale - v_left*mini_t_cycle, y, 1);  else fillCircle((x - minimirror_x/2)/x_scale + v_right*(mini_t_cycle - t_left), y, 1);  // left horizontal light
+          if (mini_t_cycle < t_right) fillCircle(x/x_scale + v_right*mini_t_cycle, y, 1); else fillCircle((x + minimirror_x/2)/x_scale - v_left*(mini_t_cycle - t_right), y, 1);  // right horizontal light
+        }
+        y = y + delta_y;
+      }
+			x = x + delta_x;
+		}
+    context.restore();
+	}
+  context.restore();
+}
+
+function canvasClockCoords(P)
+{
+  if (!centered && ref != 'GR_far') {P.X = w/2 + (offset_x + x0_init + v*t)*scale; P.Y = h/2 + (offset_y + y0_init)*scale;}
+	if (!centered && refSdblprime()) {P.X = w/2 + (offset_x + x0_init + v*t)*scale/(gamma*gamma); P.Y = h/2 + (offset_y + y0_init)*scale;}
+  if (centered) {P.X = w/2; P.Y = h/2;}
+}
+
+function drawMirrors()
+{
+  context.save();
+  if (ref == "GR_far")
+  {
+    if (!centered) translate(x0_init+v*t/(gamma*gamma),y0_init);
+    context.scale(1/gamma,1);
+  }
+  else if (refSprime())
+  {
+      if (!centered) translate(x0_init+v*t,y0_init);
+  }
+  else if (refS())
+  {
+      if (!centered) translate(x0_init+v*t,y0_init);
+      context.scale(1/gamma,1);
+  }
+  context.rotate(theta);
+  context.fillStyle = 'silver';  
+  context.fillRect(-d/2-mthick,-mlen/2,mthick,mlen);  //left
+  context.fillRect(+d/2,-mlen/2,mthick,mlen);  //right
+  context.fillRect(-mlen/2,-d/2-mthick,mlen,mthick);  //top
+  context.fillRect(-mlen/2,+d/2,mlen,mthick);  //bottom
+  context.lineWidth=2;
+  context.rotate(-theta);
+  if (refS() || refSdblprime()) context.scale(gamma,1);
+  annotate("v = \u0394x/\u0394t = " + v + "c",0,d/2+22,"center","top",0,S_color(1));
+  if (v > 0)      annotateArrow("stroke",-20,d/2+12,20,d/2+12,S_color(1));
+  else if (v < 0) annotateArrow("stroke",20,d/2+12,-20,d/2+12,S_color(1));
+  context.restore();
+}
+
+function drawPhoton(x,y,mark)
+{
+	context.fillStyle = photon_color(1); fillCircle(x, y, 4);
+  if (mark) {context.strokeStyle = lightpath_color(1); drawCircle(x, y, 10);}
+}
+
+function drawPhotons(left, right, up, down)
+{
+  var t_photon,x_left,y_left,x_up,y_up,x_down,y_down,x_right,y_right;
+    
+	context.save();
+	context.lineWidth=1;
+  context.strokeStyle = photon_color(1);
+	context.fillStyle = photon_color(1);
+	if (refSdblprime())
+    {
+    if (!centered) translate(x0_init+v*t/(gamma*gamma),y0_init);
+		context.scale(1/gamma,1);  //contract x
+		context.rotate(theta);
+		if (t_cycle < t_tick/2) t_photon = t_cycle/gamma; //before reflections
+		else t_photon = (t_tick-t_cycle)/gamma;  //after reflections
+		x_left = -c*t_photon;  y_left = 0; //left
+		x_up = 0; y_up = -c*t_photon;  //up
+		x_down = 0; y_down = c*t_photon;  //down
+		x_right = c*t_photon; y_right = 0;  //right
+    }
+	else if (refS())
+	{
+		if (centered) context.translate(-v*t_cycle,0);
+		else translate(x0,y0);
+		if (t_cycle <= t1) {x_left = x1*t_cycle/t1; y_left = y1*t_cycle/t1;}  //left
+		else {x_left = x1 + (v*t_tick-x1)*(t_cycle-t1)/(t_tick-t1); y_left = y1*(1 - (t_cycle-t1)/(t_tick-t1));} //left reflection
+		if (t_cycle <= t2) {x_down = x2*t_cycle/t2; y_down = y2*t_cycle/t2;}  //down
+		else {x_down = x2 + (v*t_tick-x2)*(t_cycle-t2)/(t_tick-t2); y_down = y2*(1 - (t_cycle-t2)/(t_tick-t2));} //down reflection
+		if (t_cycle <= t3) {x_up = x3*t_cycle/t3; y_up = y3*t_cycle/t3;}  //up
+		else {x_up = x3 + (v*t_tick-x3)*(t_cycle-t3)/(t_tick-t3); y_up = y3*(1 - (t_cycle-t3)/(t_tick-t3));} //up reflection
+		if (t_cycle <= t4) {x_right = x4*t_cycle/t4; y_right = y4*t_cycle/t4;}  //right
+		else {x_right = x4 + (v*t_tick-x4)*(t_cycle-t4)/(t_tick-t4); y_right = y4*(1 - (t_cycle-t4)/(t_tick-t4));} //right reflection
+	}
+  else if (refSprime())
+  {
+    if (!centered) translate(x0_init+v*t,y0_init);
+		context.rotate(theta);
+		if (t_cycle < t_tick/2) t_photon = t_cycle/gamma; //before reflections
+		else t_photon = (t_tick-t_cycle)/gamma;  //after reflections
+		x_left = -c*t_photon;  y_left = 0; //left
+		x_up = 0; y_up = -c*t_photon;  //up
+		x_down = 0; y_down = c*t_photon;  //down
+		x_right = c*t_photon; y_right = 0;  //right
+  }
+  if (left)  drawPhoton(x_left, y_left, mark_left);     //left photon
+  if (right) drawPhoton(x_right, y_right, mark_right);  //right photon
+	if (up)    drawPhoton(x_up, y_up, mark_up);           //up photon
+  if (down)  drawPhoton(x_down, y_down, mark_down);     //down photon
+	context.restore();
+}
+
+function drawArc(x,y,r,angle1,angle2)
+{
+  context.beginPath();
+  context.arc(x, y, r, angle1, angle2, false);
+  context.stroke();
+}
+
+function drawCircle(x,y,r)
+{
+	drawArc(x,y,r,0,2*Math.PI);
+}
+
+function drawFullArc(x,y,r)
+{
+  var cross_size=8;
+
+  //if (paused) alert("x,y_canvas=" + x_canvas + "," + y_canvas + "   offset_x,y=" + offset_x + "," + offset_y);
+  if ((!$i('full_arcs_checkbox').checked) || r < 0) return;
+	context.save();
+	context.lineWidth=1;
+	context.strokeStyle=wave_color(0.5);  // half strength
+	context.beginPath();
+	context.arc(x, y, r, 0, 2*Math.PI, false);
+	context.stroke();
+	context.translate(x,y);
+	drawLine(-cross_size, 0, cross_size, 0);
+	drawLine(0, -cross_size, 0, cross_size);
+	context.restore();
+}
+
+function drawEllipticalFullArc(x,y,r)
+{
+  var cross_size=8;
+    
+	//if (paused) alert("x,y_canvas=" + x_canvas + "," + y_canvas + "   offset_x,y=" + offset_x + "," + offset_y);
+  if ((!$i('full_arcs_checkbox').checked) || r < 0) return;
+	context.save();
+	context.lineWidth=1;
+	context.strokeStyle=wave_color(0.5);
+	context.beginPath();
+	//context.arc(x, y, r, angle1, angle2, false);
+	context.arc(x, y, r, 0, 2*Math.PI, false);
+	context.stroke();
+	context.translate(x,y);
+	context.rotate(-theta);
+	drawLine(-cross_size, 0, cross_size, 0);
+	drawLine(0, -cross_size, 0, cross_size);
+	context.restore();
+}
+
+//point x,y where line containing P1 and P2 is tangent to circle with center at P0
+function tangent_point(P,P0,P1,P2)
+{
+  var x,y,m,b1,b2;
+  
+  if (P1.x == P2.x) {x = P1.x; y = P0.y;}
+  else if (P1.y == P2.y) {x = P0.x; y = P1.y;}
+  else
+  {
+  m = (P2.y-P1.y)/(P2.x-P1.x);
+  b1 = P1.y - m*P1.x;
+  b2 = P0.y + P0.x/m;
+  x = (b2-b1)/(m+1/m);
+  y = m*x + b1;
+  }
+  P.x = x; P.y = y;
+}
+
+//2D distance between two 2D points p1 and p2
+function distance2D(p1,p2) {return(Math.sqrt((p2.x-p1.x)*(p2.x-p1.x) + (p2.y-p1.y)*(p2.y-p1.y)));}
+
+//2D distance between two canvas points P1 and P2
+function canvasDistance(P1,P2) {return(Math.sqrt((P2.X-P1.X)*(P2.X-P1.X) + (P2.Y-P1.Y)*(P2.Y-P1.Y)));}
+
+function contact_angle(P0,P)
+{
+  var angle, atan_slope;
+  if (P.x == P0.x && P.y > P0.y) {angle = (Math.PI/2);}
+  else if (P.x == P0.x && P.y < P0.y) {angle = (3*Math.PI/2);}
+  else if (P.y == P0.y && P.x > P0.x) {angle = 0;}
+	else if (P.y == P0.y && P.x < P0.x) {angle = Math.PI;}
+	else
+  {
+		atan_slope = Math.atan((P.y-P0.y)/(P.x-P0.x));
+		if (P.y < P0.y && P.x < P0.x) {angle = Math.PI + atan_slope;}
+		else if (P.y < P0.y && P.x > P0.x) {angle = 2*Math.PI + atan_slope;}
+		else if (P.y > P0.y && P.x < P0.x) {angle = Math.PI + atan_slope;}
+		else {angle = atan_slope;}
+  }
+  //alert("P=" + P.x + "," + P.y + "   P0=" + P0.x + "," + P0.y);
+  return (angle);
+}
+
+function between(P1,P2,P3)
+{
+  if (P1.x == P3.x) {return ((P1.y < P2.y && P2.y < P3.y) || (P1.y > P2.y && P2.y > P3.y));}
+  else {return ((P1.x < P2.x && P2.x < P3.x) || (P1.x > P2.x && P2.x > P3.x));}
+}
+
+//find points P2 and P3 where arc with radius r0 centered at P0 intersects with segment bounded by P1 and P4
+//use P1c,P4c if beyond end points P1,P4
+//return is true if there is any intersection
+function contact_points(r0,P0,P1,P2,P3,P4,P1c,P4c)  //r1 <= r2 <= r3 <= r4
+{
+  var m,b;
+  var Ptangent = new point2D();
+  var x_temp,y_temp;
+  
+  tangent_point(Ptangent,P0,P1,P4);
+	//if (paused) {alert("Ptangent:" + Ptangent.x + "," + Ptangent.y + "  r0=" + r0 + "  distance2D(Ptangent,P0)=" + distance2D(Ptangent,P0));}
+  if (between(P1,Ptangent,P4)) {if (r0 < distance2D(Ptangent,P0)) {return(false);}}  //no contact
+	else {if (r0 < distance2D(P0,P1)) {return(false);}}  //still no contact
+	//if (paused  && (P1.x==P4.x) && (P1.x<x0) && (P0.x==0)) {alert("contact");};
+	//if (paused && (P0.x > P1.x)) alert("contact  r0=" + r0 + "  P1:" + P1.x + "," + P1.y + "  P4:" + P4.x + "," + P4.y);
+  // contact
+	if (P4.x == P1.x)
+	{
+		P2.x = P1.x; P2.y = P0.y - Math.sqrt(r0*r0 - (P1.x-P0.x)*(P1.x-P0.x));
+		P3.x = P1.x; P3.y = P0.y + Math.sqrt(r0*r0 - (P1.x-P0.x)*(P1.x-P0.x));
+	}
+	else
+	{
+		m = (P4.y-P1.y)/(P4.x-P1.x);  b = P1.y - m*P1.x;
+		P2.x = quadratic_root1(m*m+1,2*m*(b-P0.y)-2*P0.x,P0.x*P0.x-r0*r0+(b-P0.y)*(b-P0.y)); P2.y = m*P2.x + b;
+		P3.x = quadratic_root2(m*m+1,2*m*(b-P0.y)-2*P0.x,P0.x*P0.x-r0*r0+(b-P0.y)*(b-P0.y)); P3.y = m*P3.x + b;
+	}
+	//if (paused) {alert("P2:" + P2.x + "," + P2.y); alert("P3:" + P3.x + "," + P3.y);}
+	if (between(P1,P2,P4))
+	{
+		//alert("P2 is between P1 and P4   P2:" + P2.x + "," + P2.y);
+		if (between(P1,P3,P4))  // both P2 and P3 are between P1 and P4
+		{
+			if (between(P3,P2,P4))
+				{x_temp = P2.x; y_temp = P2.y; P2.x = P3.x; P2.y = P3.y; P3.x = x_temp; P3.y = y_temp;}  //swap P2 and P3
+			// leave P2 and P3 unchanged
+		}
+		else  //only P2 is between P1 and P4
+		{
+			if (between(P2,P1,P3))  {P3.x = P2.x; P3.y = P2.y; P2.x = P1c.x; P2.y = P1c.y;}  //P3 becomes P2 and P2 becomes P1c
+			else {P3.x = P4c.x; P3.y = P4c.y;}  // P3 becomes P4c
+		}
+	}
+	else if (between(P1,P3,P4))  //only P3 is between P1 and P4
+	{
+		if (between(P2,P1,P3))  {P2.x = P1c.x; P2.y = P1c.y;}  //P2 becomes P1c
+		else {P2.x = P3.x; P2.y = P3.y; P3.x = P4c.x; P3.y = P4c.y;}  // P2 becomes P3 and P3 becomes P4c
+	}
+	else // P2 and P3 are both outside segment P1,P4
+		{P2.x = P1c.x; P2.y = P1c.y; P3.x = P4c.x; P3.y = P4c.y;}  //P2 becomes P1c and P3 becomes P4c
+	return(true);
+}
+
+//find angles for arc contacting segment, P1 and P4 in any order, Angle2 < Angle3
+function contact_angles(Angle2,Angle3,r0,P0,P1c,t1c,P4c,t4c)
+{
+  var contact,temp;
+  var P1 = new point2D();
+  var P2 = new point2D();
+  var P3 = new point2D();
+  var P4 = new point2D();
+	var Pmid = new point2D();
+	if ((t_cycle > t1c) && (t_cycle > t4c))  //beyond last contact
+	{
+		Angle2.radians = contact_angle(P0,P1c); Angle3.radians = contact_angle(P0,P4c);
+		if (Angle2.radians > Angle3.radians) {temp = Angle2.radians; Angle2.radians = Angle3.radians; Angle3.radians = temp;}
+		//alert("beyond last contact");
+		return(true);
+	}
+	else  //check for contact
+	{
+		P1.x = P1c.x + v*(t_cycle-t1c); P1.y = P1c.y; P4.x = P4c.x + v*(t_cycle-t4c); P4.y = P4c.y;
+		Pmid.x = (P1.x + P4.x)/2; Pmid.y = (P1.y + P4.y)/2;
+		if (distance2D(P0,P1) <= distance2D(P0,P4)) {contact = contact_points(r0,P0,P1,P2,P3,P4,P1c,P4c);}
+		else {contact = contact_points(r0,P0,P4,P2,P3,P1,P4c,P1c);}
+		if (contact) {Angle2.radians = contact_angle(P0,P2); Angle3.radians = contact_angle(P0,P3);}
+		else {Angle2.radians = contact_angle(P0,Pmid); Angle3.radians = Angle2.radians;}
+		if (Angle2.radians > Angle3.radians) {temp = Angle2.radians; Angle2.radians = Angle3.radians; Angle3.radians = temp;}
+		return(contact);
+	}
+}
+
+var t1d,x1,y1,t1,t1u;  //left mirror down,center,up
+var t2l,x2,y2,t2,t2r;  //bottom mirror left,center,right
+var t3l,x3,y3,t3,t3r;  //top mirror left,center,right
+var t4d,x4,y4,t4,t4u;  //right mirror down,center,up
+var r1d,r1u;  //left mirror edges
+var r2l,r2r;  //bottom mirror edges
+var r3l,r3r;  //top mirror edges
+var r4d,r4u;  //right mirror edges
+
+function calcMirrors(angle)
+{
+	var a,b,e,f;
+	var sin_angle, cos_angle;
+	
+	sin_angle = Math.sin(angle); cos_angle = Math.cos(angle);
+  a = d*sin_angle/2; b = d*cos_angle/2;
+  t1 = quadratic_root1(c*c-v*v,2*b*v/gamma,-a*a-b*b/gamma/gamma);
+  t2 = quadratic_root1(c*c-v*v,2*a*v/gamma,-b*b-a*a/gamma/gamma);
+  t3 = quadratic_root1(c*c-v*v,-2*a*v/gamma,-b*b-a*a/gamma/gamma);
+  t4 = quadratic_root1(c*c-v*v,-2*b*v/gamma,-a*a-b*b/gamma/gamma);
+  P1.x = -b/gamma; P1.y = -a;
+  P2.x = -a/gamma; P2.y = b;
+  P3.x = a/gamma; P3.y = -b;
+  P4.x = b/gamma; P4.y = a;
+  x1 = P1.x + v*t1; y1 = P1.y;
+  x2 = P2.x + v*t2; y2 = P2.y;
+  x3 = P3.x + v*t3; y3 = P3.y;
+  x4 = P4.x + v*t4; y4 = P4.y;
+  //alert("x,y,t 1:"+x1+","+y1+","+t1 + "  2:"+x2+","+y2+","+ t2 + "  3:"+x3+","+y3+","+t3 + "  4:"+x4+","+y4+","+t4);
+  e = mlen*sin_angle/2; f = mlen*cos_angle/2;
+  t1d = quadratic_root1(c*c-v*v,2*(b+e)*v/gamma,-(b+e)*(b+e)/gamma/gamma-(-a+f)*(-a+f));
+  t1u = quadratic_root1(c*c-v*v,2*(b-e)*v/gamma,-(-b+e)*(-b+e)/gamma/gamma-(a+f)*(a+f));
+  t2l = quadratic_root1(c*c-v*v,2*(a+f)*v/gamma,-(a+f)*(a+f)/gamma/gamma-(b-e)*(b-e));
+  t2r = quadratic_root1(c*c-v*v,2*(a-f)*v/gamma,-(-a+f)*(-a+f)/gamma/gamma-(b+e)*(b+e));
+  t3l = quadratic_root1(c*c-v*v,-2*(a-f)*v/gamma,-(a-f)*(a-f)/gamma/gamma-(b+e)*(b+e));
+  t3r = quadratic_root1(c*c-v*v,-2*(a+f)*v/gamma,-(a+f)*(a+f)/gamma/gamma-(-b+e)*(-b+e));
+  t4d = quadratic_root1(c*c-v*v,-2*(b-e)*v/gamma,-(b-e)*(b-e)/gamma/gamma-(a+f)*(a+f));
+  t4u = quadratic_root1(c*c-v*v,-2*(b+e)*v/gamma,-(b+e)*(b+e)/gamma/gamma-(a-f)*(a-f));
+  //alert("t1d = " + t1d + "   t1 = " + t1 + "   t1u = " + t1u);
+  //alert("t2l = " + t2l + "   t2 = " + t2 + "   t2r = " + t2r);
+  //alert("t3l = " + t3l + "   t3 = " + t3 + "   t3r = " + t3r);
+  //alert("t4d = " + t4d + "   t4 = " + t4 + "   t4u = " + t4u);
+  P1d.x = -(b+e)/gamma + v*t1d; P1d.y = -a+f; P1u.x = (-b+e)/gamma + v*t1u; P1u.y = -a-f;
+  P2l.x = -(a+f)/gamma + v*t2l; P2l.y = b-e; P2r.x = (-a+f)/gamma + v*t2r; P2r.y = b+e;
+  P3l.x = (a-f)/gamma + v*t3l; P3l.y = -b-e; P3r.x = (a+f)/gamma + v*t3r; P3r.y = -b+e;
+  P4d.x = (b-e)/gamma + v*t4d; P4d.y = a+f; P4u.x = (b+e)/gamma + v*t4u; P4u.y = a-f;
+  //alert("P3l = " + P3l.x + " , " + P3l.y + "   P3r = " + P3r.x + " , " + P3r.y + "  mlen/gamma = " + mlen/gamma);
+  P0.x = 0; P0.y = 0;
+  r1d = c*t1d; r1u = c*t1u;
+  r2l = c*t2l; r2r = c*t2r;
+  r3l = c*t3l; r3r = c*t3r;
+  r4d = c*t4d; r4u = c*t4u;
+  //alert("r1d = " + r1d + "  r1u = " + r1u + "  r2l = " + r2l + " r2r = " + r2r + "  r3l = " + r3l + "  r3r = " + r3r + "  r4d = " + r4d + "  r4u = " + r4u);	
+}
+
+function drawWaves(retarded)  //center of S waves moves progressively to left of mirrors, S' waves stay centered between mirrors, not used for S"
+{
+  var gamma_1_4,gamma_2_3;
+  var v1,v2,v3,v4,t1,t2,t3,t4,r1,r2,r3,r4;
+  var temp,cos_mu_1_4,sin_mu_1_4;
+  var D0_1_4,D0_2_3,D1,D2,D3,D4;
+  var contact1,contact2,contact3,contact4;
+	var angle,sin_angle,cos_angle,tan_angle,r0;
+	var speed,save_t_cycle,save_x0,save_v,save_gamma,save_t_tick;
+
+  save_v = v; save_gamma = gamma; save_t_cycle = t_cycle; save_t_tick = t_tick; save_x0 = x0;
+  context.save();
+  if (refSprime()) // draw as if v = 0
+  {
+    v = 0; t_tick = t_tick/gamma; t_cycle = t_cycle/gamma; x0 = x0/gamma; gamma = 1;
+  }
+  if (retarded) {speed = v;  angle = theta;}
+  else          {speed = -v; angle = Math.PI/2 - theta; t_cycle = t_tick - t_cycle; x0 = x0 + v*t_tick;}
+  if (refS())
+  {
+    if (!centered)  context.translate(offset_x + x0, offset_y + y0);
+    else            context.translate(-speed*t_cycle, 0);
+  }
+  else if (refSprime())
+  {
+    if (centered)   context.translate(offset_x + x0_init, offset_y + y0_init);
+    else
+    {
+      if (retarded) context.translate(offset_x + x0 + save_v*t_cycle, offset_y + y0);
+      else          context.translate(offset_x + x0 + save_v*t_tick - save_v*t_cycle, offset_y + y0);
+    }
+  }
+  if (!retarded) context.scale(-1,1);
+  r0 = c*t_cycle; calcMirrors(angle);
+  sin_angle = Math.sin(angle); cos_angle = Math.cos(angle); tan_angle = Math.tan(angle);
+  
+  //expanding wave
+  contact4 = contact_angles(H,A,r0,P0,P4u,t4u,P4d,t4d); //alert("A=" + deg(A) + "  H=" + deg(H));
+	if ((0 < H.radians) && (H.radians < Math.PI) && (A.radians > Math.PI)) {temp = H.radians; H.radians = A.radians-2*Math.PI; A.radians = temp;}
+  contact2 = contact_angles(B,C,r0,P0,P2r,t2r,P2l,t2l); //alert("B=" + deg(B) + "  C=" + deg(C));
+  contact1 = contact_angles(D,E,r0,P0,P1d,t1d,P1u,t1u); //alert("D=" + deg(D) + "  E=" + deg(E));
+	//if (paused) {alert("contact=" + contact1 + "  r0=" + r0 + "  P1d:" + P1d.x + "," + P1d.y + "  P1u:" + P1u.x + "," + P1u.y + "  P1d.x + v*(t_cycle-t1d)=" + (P1d.x + v*(t_cycle-t1d)));}
+  contact3 = contact_angles(F,G,r0,P0,P3l,t3l,P3r,t3r); //alert("F=" + deg(F) + "  G=" + deg(G));
+  //alert("contact1 = " + contact1 + "   contact2 = " + contact2 + "   contact3 = " + contact3 + "   contact4 = " + contact4);
+  if ((0 < F.radians) && (F.radians <  Math.PI) && (G.radians > Math.PI)) {temp = F.radians; F.radians = G.radians-2*Math.PI; G.radians = temp;}
+  context.lineWidth=2;
+  context.strokeStyle=wave_color(1);
+  //context.strokeStyle='rgba(255,255,0,' + opacity + ')';  //wave fades to invisible after 1.2*roundtrip
+	//if (paused && (!dragging) && (!scaling_and_rotating)) alert("angle=" + angle*180/Math.PI + "  A=" + deg(A) + "  B=" + deg(B) + "  C=" + deg(C) + "  D=" + deg(D) + "  E=" + deg(E) + "  F=" + deg(F) + "  G=" + deg(G) + "  H=" + deg(H));
+	drawFullArc(0,0,r0);
+	if (angle <= Math.PI/4)
+	{
+		if (C.radians > D.radians) {drawArc(0, 0, r0, A.radians, D.radians);}
+		else {drawArc(0, 0, r0, A.radians, B.radians); drawArc(0, 0, r0, C.radians, D.radians);}
+		if (E.radians > F.radians) {drawArc(0, 0, r0, E.radians, H.radians);}
+		else {drawArc(0, 0, r0, E.radians, F.radians); drawArc(0, 0, r0, G.radians, H.radians);}
+	}
+	else
+	{
+		if (A.radians > B.radians) {drawArc(0, 0, r0, G.radians, B.radians);}
+		else {drawArc(0, 0, r0, G.radians, H.radians); drawArc(0, 0, r0, A.radians, B.radians);}
+		if (C.radians > D.radians) {drawArc(0, 0, r0, C.radians, F.radians);}
+		else {drawArc(0, 0, r0, C.radians, D.radians); drawArc(0, 0, r0, E.radians, F.radians);}
+	}
+    
+  //reflected waves
+  cos_mu_1_4 = 1/Math.sqrt(1 + tan_angle*tan_angle/gamma/gamma); sin_mu_1_4 = Math.sqrt(1 - cos_mu_1_4*cos_mu_1_4);
+  cos_mu_2_3 = 1/Math.sqrt(1 + tan_angle*tan_angle*gamma*gamma); sin_mu_2_3 = Math.sqrt(1 - cos_mu_2_3*cos_mu_2_3);
+  v1 = v*c*cos_mu_1_4; v2 = v*c*sin_mu_2_3; v3 = -v2; v4 = -v1;
+  gamma_1_4 = 1/Math.sqrt(1-v1*v1); gamma_2_3 = 1/Math.sqrt(1-v2*v2);
+  D0_1_4 = (d/(2*gamma))*(1+tan_angle*tan_angle)*Math.sqrt(((1-gamma*gamma)*cos_angle*cos_angle + gamma*gamma)/((1+gamma*gamma*tan_angle*tan_angle)*(1+tan_angle*tan_angle/gamma/gamma)));							 
+  D0_2_3 = (d/(2*gamma))*(1+tan_angle*tan_angle)*Math.sqrt(((1-gamma*gamma)*sin_angle*sin_angle + gamma*gamma)/((1+gamma*gamma*tan_angle*tan_angle)*(1+tan_angle*tan_angle/gamma/gamma)));
+  D1 = 2*D0_1_4*gamma_1_4*gamma_1_4; D2 = 2*D0_2_3*gamma_2_3*gamma_2_3; D3 = D2; D4 = D1;
+  t1 = D0_1_4/(c+v1); t2 = D0_2_3/(c+v2); t3 = D0_2_3/(c+v3); t4 = D0_1_4/(c+v4);
+  r1 = r0 + 2*v1*t1/(1-v1/c); r2 = r0 + 2*v2*t2/(1-v2/c); r3 = r0 + 2*v3*t3/(1-v3/c); r4 = r0 + 2*v4*t4/(1-v4/c);
+  //if (paused) alert("r1 = " + r1 + "   r2 = " + r2 + "   r3 = " + r3 + "   r4 = " + r4);
+  P1reflect.x = -D1*cos_mu_1_4;	P1reflect.y = -D1*sin_mu_1_4;
+  P2reflect.x = -D2*sin_mu_2_3;	P2reflect.y =  D2*cos_mu_2_3;
+  P3reflect.x =  D3*sin_mu_2_3;	P3reflect.y = -D3*cos_mu_2_3;
+  P4reflect.x =  D4*cos_mu_1_4;	P4reflect.y =  D4*sin_mu_1_4;
+  //alert("D0_2_3 = " + D0_2_3 + "   D3 = " + D3 + "   P3reflect.x = " + P3reflect.x + "   P3reflect.y = " + P3reflect.y);
+  contact_angles(D,E,r1,P1reflect,P1d,t1d,P1u,t1u);
+  if ((0 < D.radians) && (D.radians < Math.PI) && (E.radians > Math.PI)) {temp = D.radians; D.radians = E.radians-2*Math.PI; E.radians = temp;}
+  contact_angles(B,C,r2,P2reflect,P2r,t2r,P2l,t2l);
+  if ((0 < B.radians) && (B.radians < Math.PI) && (C.radians > Math.PI)) {temp = B.radians; B.radians = C.radians-2*Math.PI; C.radians = temp;}
+  contact_angles(F,G,r3,P3reflect,P3l,t3l,P3r,t3r);
+  contact_angles(A,H,r4,P4reflect,P4u,t4u,P4d,t4d);
+	//if (paused && (!dragging) && (!scaling_and_rotating)) alert("A=" + deg(A) + "  B=" + deg(B) + "  C=" + deg(C) + "  D=" + deg(D) + "  E=" + deg(E) + "  F=" + deg(F) + "  G=" + deg(G) + "  H=" + deg(H));
+  drawFullArc(P1reflect.x, P1reflect.y, r1);
+	drawFullArc(P2reflect.x, P2reflect.y, r2);
+	drawFullArc(P3reflect.x, P3reflect.y, r3);
+	drawFullArc(P4reflect.x, P4reflect.y, r4);
+	if (contact1) drawArc(P1reflect.x, P1reflect.y, r1, D.radians, E.radians);
+  if (contact2) drawArc(P2reflect.x, P2reflect.y, r2, B.radians, C.radians);
+  if (contact3) drawArc(P3reflect.x, P3reflect.y, r3, F.radians, G.radians);
+  if (contact4) drawArc(P4reflect.x, P4reflect.y, r4, A.radians, H.radians);
+  
+  context.restore();
+  v = save_v; gamma = save_gamma; t_cycle = save_t_cycle; t_tick = save_t_tick; x0 = save_x0; calcMirrors(theta); 
+}
+
+function drawEllipticalWaves(retarded)  //center of S" waves always in center of mirrors
+{
+  var angleA,angleB,angleC,angleD,angleE,angleF,r,t_edge;
+	var save_t_cycle, save_x0;
+    
+	if (retarded) {angle = theta;}
+	else {save_t_cycle = t_cycle; t_cycle = t_tick - t_cycle; angle = Math.PI/2-theta; calcMirrors(angle); save_x0 = x0; x0 = x0+v*t_tick;}
+	
+	r = c*t_cycle/gamma;
+  t_edge = (t_tick/2)*Math.sqrt(1+(mlen/d)*(mlen/d));
+  if (t_cycle >= 0 && t_cycle<t_tick/2)   //before mirrors
+  {
+  angleA = 0;
+  angleB = 0;
+  angleC = 0;
+  angleD = 0;
+  angleE = 0;
+  angleF = 0;
+  }
+  else if (t_cycle >= t_tick/2 && t_cycle<t_edge)  //at mirrors
+  {
+  angleA = Math.atan((mlen/2)/(c*t_cycle/gamma));
+  angleB = (Math.PI/2)-angleA;
+  angleC = (Math.PI/2)+angleA;
+  angleD = angleA;
+  angleE = angleA;
+  angleF = angleA;
+  }
+  else if (t_cycle >= t_edge)  //beyond mirrors
+  {
+  angleA = Math.atan((mlen/2)/(c*t_edge/gamma));
+  angleB = (Math.PI/2)-angleA;
+  angleC = (Math.PI/2)+angleA;
+  angleD = angleA;
+  angleE = angleA;
+  angleF = angleA;
+  }
+  context.save();
+	if (!centered) translate(x0_init+v*t/(gamma*gamma),y0_init);
+  context.scale(1/gamma,1);
+  context.rotate(theta);
+  context.lineWidth=2;
+  context.strokeStyle=wave_color(1);
+  //context.strokeStyle='rgba(255,255,0,' + opacity + ')';  //yellow wave fades to invisible after 1.2*roundtrip
+	
+	drawEllipticalFullArc( 0, 0, r);	//full arc outbound from center
+	
+	drawEllipticalFullArc(-d, 0, r);  //full arc reflection from left mirror
+	drawEllipticalFullArc( 0,-d, r);  //full arc reflection from top mirror
+	drawEllipticalFullArc( 0, d, r);	//full arc reflection from bottom mirror
+	drawEllipticalFullArc( d, 0, r);	//full arc reflection from right mirror
+    
+	drawArc(0, 0, r, angleA, angleB);  				    //arc outbound toward lower right
+  drawArc(0, 0, r, angleC, Math.PI-angleD);		  //arc outbound toward lower left
+  drawArc(0, 0, r,-(Math.PI-angleD), -angleC);	//arc outbound toward upper left
+  drawArc(0, 0, r,-angleB, -angleA);				    //arc outbound toward upper right
+    
+	drawArc(-d, 0, r,-angleE, angleE);					        //arc reflection from left mirror
+  drawArc( 0,-d, r, angleB, angleC);					        //arc reflection from top mirror
+  drawArc( 0, d, r,-angleC,-angleB);					        //arc reflection from bottom mirror
+  drawArc( d, 0, r, Math.PI-angleF, Math.PI+angleF);	//arc reflection from right mirror
+  context.restore();
+	
+	if (!retarded) {t_cycle = save_t_cycle; calcMirrors(theta); x0 = save_x0;}
+}
+
+function drawCoordLines(diagram,dir,Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV)
+{
+  // (0,0) at center of light path figure
+  // diagram : "S" or "S'" or 'S"'
+  
+  // Hangle : angle horizontal lines are from horizontal
+  // Hw : half horizontal extent of horizontal line area
+  // Hh : half vertical extent of horizontal line area
+  // dH : vertical spacing between horizontal lines
+  // dh : change in value between horizontal lines
+  // h0 : value at bottom of horizontal line area
+  // h1 : value at bottom-most drawn horizontal line
+  // H1 : vertical postion of bottom-most drawn horizontal line
+  
+  // Vangle : angle vertical lines are from vertical
+  // Vw : half horizontal extent of vertical line area
+  // Vh : half vertical extent of vertical line area
+  // dV : horizontal spacing between vertical lines
+  // dv : change in value between vertical lines
+  // v0 : value at left of vertical line area
+  // v1 : value at left-most drawn vertical line
+  // V1 : horizontal postion of left-most drawn vertical line
+
+	var H,dH,hor,h1,dh,H1;
+  var V,dV,ver,v1,dv,V1;
+  var h_label,v_label,label_color,line_color;
+  var i,n;
+  
+  if      (diagram == "S")    {line_color = S_color(0.5);          label_color = S_color(1);}
+  else if (diagram == "S'")   {line_color = Sprime_color(0.5);     label_color = Sprime_color(1);}
+  else if (diagram == 'S"')   {line_color = Sdblprime_color(0.5);  label_color = Sdblprime_color(1);}
+  
+  if (dir == "YT")
+  {
+    if      (diagram == "S")  {h_label = "ct/D";  v_label = "y/D";}
+    else if (diagram == "S'") {h_label = "ct'/D"; v_label = "y'/D";}
+    else if (diagram == 'S"') {h_label = 'ct"/D'; v_label = 'y"/D';}
+  }
+  else // XT or XT_Y+ or XT_Y-
+  {
+    if      (diagram == "S")  {h_label = "x/D";   v_label = "ct/D";}
+    else if (diagram == "S'") {h_label = "x'/D";  v_label = "ct'/D";}
+    else if (diagram == 'S"') {h_label = 'x"/D';  v_label = 'ct"/D';}
+  }
+
+	// horizontal lines (spaced along vertical axis)
+  
+  context.save();
+  context.rotate(Hangle);
+  context.fillStyle = label_color; context.font = "18pt cambria_math";
+  context.textBaseline = "middle";
+  if (diagram == "S'")  {context.textAlign = 'right'; context.fillText(v_label,-(Hw+40),0);}  // label vertical axis on the left
+  else                  {context.textAlign = 'left';  context.fillText(v_label,Hw+40,0);}     // label vertical axis on the right
+  
+  if (dh_per_dH > 0) {dh = 0.1;} else {dh = -0.1;}
+  h1 = Math.ceil(h0/dh)*dh; H1 = Hh-(h1-h0)/dh_per_dH; dH = -Math.abs(dh/dh_per_dH);
+  n = Math.floor(2*Hh/Math.abs(dH));
+  for (i = 0; i <= n; i++) // draw horizontal lines from bottom to top
+  {
+    H = H1 + i*dH; hor = h1 + i*dh;
+    if (H < -Hh - 0.001) break;
+    if (hor == 0) context.lineWidth = 4; // thick horizontal axis
+    else context.lineWidth = 2;
+    context.strokeStyle = line_color; 
+		drawLine(-Hw,H,Hw,H);
+    context.font = "12pt cambria_math";
+    if (diagram == "S'")  context.fillText(hor.toFixed(1),-(Hw+5),H); // vertical values on the left
+    else                  context.fillText(hor.toFixed(1),Hw+5,H); // vertical values on the right
+  }
+  context.restore();
+  
+  // vertical lines (spaced along horizontal axis)
+  
+  context.save();
+  context.rotate(Vangle);
+  context.fillStyle = label_color; context.font = "18pt cambria_math";
+  context.textAlign = 'center';
+  if (diagram == "S'")  {context.textBaseline = "top";    context.fillText(h_label,0,Vh+40);}   // label horizontal axis below
+  else                  {context.textBaseline = "bottom"; context.fillText(h_label,0,-Vh-40);}  // label horizontal axis above
+  
+  if (dv_per_dV > 0) {dv = 0.1;} else {dv = -0.1;}
+  v1 = Math.ceil(v0/dv)*dv; V1 = -Vw+(v1-v0)/dv_per_dV;  dV = Math.abs(dv/dv_per_dV); n = Math.floor(2*Vw/Math.abs(dV));
+  for (i = 0; i <= n; i++) // draw vertical lines from left to right
+  {
+    V = V1 + i*dV; ver = v1 + i*dv;
+    if (V > Vw + 0.001) break;
+    if (ver == 0) context.lineWidth = 4; // thick vertical axis
+    else context.lineWidth = 2;
+    context.strokeStyle = line_color;
+		drawLine(V,-Vh,V,Vh);
+		context.font = "12pt cambria_math";
+    if (diagram == "S'")  context.fillText(ver.toFixed(1),V,Vh+5); // horizontal values below
+    else                  context.fillText(ver.toFixed(1),V,-Vh-5); // horizontal values above
+  }
+  context.restore();
+}
+
+function drawXT_Y(plus)  //only for theta == 0
+{
+  // H : lines of constant T
+  // V : lines of constant X
+  
+	var x_center,y_center,dir;
+  var Hangle,Hw,Hh,h0,dh_per_dH;
+  var Vangle,Vh,Vw,v0,dv_per_dV;
+  var x_left,x_right,vel,t_bottom,t_factor,tick_cnt;
+  var x_label,t_label,speedcolor,speedfactor;
+  var a,b,angle1,angle2,sin1,cos1,cos2,cos3;
+  
+  context.save();
+  if (plus) dir = "XT_Y+"; else dir = "XT_Y-";
+  mark_up = (plus && (t_cycle < t_tick/2)) || (!plus && (t_cycle >= t_tick/2));
+  mark_down = !mark_up;
+
+  if (t_cycle < t_tick/2) {x_center = x0;             y_center = y0 + (t_cycle/t_tick)*(gamma-1)*d;               tick_cnt = ticks;}
+  else                    {x_center = x0 + v*t_tick;  y_center = y0 + (t_cycle/t_tick)*(gamma-1)*d - d*(gamma-1); tick_cnt = ticks+1;}
+  if (!plus) y_center = -y_center;
+  
+  if      (refSdblprime() && !centered) {context.translate(offset_x + (x0 + v*t_cycle)/(gamma*gamma), offset_y + y_center);}
+  else if (refSdblprime() &&  centered) {context.translate(offset_x, y_center);}
+  else if (refSprime()    && !centered) {context.translate(offset_x + (x0 + v*t_cycle)/gamma, offset_y);}
+  else if (refSprime()    &&  centered) {context.translate(offset_x, 0);}
+  else if (refS()         && !centered) {context.translate(offset_x + x_center, offset_y + y_center);}
+  else if (refS()         &&  centered) {context.translate(x_center - x0_init - v*t, y_center);}
+  
+  if      (refSdblprime())  {b = gamma*(d/2);  a = (d/2)/gamma;}
+  else if (refSprime())     {b = d/2;          a = (d/2)/gamma;}
+	else if (refS())          {b = gamma*(d/2);  a = (d/2)*gamma;}
+
+  angle1 = Math.atan(v); angle2 = Math.atan(v/(gamma*gamma));
+  sin1 = Math.sin(Math.abs(angle1)); sin2 = Math.sin(Math.abs(angle2)); cos1 = Math.cos(angle1); cos2 = Math.cos(angle2); cos3 = Math.cos(2*angle1);
+  if (plus) {t_bottom = (Math.floor(0.5 + clockStime(ref)/t_tick) - 0.5); t_factor =  1;}
+  else      {t_bottom = (Math.ceil(-0.5 + clockStime(ref)/t_tick) + 0.5); t_factor = -1;}
+  vel = Math.abs(v);
+
+  if (On('S_diagrams'))
+  {
+    //diagram = 'S'; x_label="x";  t_label="t"; speedcolor=S_color(1); speedfactor = ""; x_left = xprime_to_x(v*tick_cnt,-0.5); x_right = xprime_to_x(v*tick_cnt,0.5);
+    diagram = 'S'; x_label="x";  t_label="t"; speedcolor=S_color(1); speedfactor = "";
+    if (v >= 0) {x_left = xprime_to_x(0,tick_cnt-0.5); x_right = xprime_to_x(0,tick_cnt+0.5);}
+    else        {x_left = xprime_to_x(0,tick_cnt+0.5); x_right = xprime_to_x(0,tick_cnt-0.5);}
+    if (v == 0)               {Hangle = 0;        Hw = d/2;           Hh = d/2;         h0 = t_bottom*gamma;  dh_per_dH = t_factor/(2*Hh);        Vangle = 0;       Vh = d/2;         Vw = d/2;           v0 = -1/2;                dv_per_dV = 1/(2*Vw);}
+    else if (refS())          {Hangle = 0;        Hw = gamma*vel*d/2; Hh = gamma*d/2;   h0 = t_bottom*gamma;  dh_per_dH = t_factor*gamma/(2*Hh);  Vangle = 0;       Vh = gamma*d/2;   Vw = gamma*vel*d/2; v0 = x_left;              dv_per_dV = (x_right-x_left)/(2*Vw);}
+    else if (refSprime())     {Hangle = angle1;   Hw = (d/2)*sin1;    Hh = (d/2)*cos1;  h0 = t_bottom*gamma;  dh_per_dH = t_factor*gamma/(2*Hh);  Vangle = -angle1; Vh = (d/2)*cos1;  Vw = (d/2)*sin1;    v0 = x_left;              dv_per_dV = (x_right-x_left)/(2*Vw);}
+    else if (refSdblprime())  {Hangle = angle2;   Hw = b*sin2;        Hh = b*cos2;      h0 = t_bottom*gamma;  dh_per_dH = t_factor*gamma/(2*Hh);  Vangle = -angle2; Vh = b*cos2;      Vw = b*sin2;        v0 = x_left;              dv_per_dV = (x_right-x_left)/(2*Vw);}
+    if (!plus) {Hangle =-Hangle; Vangle =-Vangle;}
+    drawCoordLines(diagram,dir,Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
+  }
+  if (On('Sprime_diagrams'))
+  {
+    diagram = "S'"; x_label="x'"; t_label="t'"; speedcolor=Sprime_color(1); speedfactor = ""; x_left = -0.5; x_right = 0.5;
+    if (v == 0)               {Hangle = 0;        Hw = d/2;           Hh = d/2;         h0 = t_bottom;        dh_per_dH = t_factor/(2*Hh);        Vangle = 0;       Vh = d/2;         Vw = d/2;         v0 = -1/2;                  dv_per_dV = 1/(2*Vw);}
+    else if (refS())          {Hangle = -angle1;  Hw = gamma*d*sin1;  Hh = b*cos3/cos1; h0 = t_bottom;        dh_per_dH = t_factor/(2*Hh);        Vangle = angle1;  Vh = b/cos1;      Vw = vel*b*cos1;  v0 = -gamma*gamma*(vel/2);  dv_per_dV = gamma*gamma*vel/(2*Vw);}
+    else if (refSprime())     {Hangle = 0;        Hw = d/2;           Hh = d/2;         h0 = t_bottom;        dh_per_dH = t_factor/(2*Hh);        Vangle = 0;       Vh = d/2;         Vw = d/2;         v0 = x_left;                dv_per_dV = (x_right-x_left)/(2*Vw);}
+    else if (refSdblprime())  {Hangle = 0;        Hw = a;             Hh = b;           h0 = t_bottom;        dh_per_dH = t_factor/(2*Hh);        Vangle = 0;       Vh = b;           Vw = a;           v0 = x_left;                dv_per_dV = (x_right-x_left)/(2*Vw);}
+    if (!plus) {Hangle =-Hangle; Vangle =-Vangle;}
+    drawCoordLines(diagram,dir,Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
+  }
+  if (On('Sdblprime_diagrams'))
+  {
+    diagram = 'S"'; x_label='x"'; t_label='t"'; speedcolor=Sdblprime_color(1); if (v != 0) speedfactor = "/\u03B3\u00B2"; else speedfactor = ""; x_left = xprime_to_xdblprime(-0.5); x_right = xprime_to_xdblprime(0.5);
+    if (v == 0)               {Hangle = 0;        Hw = d/2;           Hh = d/2;         h0 = t_bottom*gamma;  dh_per_dH = t_factor/(2*Hh);        Vangle = 0;       Vh = d/2;         Vw = d/2;         v0 = -1/2;                  dv_per_dV = 1/(2*Vw);}
+    else if (refS())          {Hangle = -angle1;  Hw = gamma*d*sin1;  Hh = b*cos3/cos1; h0 = t_bottom*gamma;  dh_per_dH = t_factor*gamma/(2*Hh);  Vangle = angle1;  Vh = b/cos1;      Vw = vel*b*cos1;  v0 = -gamma*gamma*(vel/2);  dv_per_dV = gamma*gamma*vel/(2*Vw);}
+    else if (refSprime())     {Hangle = 0;        Hw = d/2;           Hh = d/2;         h0 = t_bottom*gamma;  dh_per_dH = t_factor*gamma/(2*Hh);  Vangle = 0;       Vh = d/2;         Vw = d/2;         v0 = x_left;                dv_per_dV = (x_right-x_left)/(2*Vw);}
+    else if (refSdblprime())  {Hangle = 0;        Hw = a;             Hh = b;           h0 = t_bottom*gamma;  dh_per_dH = t_factor*gamma/(2*Hh);  Vangle = 0;       Vh = b;           Vw = a;           v0 = x_left;                dv_per_dV = (x_right-x_left)/(2*Vw);}
+    if (!plus) {Hangle =-Hangle; Vangle =-Vangle;}
+    drawCoordLines(diagram,dir,Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
+  }
+    
+  context.strokeStyle = lightpath_color(0.5); context.lineWidth=2.0;
+  if ((v == 0) || refSprime() || refSdblprime())  drawLine(0,b,0,-b); // draw light path along vertical time axis
+  else
+  {
+    context.rotate(Hangle);
+    if      ( plus && v >= 0) {drawLine(-Hw,Hh,Hw,-Hh);}  // draw light path as diagonal /
+    else if ( plus && v <  0) {drawLine(-Hw,-Hh,Hw,Hh);}  // draw light path as diagonal \
+    else if (!plus && v <  0) {drawLine(-Hw,Hh,Hw,-Hh);}  // draw light path as diagonal /
+    else if (!plus && v >= 0) {drawLine(-Hw,-Hh,Hw,Hh);}  // draw light path as diagonal \
+  }
+  context.restore();
+}
+
+function refS()         {return(ref == 'SR_lab' || ref == 'GR_rain');}
+function refSprime()    {return(ref == 'SR_rocket' || ref == 'GR_shell');}
+function refSdblprime() {return(ref == 'GR_far');}
+function refSR()        {return(ref == 'SR_lab' || ref == 'SR_rocket');}
+function refGR()        {return(ref == 'GR_rain' || ref == 'GR_shell' || ref == 'GR_far');}
+
+function drawXT()  //only for theta == 0
+{
+  var a; // 2a = width (x or x' or x") 
+  var b; // 2b = height (ct or ct' or ct")
+  var e; // distance from (0,0) to any of the four points
+  var f; // short distance from axis
+
+  var X0,Y0,X1,Y1,X2,Y2,X3,Y3; //    S: (X0,Y0) = (-f,b)    W: (X1,Y1) = (-a,f)     E: (X2,Y2) = (a,-f)      N: (X3,Y3) = (f,-b)
+  var diagram,x_label,t_label,speedtext,speedcolor,speedfactor;
+  
+  // H : lines of constant T
+  // V : lines of constant X
+  
+  // Hangle : angle horizontal lines are from horizontal
+  // Hw : half horizontal extent of horizontal line area
+  // Hh : half vertical extent of horizontal line area
+  // dH : vertical spacing between horizontal lines
+  // dh : change in value between horizontal lines
+  // h0 : value at bottom of horizontal line area
+  
+  // Vangle : angle vertical lines are from vertical
+  // Vw : half horizontal extent of vertical line area
+  // Vh : half vertical extent of vertical line area
+  // dV : horizontal spacing between vertical lines
+  // dv : change in value between vertical lines
+  // v0 : value at left of vertical line area
+
+  var Hangle,Hw,Hh,h0,dh_per_dH;
+  var Vangle,Vw,Vh,v0,dv_per_dV;
+  var angle1,angle2,cos1,cos2,cos3,t_bottom,x_left;
+  
+  mark_left = true; mark_right = true; xfactor = 1;
+  
+  if      (refSdblprime())  {b = c*t_tick/2;          a = (d/2)/gamma;  f = 0;          }
+  else if (refSprime())     {b = c*t_tick/(2*gamma);  a = (d/2);        f = 0;          }
+	else if (refS())          {b = c*t_tick/2;          a = (d/2)*gamma;  f = v*t_tick/2; }
+  e = Math.sqrt(a*a + f*f);
+  angle1 = Math.atan(v); angle2 = Math.atan(v/(gamma*gamma));
+  cos1 = Math.cos(angle1); cos2 = Math.cos(angle2); cos3 = Math.cos(2*angle1);
+
+  context.save();
+  
+  if      (refSdblprime() && !centered) {context.translate(offset_x + (x0 + v*t_cycle)/(gamma*gamma), offset_y + y0 - b + c*t_cycle);}
+  else if (refSdblprime() && centered)  {context.translate(0, -b + c*t_cycle);}
+  else if ((refSprime()) && !centered)  {context.translate(offset_x + (x0 + v*t_cycle)/gamma, offset_y + y0 - b + c*t_cycle/gamma);}
+  else if ((refSprime()) && centered)   {context.translate(0, -b + c*t_cycle/gamma);}
+  else if ((refS()) && !centered)       {context.translate(offset_x + x0 + f, offset_y + y0 - b + c*t_cycle);}
+  else if ((refS()) && centered)        {context.translate(-v*t_cycle + f, -b + c*t_cycle);}
+  
+	if (On('S_diagrams'))
+  {
+    diagram = 'S'; x_label="x";  t_label="t"; t_bottom = gamma*ticks; x_left = xprime_to_x(-0.5,ticks+0.5); speedcolor=S_color(1); speedfactor = "";
+    if      (refS())         {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = gamma/(2*Hh);   Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = gamma/(2*Vw);}
+    else if (refSprime())    {Hangle = angle1;  Hw = a*cos1;  Hh = b*cos1;  h0 = t_bottom;  dh_per_dH = gamma/(2*Hh);   Vangle = -angle1;  Vh = b*cos1; Vw = a*cos1; v0 = x_left;  dv_per_dV = gamma/(2*Vw);}
+    else if (refSdblprime()) {Hangle = angle2;  Hw = a*cos2;  Hh = b*cos2;  h0 = t_bottom;  dh_per_dH = gamma/(2*Hh);   Vangle = -angle2;  Vh = b*cos2; Vw = a*cos2; v0 = x_left;  dv_per_dV = gamma/(2*Vw);}
+    drawCoordLines(diagram,'XT',Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
+  }
+  if (On('Sprime_diagrams'))
+  {
+    diagram = "S'"; x_label="x'"; t_label="t'"; t_bottom = ticks; x_left = -0.5; speedcolor=Sprime_color(1); speedfactor = "";
+    if      (refS())         {Hangle = -angle1; Hw = e;       Hh = e*cos3;  h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = angle1;   Vh = e;      Vw = e*cos3; v0 = x_left;    dv_per_dV = 1/(2*Vw);}
+    else if (refSprime())    {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;    dv_per_dV = 1/(2*Vw);}
+    else if (refSdblprime()) {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;    dv_per_dV = 1/(2*Vw);}
+    drawCoordLines(diagram,'XT',Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
+  }
+  if (On('Sdblprime_diagrams'))
+  {
+    diagram = 'S"'; x_label='x"'; t_label='t"'; t_bottom = gamma*ticks; x_left = xprime_to_xdblprime(-0.5); speedcolor=Sdblprime_color(1); if (v != 0) speedfactor = "/\u03B3\u00B2"; else speedfactor = "";
+    if      (refS())         {Hangle = -angle1; Hw = e;       Hh = e*cos3;  h0 = t_bottom;   dh_per_dH = gamma/(2*Hh);  Vangle = angle1;   Vh = e;      Vw = e*cos3; v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
+    else if (refSprime())    {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;   dh_per_dH = gamma/(2*Hh);  Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
+    else if (refSdblprime()) {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;   dh_per_dH = gamma/(2*Hh);  Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
+    drawCoordLines(diagram,'XT',Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
+  }
+    
+  if (On('S_diagrams') || On('Sprime_diagrams') || (On('Sdblprime_diagrams') && ref != 'SR_lab')) // draw light paths
+	{
+		context.strokeStyle = lightpath_color(0.8); context.lineWidth=2.0;
+    X0 =-f;Y0 = b;    X1 = -a;Y1 = f;    X2 = a;Y2 =-f;    X3 = f; Y3 = -b;
+		drawLine(X0,Y0,X1,Y1);  // SW
+    drawLine(X0,Y0,X2,Y2);  // SE
+    drawLine(X1,Y1,X3,Y3);  // NW
+    drawLine(X2,Y2,X3,Y3);  // NE
+	}
+  
+  speedtext = "\u0394" + x_label + "/\u0394" + t_label;
+	annotate(speedtext + ' = -c' + speedfactor,(f+a)/2,(-b-f)/2,'center','bottom',Math.atan((-b+f)/(f-a)),speedcolor); 	//NE
+	annotate(speedtext + ' = c' + speedfactor, (a-f)/2,(b-f)/2, 'center','top',   Math.atan((-f-b)/(a+f)),speedcolor);  //SE
+	annotate(speedtext + ' = -c' + speedfactor,(-f-a)/2,(b+f)/2,'center','top',   Math.atan((b-f)/(-f+a)),speedcolor);	//SW
+	annotate(speedtext + ' = c' + speedfactor, (f-a)/2,(f-b)/2, 'center','bottom',Math.atan((f+b)/(-a-f)),speedcolor);	//NW
+  
+  context.restore();
+  //annotate("spacetime diagram for " + x_label + " direction",w/2,h,'center','bottom',0,xt_color;
+}
+
+function drawYT()  //only for theta == 0
+{
+  var a,b;  //2a=width (ct or ct'), 2b=height (y or y')
+  var speedtext1,speedtext2;
+  var y_label,t_label,yt_color;
+  
+  context.save();
+  context.lineWidth=1;
+  mark_up = true; mark_down = true; mark_left = false; mark_right = false;
+  if      (centered)        {context.translate(-c*t_tick/2 + c*t_cycle, 0);}
+  else if	(ref != 'GR_far')	{context.translate(offset_x + x0_init + v*t - c*t_tick/2 + c*t_cycle, offset_y + y0);}
+  else if	(ref == 'GR_far')	{context.translate(offset_x + (x0_init + v*t)/(gamma*gamma) - c*t_tick/2 + c*t_cycle, offset_y + y0);}
+  
+  if (On('S_diagrams')) // draw yt
+	{
+    y_label="y";  t_label="t";  yt_color=S_color(1);
+		a = c*t_tick/2; b = d/2;
+		drawCoordLines('S',"YT",0,a,b,-0.5,1/(2*b),0,b,a,gamma*(ticks+1),-gamma/(2*a));
+		speedtext1 = "\u0394" + "y" + "/\u0394" + "t";
+		if (gamma > 1) {speedtext2 = "c/\u03B3";} else {speedtext2 = "c";}
+		annotate(speedtext1 + ' = ' + speedtext2,(a)/2,(-b)/2,'center','bottom',Math.atan((-b)/(-a)),yt_color);  //NE
+		annotate(speedtext1 + ' = -' + speedtext2,(a)/2,(b)/2,'center','top',Math.atan((-b)/(a)),yt_color);  //SE
+		annotate(speedtext1 + ' = ' + speedtext2,(-a)/2,(b)/2,'center','top',Math.atan((b)/(a)),yt_color);  //SW
+		annotate(speedtext1 + ' = -' + speedtext2,(-a)/2,(-b)/2,'center','bottom',Math.atan((b)/(-a)),yt_color);  //NW
+	}
+  
+	if (On('Sprime_diagrams')) // draw y't'
+	{
+    y_label="y'";  t_label="t'";  yt_color=Sprime_color(1);
+		a = d/2; b = a;
+    drawCoordLines("S'","YT",0,a*gamma,b,-0.5,1/(2*b),0,b,a*gamma,ticks+1,-1/(gamma*2*a));
+		a = c*t_tick/2; b = d/2;
+		speedtext1 = "\u0394" + "y'" + "/\u0394" + "t'";
+		annotate(speedtext1 + ' = c',(a)/2,(-b)/2,'center','top',Math.atan((-b)/(-a)),yt_color);  //NE
+		annotate(speedtext1 + ' = -c',(a)/2,(b)/2,'center','bottom',Math.atan((-b)/(a)),yt_color);  //SE
+		annotate(speedtext1 + ' = c',(-a)/2,(b)/2,'center','bottom',Math.atan((b)/(a)),yt_color);  //SW
+		annotate(speedtext1 + ' = -c',(-a)/2,(-b)/2,'center','top',Math.atan((b)/(-a)),yt_color);  //NW
+	}
+  
+  if (On('Sdblprime_diagrams')) // draw y"t"
+	{
+    y_label='y"';  t_label='t"';  yt_color=Sdblprime_color(1);
+		a = c*t_tick/2; b = d/2;
+		drawCoordLines('S"',"YT",0,a,b,-0.5,1/(2*b),0,b,a,gamma*(ticks+1),-gamma/(2*a));
+		speedtext1 = "\u0394" + 'y"' + "/\u0394" + 't"';
+		if (gamma > 1) {speedtext2 = "c/\u03B3";} else {speedtext2 = "c";}
+		annotate(speedtext1 + ' = ' + speedtext2,(a)/2,(-b)/2,'center','bottom',Math.atan((-b)/(-a)),yt_color);  //NE
+		annotate(speedtext1 + ' = -' + speedtext2,(a)/2,(b)/2,'center','top',Math.atan((-b)/(a)),yt_color);  //SE
+		annotate(speedtext1 + ' = ' + speedtext2,(-a)/2,(b)/2,'center','top',Math.atan((b)/(a)),yt_color);  //SW
+		annotate(speedtext1 + ' = -' + speedtext2,(-a)/2,(-b)/2,'center','bottom',Math.atan((b)/(-a)),yt_color);  //NW
+	}
+  context.restore();
+
+	if (On('S_diagrams') || On('Sprime_diagrams') || On('Sdblprime_diagrams')) // draw light paths
+	{
+    context.save();
+    if      (centered)        {context.translate(-c*t_tick/2 + c*t_cycle, 0);}
+    else if	(ref != 'GR_far')	{context.translate(offset_x + x0_init + v*t - c*t_tick/2 + c*t_cycle, offset_y + y0);}
+    else if	(ref == 'GR_far')	{context.translate(offset_x + (x0_init + v*t)/(gamma*gamma) - c*t_tick/2 + c*t_cycle, offset_y + y0);}
+		a = c*t_tick/2; b = d/2;
+		context.strokeStyle = lightpath_color(0.8);
+    context.lineWidth=2.0;
+		drawLine(0,-b,a,0);
+		drawLine(a,0,0,b);
+		drawLine(0,b,-a,0);
+		drawLine(-a,0,0,-b);
+    context.restore();
+	}
+  //annotate("spacetime diagram for " + y_label + " direction",w/2,h,'center','bottom',yt_color,0);
+}	
+
+function drawInfo()  // using untransformed coordinates
+{
+  var x,y,gammatext,speedtext;
+    
+  context.save();
+  gammatext = "Lorentz factor (gamma) = " + gamma;
+  annotate(gammatext,w/2-textWidth(gammatext,annotation_font)/2,h,'left','bottom',0,annotation_color);
+
+  if      (ref == 'SR_lab')
+  {
+    text1a = "You are a local observer in Special Relativity "; text1b = "(Laboratory Frame)";
+    w1a = textWidth(text1a,annotation_font); w1b = textWidth(text1b,annotation_font); w1 = w1a + w1b;
+    annotate(text1a,w/2 - w1/2,0,'left','top',0,'white'); annotate(text1b,w/2 - w1/2 + w1a,0,'left','top',0,'lime');
+    text2a = "The light clock "; text2b = "(Rocket Frame)";
+    if (v == 0)     text2c = " is not moving relative to your frame";
+    else if (v > 0) text2c = " is moving to the right at speed v relative to your frame";
+    else            text2c = " is moving to the left at speed -v relative to your frame";
+    w2a = textWidth(text2a,annotation_font); w2b = textWidth(text2b,annotation_font); w2c = textWidth(text2c,annotation_font); w2 = w2a + w2b + w2c;
+    annotate(text2a,w/2 - w2/2,20,'left','top',0,'white'); annotate(text2b,w/2 - w2/2 + w2a,20,'left','top',0,'cyan'); annotate(text2c,w/2 - w2/2 + w2a + w2b,20,'left','top',0,'white');
+    if (v != 0 && centered)
+    {
+      text3a = "The animation is keeping the display window artificially aligned with the "; text3b = "Rocket Frame";
+      w3a = textWidth(text3a,annotation_font); w3b = textWidth(text3b,annotation_font); w3 = w3a + w3b;
+      annotate(text3a,w/2 - w3/2,40,'left','top',0,'white'); annotate(text3b,w/2 - w3/2 + w3a,40,'left','top',0,'cyan');
+    }
+  }
+
+  else if (ref == 'SR_rocket')
+  {
+    rocket1a = "You are a local observer in Special Relativity "; rocket1b = "(Rocket Frame)";
+    w1a = textWidth(rocket1a,annotation_font); w1b = textWidth(rocket1b,annotation_font); w1 = w1a + w1b;
+    annotate(rocket1a,w/2 - w1/2,0,'left','top',0,'white'); annotate(rocket1b,w/2 - w1/2 + w1a,0,'left','top',0,'cyan');
+    rocket2 = "The light clock is always stationary relative to your frame";
+    w2 = textWidth(rocket2,annotation_font);
+    annotate(rocket2,w/2 - w2/2,20,'left','top',0,'white');
+    rocket3a = "The "; rocket3b = "Laboratory Frame";
+    if (v == 0)     rocket3c = " is not moving relative to your frame";
+    else if (v > 0) rocket3c = " is moving to the left at speed -v relative to your frame";
+    else            rocket3c = " is moving to the right at speed v relative to your frame";
+    w3a = textWidth(rocket3a,annotation_font); w3b = textWidth(rocket3b,annotation_font); w3c = textWidth(rocket3c,annotation_font); w3 = w3a + w3b + w3c;
+    annotate(rocket3a,w/2 - w3/2,40,'left','top',0,'white'); annotate(rocket3b,w/2 - w3/2 + w3a,40,'left','top',0,'lime'); annotate(rocket3c,w/2 - w3/2 + w3a + w3b,40,'left','top',0,'white');
+    if (v != 0 && !centered)
+    {
+      rocket4a = "The animation is keeping the display window artificially aligned with the "; rocket4b = "Laboratory Frame";
+      w4a = textWidth(rocket4a,annotation_font); w4b = textWidth(rocket4b,annotation_font); w4 = w4a + w4b;
+      annotate(rocket4a,w/2 - w4/2,60,'left','top',0,'white'); annotate(rocket4b,w/2 - w4/2 + w4a,60,'left','top',0,'lime');
+    }
+  }
+
+  else if (ref == 'GR_rain')
+  {
+    text1a = "You are a free-falling local observer in General Relativity "; text1b = "(Rain Frame)";
+    w1a = textWidth(text1a,annotation_font); w1b = textWidth(text1b,annotation_font); w1 = w1a + w1b;
+    annotate(text1a,w/2 - w1/2,0,'left','top',0,'white'); annotate(text1b,w/2 - w1/2 + w1a,0,'left','top',0,'lime');
+    text2a = "The light clock "; text2b = "(Shell Frame)";
+    if (v == 0)     text2c = " is not moving relative to your frame";
+    else if (v > 0) text2c = " is moving to the right relative to your frame";
+    else            text2c = " is moving to the left relative to your frame";
+    w2a = textWidth(text2a,annotation_font); w2b = textWidth(text2b,annotation_font); w2c = textWidth(text2c,annotation_font); w2 = w2a + w2b + w2c;
+    annotate(text2a,w/2 - w2/2,20,'left','top',0,'white'); annotate(text2b,w/2 - w2/2 + w2a,20,'left','top',0,'cyan'); annotate(text2c,w/2 - w2/2 + w2a + w2b,20,'left','top',0,'white');
+    if (v == 0) speedtext = "0"; else speedtext = "\u221A(2GM/r)";
+    text3 = "You are comoving with space at speed " + speedtext + " toward mass M";
+    annotate(text3,w/2 - textWidth(text3,annotation_font)/2,40,'left','top',0,'white');
+    if (v != 0 && centered)
+    {
+      text5a = "The animation is keeping the display window artificially aligned with the "; text5b = "Shell Frame";
+      w5a = textWidth(text5a,annotation_font); w5b = textWidth(text5b,annotation_font); w5 = w5a + w5b;
+      annotate(text5a,w/2 - w5/2,80,'left','top',0,'white'); annotate(text5b,w/2 - w5/2 + w5a,80,'left','top',0,'cyan');
+    }
+  }
+
+  else if (ref == 'GR_shell')
+  {
+    text1a = "You are a stationary local observer in General Relativity "; text1b = "(Shell Frame)";
+    w1a = textWidth(text1a,annotation_font); w1b = textWidth(text1b,annotation_font); w1 = w1a + w1b;
+    annotate(text1a,w/2 - w1/2,0,'left','top',0,'white'); annotate(text1b,w/2 - w1/2 + w1a,0,'left','top',0,'cyan');
+    text2 = "The light clock is always stationary relative to your frame";
+    w2 = textWidth(text2,annotation_font);
+    annotate(text2,w/2 - w2/2,20,'left','top',0,'white');
+    if (v == 0) speedtext = "0"; else speedtext = "\u221A(2GM/r)";
+    text3a = "Space "; text3b = "(Rain Frame)"; text3c = " is moving past you at speed " + speedtext + " toward mass M"; text3  = text3a + text3b + text3c;
+    w3a = textWidth(text3a,annotation_font); w3b = textWidth(text3b,annotation_font); w3c = textWidth(text3c,annotation_font); w3 = w3a + w3b + w3c;
+    annotate(text3a,w/2 - w3/2,40,'left','top',0,'white'); annotate(text3b,w/2 - w3/2 + w3a,40,'left','top',0,'lime'); annotate(text3c,w/2 - w3/2 + w3a + w3b,40,'left','top',0,'white');
+    if (v != 0 && !centered)
+    {
+      text5a = "The animation is keeping the display window artificially aligned with the "; text5b = "Rain Frame";
+      w5a = textWidth(text5a,annotation_font); w5b = textWidth(text5b,annotation_font); w5 = w5a + w5b;
+      annotate(text5a,w/2 - w5/2,80,'left','top',0,'white'); annotate(text5b,w/2 - w5/2 + w5a,80,'left','top',0,'lime');
+    }
+  }
+
+  else if (refSdblprime())
+  {
+    text1a = "You are a far-away bookkeeper in General Relativity "; text1b = "(Schwarzschild Frame)";
+    w1a = textWidth(text1a,annotation_font); w1b = textWidth(text1b,annotation_font); w1 = w1a + w1b;
+    annotate(text1a,w/2 - w1/2,0,'left','top',0,'white'); annotate(text1b,w/2 - w1/2 + w1a,0,'left','top',0,'orange');
+    text2a = "The light clock "; text2b = "(Shell Frame) "; text2c = "is always stationary relative to your frame";
+    w2a = textWidth(text2a,annotation_font); w2b = textWidth(text2b,annotation_font); w2c = textWidth(text2c,annotation_font); w2 = w2a + w2b + w2c;
+    annotate(text2a,w/2 - w2/2,20,'left','top',0,'white'); annotate(text2b,w/2 - w2/2 + w2a,20,'left','top',0,'cyan'); annotate(text2c,w/2 - w2/2 + w2a + w2b,20,'left','top',0,'white');
+    if (v == 0) speedtext = "0"; else speedtext = "\u221A(2GM/r)/\u03B3\u00B2";
+    text3a = "Space "; text3b = "(Rain Frame)"; text3c = " is moving at speed " + speedtext + " past the light clock toward mass M"; text3  = text3a + text3b + text3c;
+    w3  = textWidth(text3,annotation_font); w3a = textWidth(text3a,annotation_font); w3b = textWidth(text3b,annotation_font);
+    annotate(text3a,w/2 - w3/2,40,'left','top',0,'white'); annotate(text3b,w/2 - w3/2 + w3a,40,'left','top',0,'lime'); annotate(text3c,w/2 - w3/2 + w3a + w3b,40,'left','top',0,'white');
+    if (v != 0 && !centered)
+    {
+      text5a = "The animation is keeping the display window artificially aligned with the "; text5b = "Rain Frame";
+      w5a = textWidth(text5a,annotation_font); w5b = textWidth(text5b,annotation_font); w5 = w5a + w5b;
+      annotate(text5a,w/2 - w5/2,80,'left','top',0,'white'); annotate(text5b,w/2 - w5/2 + w5a,80,'left','top',0,'lime');
+    }
+  }
+  
+  if (ref != 'GR_far')  {x = x0_init + v*t + offset_x; y = y0 + offset_y;}
+  else                  {x = x0_init + v*t/(gamma*gamma) + offset_x; y = y0 + offset_y;}
+  if      (refGR() && v == 0)     annotate("\u261A M (r = 0) is at \u221E distance to the left of the light clock (or M = 0)",w/2,60,'center','top',0,annotation_color);
+  else if (refGR() && v > 0)      annotate("\u261A M (r = 0) is at distance 2GM/v\u00B2 to the left of the light clock",w/2,60,'center','top',0,annotation_color);
+  else if (refGR() && v < 0)      annotate("M (r = 0) is at distance 2GM/v\u00B2 to the right of the light clock \u261B",w/2,60,'center','top',0,annotation_color);
+	if      (refGR() && gamma > 1)  annotate("r/M = " + r_over_GM + " G/c"  + '\u00B2',0,h,'left','bottom',0,annotation_color);
+	else if (refGR() && gamma == 1)	annotate("r/M = " + '\u221E',0,h,'left','bottom',0,annotation_color);
+	
+  if (!centered && (Math.abs(x*scale) > w/2 || Math.abs(y*scale) > h/2))
+	{
+		context.textAlign = "center";
+		context.textBaseline = "middle";
+		context.fillStyle = 'cyan';
+		context.font = "16pt Arial";
+		context.fillText("S' clock",w/2,h/2-60);
+		context.fillStyle = "rgb(255,255,255)";
+		context.fillText("is outside the window boundary",w/2,h/2-40);
+		context.font = "italic 16pt Arial";
+		context.fillText("drag clock back into window, or",w/2,h/2-10);
+		if (v == 0) {context.fillText("press 'Reset' button",w/2,h/2+10);}
+		else {context.fillText("press 'Reset' button, or",w/2,h/2+10); context.fillText("press 'Center' button",w/2,h/2+30);}
+	}
+  context.restore();
+}
+
+function textWidth(text, font)
+{
+  var text_width;
+  context.save();
+  context.font = font;
+  text_width = context.measureText(text+'').width;
+  context.restore();
+  return text_width;
+}
+
+function drawRefClock() // using untransformed coordinates
+{
+  var T_cycle,T_tick,Ticks;  //local to drawRefClock
+
+  T_tick = d/c;
+  if (t<0)  {Ticks = -Math.floor(-t/T_tick)-1; T_cycle = T_tick-(-t % T_tick);}
+  else      {Ticks = Math.floor(t/T_tick); T_cycle = t % T_tick;}
+  if (ref == 'GR_far')
+  {
+    annotate('Your Proper Time',w,h-60,'right','bottom',0,Sdblprime_color(1));
+    annotate('Far-Away Frame',w,h-40,'right','bottom',0,Sdblprime_color(1));	annotate('S" clock',w,h-20,'right','bottom',0,Sdblprime_color(1));	drawText(Ticks,w,h,'right','bottom',0,Sdblprime_color(1));
+  }
+  else if (ref == 'GR_rain')
+  {
+    annotate('Your Proper Time',w,h-60,'right','bottom',0,S_color(1));
+    annotate('Rain Frame',w,h-40,'right','bottom',0,S_color(1));				      annotate('S clock',w,h-20,'right','bottom',0,S_color(1));				    drawText(Ticks,w,h,'right','bottom',0,S_color(1));
+  }
+  else if (ref == 'SR_lab')
+  {
+    annotate('Your Proper Time',w,h-60,'right','bottom',0,S_color(1));
+    annotate('Laboratory Frame',w,h-40,'right','bottom',0,S_color(1));		    annotate('S clock',w,h-20,'right','bottom',0,S_color(1));				    drawText(Ticks,w,h,'right','bottom',0,S_color(1));
+  }
+  else if (ref == 'GR_shell')
+  {
+    annotate('Your Proper Time',w,h-60,'right','bottom',0,Sprime_color(1));
+    annotate('Shell Frame',w,h-40,'right','bottom',0,Sprime_color(1));				annotate("S' clock",w,h-20,'right','bottom',0,Sprime_color(1));			drawText(Ticks,w,h,'right','bottom',0,Sprime_color(1));
+  }
+  else if (ref == 'SR_rocket')
+  {
+    annotate('Your Proper Time',w,h-60,'right','bottom',0,Sprime_color(1));
+    annotate('Rocket Frame',w,h-40,'right','bottom',0,Sprime_color(1));		    annotate("S' clock",w,h-20,'right','bottom',0,Sprime_color(1));			drawText(Ticks,w,h,'right','bottom',0,Sprime_color(1));
+  }
+}
+
+function drawTicks_Sprime()
+{
+  var text_width, text_height;
+	
+  context.save();
+  if(!centered && ref != 'GR_far') translate(x0_init+v*t,y0);
+	if(!centered && refSdblprime()) translate(x0_init+v*t/(gamma*gamma),y0);
+  if (refSR())	{annotate("Rocket Frame",0,-40,'center','middle',0,Sprime_color(1));}
+	else				                                {annotate("Shell Frame",0,-40,'center','middle',0,Sprime_color(1));}
+	annotate("S' clock",0,-20,'center','middle',0,Sprime_color(1));
+  context.fillStyle = 'rgba(0,0,0,0.5)';
+  text_width = textWidth(ticks,annotation_font);
+  text_height = 18;
+  context.fillRect(-text_width/2,-text_height/2,text_width,text_height);
+  drawText(ticks,0,0,'center','middle',0,Sprime_color(1));
+  context.restore();
+}
+
+function x_to_X(x) // x in S to screen location X
+{
+	var X;
+
+  if 		  (refSdblprime() && !centered) {X = w/2 + (x/(gamma*gamma) + offset_x)*scale;}
+  else if (refSdblprime() && centered)  {X = w/2 + ((x - x0_init - v*t)/(gamma*gamma))*scale;} // t is S" time
+  else if ((refSprime()) && !centered)  {X = w/2 + (x/gamma + offset_x)*scale;}
+  else if ((refSprime()) && centered)   {X = w/2 + (x/gamma - x0_init - v*t)*scale;} // t is S' time
+	else if (centered)	                  {X = w/2 + (x - (x0_init + v*t))*scale;} // t is S time
+	else  	                              {X = w/2 + (x + offset_x)*scale;}
+	return X;
+}
+
+function X_to_x(X) // X screen location to x in S
+{
+	var x;
+	
+  if 		  (refSdblprime() && !centered) {x = ((X - w/2)/scale - offset_x)*gamma*gamma;}
+  else if (refSdblprime() && centered)  {x = ((X - w/2)/scale)*gamma*gamma + x0_init + v*t;} // t is S" time
+  else if ((refSprime()) && !centered)  {x = ((X - w/2)/scale - offset_x)*gamma;}
+  else if ((refSprime()) && centered)   {x = ((X - w/2)/scale + x0_init + v*t)*gamma;} // t is S' time
+  else if (centered)	                  {x = (X - w/2)/scale + x0_init + v*t;} // t is S time
+	else	                                {x = (X - w/2)/scale - offset_x;}
+	return x;
+}
+
+function y_to_Y(y) // y in S to screen location Y
+{
+  if (centered) return ((h/2) - y*scale);
+  else          return ((h/2) - (y - offset_y)*scale);
+}
+
+function Y_to_y(Y) // Y screen location to y in S
+{
+  if (centered) return (-(Y - (h/2))/scale);
+  else          return (-(Y - (h/2))/scale + offset_y);
+}
+
+function sameTime(t1,t2) {return (Math.abs(t1 - t2) < 1E-9);}
+
+function drawCoordinates()
+{
+	var t1,x1,y1,t2,x2,y2,dt,dx,dy,X,Y;
+	var T1,A1,B1,D1,I1,T2,A2,B2,D2,I2,A3,B3,D3,I3;
+	var a; // base y position for header
+	var b; // base y position for coordinates
+	var position, height;
+	var A_event, B_event;
+	
+	if (navigator.platform == "iPhone") {a = 0; b = 0;}
+	else {position = getPosition(controls); height = controls.clientHeight; a = position.y + height; b = a;}
+	T1 =     b; A1 =  15+b; B1 =  30+b; D1 =  45+b; I1 =  60+b;
+	T2 =  86+b; A2 = 101+b; B2 = 116+b; D2 = 131+b; I2 = 146+b;
+	T3 = 172+b; A3 = 187+b; B3 = 202+b; D3 = 217+b; I3 = 232+b;
+	
+  context.save();
+	
+	// events
+	context.font = "14pt arial,sans-serif";
+	context.textAlign = "left"; context.textBaseline = "top";
+	context.fillStyle = 'white'; context.strokeStyle = 'white';
+	A_event = false;
+  //if (diagramXT()) setEvent(E1,E1.t,E1.x,0);
+  //if (diagramYT()) setEvent(E1,E1.t,v*t,E1.y);
+  if      (ref == 'SR_lab'    && sameTime(t,E1.t) && E1set)           {A_event = true; X = x_to_X(E1.x);  Y = y_to_Y(E1.y);}
+  else if (ref == 'SR_rocket' && sameTime(t,E1.t_prime) && E1set)     {A_event = true; X = x_to_X(E1.x);  Y = y_to_Y(E1.y);}
+  else if (ref == 'GR_rain'   && sameTime(t,E1.t) && E1set)           {A_event = true; X = x_to_X(E1.x);  Y = y_to_Y(E1.y);}
+  else if (ref == 'GR_shell'  && sameTime(t,E1.t_prime) && E1set)     {A_event = true; X = x_to_X(E1.x);  Y = y_to_Y(E1.y);}
+	else if (ref == 'GR_far'    && sameTime(t,E1.t_dblprime) && E1set)  {A_event = true; X = x_to_X(E1.x);  Y = y_to_Y(E1.y);}
+	if (A_event)
+	{
+		context.fillText("A",X+5,Y+5);
+		drawLine(X-10,Y,X-2,Y); drawLine(X+2,Y,X+10,Y);
+		drawLine(X,Y-10,X,Y-2); drawLine(X,Y+2,X,Y+10);
+  }
+
+	B_event = false;
+  //if (diagramXT()) setEvent(E2,E2.t,E2.x,0);
+  //if (diagramYT()) setEvent(E2,E2.t,v*t,E2.y);
+	if      (ref == 'SR_lab'    && sameTime(t,E2.t) && E2set)           {B_event = true; X = x_to_X(E2.x);  Y = y_to_Y(E2.y);}
+  else if (ref == 'SR_rocket' && sameTime(t,E2.t_prime) && E2set)     {B_event = true; X = x_to_X(E2.x);  Y = y_to_Y(E2.y);}
+  else if (ref == 'GR_rain'   && sameTime(t,E2.t) && E2set)           {B_event = true; X = x_to_X(E2.x);  Y = y_to_Y(E2.y);}
+  else if (ref == 'GR_shell'  && sameTime(t,E2.t_prime) && E2set)     {B_event = true; X = x_to_X(E2.x);  Y = y_to_Y(E2.y);}
+	else if (ref == 'GR_far'    && sameTime(t,E2.t_dblprime) && E2set)  {B_event = true; X = x_to_X(E2.x);  Y = y_to_Y(E2.y);}
+	if (B_event)
+	{
+		context.fillText("B",X+5,Y+5);
+		drawLine(X-10,Y,X-2,Y); drawLine(X+2,Y,X+10,Y);
+		drawLine(X,Y-10,X,Y-2); drawLine(X,Y+2,X,Y+10);
+  }
+	
+	// coordinates
+	context.textBaseline = "top";
+	
+	// S (lab frame, local rain frame)
+	t1 = E1.t; x1 = E1.x; y1 = E1.y;
+	t2 = E2.t; x2 = E2.x; y2 = E2.y;
+	dt = t2 - t1; dx = x2 - x1; dy = y2 - y1;
+	context.textAlign = "left"; 
+  context.fillStyle = 'white';
+  context.font = "14pt arial,sans-serif";
+	context.fillText("A",0,A1);
+  context.fillText("B",0,B1);
+	context.fillText("\u0394",0,D1);
+	//context.fillText("Interval",0,I1);
+	context.fillStyle = 'lime';
+	if (refSR()) context.fillText("Lab",0,T1); else context.fillText("Rain",0,T1);
+  context.save();
+    context.textAlign = "right"; context.font = "14pt cambria_math"; 
+    context.fillText("t/T",120,T1);				context.fillText("x/D",220,T1);					context.fillText("y/D",320,T1);
+    if (E1set)			    {context.fillText((t1/d).toFixed(3),120,A1);	context.fillText((x1/d).toFixed(3),220,A1);		context.fillText((y1/d).toFixed(3),320,A1);}
+    if (E2set)			    {context.fillText((t2/d).toFixed(3),120,B1);	context.fillText((x2/d).toFixed(3),220,B1);		context.fillText((y2/d).toFixed(3),320,B1);}
+    if (E1set && E2set)	{context.fillText((dt/d).toFixed(3),120,D1);	context.fillText((dx/d).toFixed(3),220,D1);		context.fillText((dy/d).toFixed(3),320,D1);
+    context.fillText("(\u0394x)\u00B2 + (\u0394y)\u00B2 - (c\u0394t)\u00B2 = D\u00B2(" + ((dx*dx + dy*dy - dt*dt)/(d*d)).toFixed(3) + ")",320,I1);}
+	context.restore();
+  
+	// S' (rocket frame, local shell)
+	t1 = E1.t_prime; x1 = E1.x_prime; y1 = E1.y_prime;
+	t2 = E2.t_prime; x2 = E2.x_prime; y2 = E2.y_prime;
+	dt = t2 - t1; dx = x2 - x1; dy = y2 - y1;
+	context.textAlign = "left";
+	context.fillStyle = 'white';
+	context.fillText("A",0,A2);
+	context.fillText("B",0,B2);
+	context.fillText("\u0394",0,D2);
+	//context.fillText("Interval",0,I2);
+	context.fillStyle = 'cyan';
+	if (refSR()) context.fillText("Rocket",0,T2); else context.fillText("Shell",0,T2);
+  context.save();
+    context.textAlign = "right"; context.font = "14pt cambria_math";
+    context.fillText("t'/T",120,T2);				context.fillText("x'/D",220,T2);				context.fillText("y'/D",320,T2);
+    if (E1set)			    {context.fillText((t1/d).toFixed(3),120,A2);	context.fillText((x1/d).toFixed(3),220,A2);		context.fillText((y1/d).toFixed(3),320,A2);}
+    if (E2set)			    {context.fillText((t2/d).toFixed(3),120,B2);	context.fillText((x2/d).toFixed(3),220,B2);		context.fillText((y2/d).toFixed(3),320,B2);}
+    if (E1set && E2set) {context.fillText((dt/d).toFixed(3),120,D2);	context.fillText((dx/d).toFixed(3),220,D2);		context.fillText((dy/d).toFixed(3),320,D2);
+    context.fillText("(\u0394x')\u00B2 + (\u0394y')\u00B2 - (c\u0394t')\u00B2 = D\u00B2(" + ((dx*dx + dy*dy - dt*dt)/(d*d)).toFixed(3) + ")",320,I2);}
+  context.restore();
+	
+	// S" (global Schwarzschild, far-away)
+	if (refSdblprime() || ref == 'GR_rain' || ref == 'GR_shell')
+	{
+		t1 = E1.t_dblprime; x1 = E1.x_dblprime; y1 = E1.y_dblprime;
+		t2 = E2.t_dblprime; x2 = E2.x_dblprime; y2 = E2.y_dblprime;
+		dt = t2 - t1; dx = x2 - x1; dy = y2 - y1;
+		context.textAlign = "left"; 
+		context.fillStyle = 'white';
+		context.fillText("A",0,A3);
+		context.fillText("B",0,B3);
+		context.fillText("\u0394",0,D3);
+		//context.fillText("Interval",0,I3);
+		context.fillStyle = 'orange';
+    context.fillText("Far",0,T3);
+    context.save();
+      context.textAlign = "right"; context.font = "14pt cambria_math";
+      context.fillText('t"/T',120,T3);				context.fillText('x"/D',220,T3);				context.fillText('y"/D',320,T3);
+      if (E1set)			    {context.fillText((t1/d).toFixed(3),120,A3);	context.fillText((x1/d).toFixed(3),220,A3);		context.fillText((y1/d).toFixed(3),320,A3);}
+      if (E2set)			    {context.fillText((t2/d).toFixed(3),120,B3);	context.fillText((x2/d).toFixed(3),220,B3);		context.fillText((y2/d).toFixed(3),320,B3);}
+      if (E1set && E2set)	{context.fillText((dt/d).toFixed(3),120,D3);	context.fillText((dx/d).toFixed(3),220,D3);		context.fillText((dy/d).toFixed(3),320,D3);
+      dx = dx*gamma; dt = dt/gamma;
+      context.fillText('(\u03B3\u0394x")\u00B2 + (\u0394y")\u00B2 - (c\u0394t"/\u03B3)\u00B2 = D\u00B2(' + ((dx*dx + dy*dy - dt*dt)/(d*d)).toFixed(3) + ")",320,I3);}
+    context.restore();
+	}
+	context.restore();
+}
+
+function On(id) {return ($i(id).checked && !$i(id).disabled);}
+
+function drawFrame()
+{
+  var left_photon,right_photon,up_photon,down_photon;
+  
+  context.save();
+  context.clearRect(0,0,w,h);  //erase frame
+  context.translate(w/2,h/2);
+  context.scale(scale,scale);
+  //context.beginPath(); context.rect(0, 0, w, h); context.lineWidth = 5; context.strokeStyle = "blue"; context.stroke(); context.closePath();
+  opacity = 1-((t_cycle)/1.2)/t_tick;
+	calcMirrors(theta);
+	drawLattice("S",  On('S_grid_checkbox'),          On('S_clocks_checkbox'),          On('mini_light_clocks_checkbox'));
+	drawLattice("S'", On('Sprime_grid_checkbox'),     On('Sprime_clocks_checkbox'),     On('mini_light_clocks_checkbox'));
+	drawLattice('S"', On('Sdblprime_grid_checkbox'),  On('Sdblprime_clocks_checkbox'),  On('mini_light_clocks_checkbox'));
+  mark_left = false; mark_right = false; mark_up = false; mark_down = false;
+  setCurrentTime();
+  if (diagramsOn())
+  {
+    if      ($i('XT_button').checked)         {drawXT(); left_photon = true; right_photon = true;}
+    else if ($i('XT_Yplus_button').checked)   {drawXT_Y(true); up_photon = mark_up; down_photon = mark_down;}
+    else if ($i('XT_Yminus_button').checked)  {drawXT_Y(false); up_photon = mark_up; down_photon = mark_down;}
+    else if ($i('YT_button').checked)         {drawYT(); up_photon = true; down_photon = true;}
+    if ($i('photons_checkbox').checked) drawPhotons(left_photon,right_photon,up_photon,down_photon);
+  }
+  else
+  {
+    disableDiagrams();
+    if (paused) inherit('coordinates'); else hidden('coordinates');
+    if (retarded_waves) if (ref == "GR_far") {drawEllipticalWaves(true);} else {drawWaves(true);}
+    if (advanced_waves) if (ref == "GR_far") {drawEllipticalWaves(false);} else {drawWaves(false);}
+    if ($i('photons_checkbox').checked) drawPhotons(true,true,true,true);
+    drawMirrors();
+    drawTicks_Sprime();
+  }
+  context.restore();  // restore to untransformed coordinates
+  
+  // use untransformed coordinates
+	if (paused && $i('coord_checkbox').checked && !diagramsOn()) {drawCoordinates();}
+  drawRefClock();
+  drawInfo();
+}
+
+var Stime;
+
+function calcTime()
+{
+  Stime = clockStime(ref);
+	if (Stime < 0) {ticks = -Math.floor(-Stime/t_tick)-1; t_cycle = t_tick-(-Stime % t_tick);}
+  else {ticks = Math.floor(Stime/t_tick); t_cycle = Stime % t_tick;}
+	x0 = x0_init+v*t_tick*ticks;
+}
+
+function animate()
+{
+	if ($i("forward_button").checked) {delta_t = (d/c)/steps_per_tick;}
+	else {delta_t = -(d/c)/steps_per_tick;}
+	t = t+delta_t;
+	calcTime();
+  drawFrame();
+}
+
+function step(forward)
+{
+	var dt;
+	
+	if (!paused) return;
+	dt = delta_t;
+	if (forward) {delta_t = (d/c)/steps_per_tick;}
+	else {delta_t = -(d/c)/steps_per_tick;}
+	t = t+delta_t;
+	calcTime();
+  //drawFrame();
+	delta_t = dt;
+}
+
+function reset()
+{
+  t = 0; setCurrentTime();
+  t_cycle = 0;
+  ticks = 0;
+  resize();
+}
+
+function init()
+{
+	isMac = (navigator.platform.substr(0,3) == "Mac");
+	speed_slider = false;
+	
+	$i('body').style.overflow = "hidden";
+	window.scrollTo(0,0);
+	v = 0; v_text = "0"; $i('v_over_c').innerHTML = v_text;
+  gamma = 1; gamma_text = "1"; $i('gamma').innerHTML = gamma_text;
+	r_over_GM_text = '\u221E'; $i('r_reduced').innerHTML = r_over_GM_text;
+	document.querySelector('#speed_range').value = 0;
+	
+	controls = $i('controls'); hidden('controls');
+  SRtext = $i('SR_text'); hidden('SR_text');
+  GRtext = $i('GR_text'); hidden('SR_text');
+	FAQtext = $i('FAQ'); hidden('FAQ');
+  canvas = $i('canvas'); hidden('canvas');
+  descriptiontext = $i('description'); hidden('description');
+	UItext = $i('UI'); hidden('UI');
+  inherit('start');
+	
+  mthick = 5; mlen = 50; mlen_prime = mlen/gamma;
+	$i('photons_checkbox').checked = true;
+  retarded_waves = false; $i('retarded_waves_checkbox').checked = false;
+	advanced_waves = false; $i('advanced_waves_checkbox').checked = false;
+  $i('full_arcs_checkbox').checked = false; $i('full_arcs_checkbox').disabled = true;
+	coords = false; $i('coord_checkbox').checked = false;
+  paused = false; $i('pause_resume_button').innerHTML = "Pause "; hidden('single_steps');
+	centered = false; $i("centered_button").innerHTML="Center"; hidden('centered_button');
+	$i('S_grid_checkbox').checked = false; $i('Sprime_grid_checkbox').checked = false; $i('Sdblprime_grid_checkbox').checked = false;
+	$i('S_clocks_checkbox').checked = false; $i('Sprime_clocks_checkbox').checked = false; $i('Sdblprime_clocks_checkbox').checked = false;
+  $i('mini_light_clocks_checkbox').checked = false; $i('mini_light_clocks_checkbox').disabled = true;
+  $i('annotation_checkbox').checked = false;
+	initDiagrams(); disableDiagrams();
+	$i('coord_checkbox').checked = false;
+	hidden('coordinates'); hidden('gotoE1_button'); hidden('gotoE2_button');
+  theta = 0; prev_theta = theta;
+  $i('forward_button').checked = true; $i('backward_button').checked = false;
+	scaling_enabled = true; initScaling();
+	rotation_enabled = true; initRotation();
+  started = false;
+	reset();
+  ref = 'SR_lab'; ref_frame('SR_lab');
+}
+
+function start()
+{
+  init();
+  frame_timerID = setInterval(animate_func,msec_delay);
+  started = true;
+}
+
+function stop()
+{
+  clearInterval(frame_timerID);
+}
+
+function initScaling()
+{
+	scale = 1; prev_scale = 1;
+}
+
+function initRotation()
+{
+	theta = 0; prev_theta = 0; calcRotation(0);
+}
+
+function calcRotation(theta_change)  //theta_change in radians
+{
+  theta = (prev_theta + theta_change) % (Math.PI/2);
+  if (theta < 0) theta = theta + (Math.PI/2);
+  //alert ("theta_change = " + theta_change + "   prev_theta = " + prev_theta + "   theta = " + theta);
+  if ((theta < 0) || (theta >= (Math.PI/2))) alert("theta = " + theta);
+}
+
+function resize()
+{
+  //alert("resize");
+  w = document.documentElement.clientWidth;
+  h = document.documentElement.clientHeight;
+  if (w>h) {d = 3*h/4;}
+  else {d = 3*w/4;}
+  calcRotation(0);
+
+	$i('forward_button').checked = true;
+  t_tick = (d/c)*gamma;  // S time for one tick of the S' clock = S" tick
+  mlen_prime = mlen/gamma;
+  t1edge = (d/gamma)*(Math.sqrt(v*v+(c*c-v*v)*(1+mlen*mlen*gamma*gamma/(d*d)))-v)/(2*(c*c-v*v));
+  r_left = ((mlen/2)*(mlen/2)+(c-v)*(c-v)*(t1edge-t1)*(t1edge-t1))/(2*(c-v)*(t1edge-t1));
+  t4edge = (d/gamma)*(v+Math.sqrt(v*v+(c*c-v*v)*(1+mlen*mlen*gamma*gamma/(d*d))))/(2*(c*c-v*v));
+  r_right = ((mlen/2)*(mlen/2)+(c+v)*(c+v)*(t4edge-t4)*(t4edge-t4))/(2*(c+v)*(t4edge-t4));
+  
+  canvas.width = w;  //clears the canvas
+  canvas.height = h;  //clears the canvas
+  context = canvas.getContext('2d');
+  //context.beginPath();
+  //context.rect(0, 0, w, h);
+  //context.clip();  //no drawing outside canvas
+  x0 = 0; y0 = 0;
+  x0_init = x0; y0_init = y0;
+  P_center.X = w/2; P_center.Y = h/2;
+	P_mousedown.X = w/2; P_mousedown.Y = h/2;
+  offset_x = 0; offset_y = 0;
+  offset_x_down = 0; offset_y_down = 0;
+  msec_delay = 1000/fps;
+  drawFrame();
+}
+
+//buttons
+
+function startButton()		    {hidden('start'); start(); inherit('canvas');}
+
+function descriptionButton()	{hidden('start'); inherit('description');}
+
+function SR_Button()			{hidden('description'); inherit('SR_text'); $i('body').style.overflow = "auto";}
+
+function GR_Button()			{hidden('description'); inherit('GR_text'); $i('body').style.overflow = "auto";}
+
+function FAQ_Button()			{hidden('description'); inherit('FAQ'); $i('body').style.overflow = "auto";}
+
+function UI_Button()		    {hidden('start'); inherit('UI');}
+
+function return_to_start()
+{
+	window.scrollTo(0,0);
+	hidden('description');
+    hidden('FAQ');
+	hidden('UI');
+	hidden('canvas');
+	hidden('controls');
+	inherit('start');
+}
+
+function return_to_description()
+{
+	window.scrollTo(0,0);
+	hidden('SR_text');
+	hidden('GR_text');
+	inherit('description');
+	$i('body').style.overflow = "hidden";
+}
+
+function initDiagrams()
+{
+  $i('S_diagrams').checked = false;
+  $i('Sprime_diagrams').checked = false;
+  $i('Sdblprime_diagrams').checked = false;
+	$i("XT_button").checked = true;
+	$i("XT_Yplus_button").checked = false;
+	$i("XT_Yminus_button").checked = false;
+	$i("YT_button").checked = false;
+  Sdblprime_diagrams_title = "Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)"; $i("Sdblprime_diagrams_span").title = Sdblprime_diagrams_title;
+}
+
+function clearEvents()
+{
+  E1set = false; hidden('gotoE1_button');
+  E2set = false; hidden('gotoE2_button');
+}
+
+function enableDiagrams()
+{
+  $i("XT_button").disabled = false;
+  $i("XT_Yplus_button").disabled = false;
+  $i("XT_Yminus_button").disabled = false;
+  $i("YT_button").disabled = false;
+}
+
+function disableDiagrams()
+{
+	$i("XT_button").disabled = true;
+	$i("XT_Yplus_button").disabled = true;
+	$i("XT_Yminus_button").disabled = true;
+	$i("YT_button").disabled = true;
+}
+
+function enableCoord(coords)
+{
+	//coords = $i('coord_checkbox').checked;
+	if (paused && coords)
+	{
+		if (navigator.platform == "iPhone") $i('controls_part1').style.visibility = 'hidden';
+		inherit('coord_buttons');
+		if (E1set) {inherit('gotoE1_button');} else {hidden('gotoE1_button');}
+		if (E2set) {inherit('gotoE2_button');} else {hidden('gotoE2_button');}
+	}
+	else // hide events
+	{
+		if (navigator.platform == "iPhone") inherit('controls_part1');
+		hidden('coord_buttons');
+	}
+}
+
+function frameType(ref)
+{
+  if      (ref == 'SR_lab' || ref == 'GR_rain')     return('S');
+  else if (ref == 'SR_rocket' || ref == 'GR_shell') return("S'");
+  else if (ref == 'GR_far')                         return('S"');
+}
+
+var fromtype, totype;
+
+function setTime(from_ref, to_ref)
+{
+  fromtype = frameType(from_ref); totype = frameType(to_ref);
+  if      (fromtype == 'S' && totype == "S'")   t = t_to_tprime(t,v*t);
+  else if (fromtype == 'S' && totype == 'S"')   t = t_to_tdblprime(t,v*t);
+  else if (fromtype == "S'" && totype == 'S')   t = tprime_to_t(t,0);
+  else if (fromtype == "S'" && totype == 'S"')  t = tprime_to_tdblprime(t,0);
+  else if (fromtype == 'S"' && totype == 'S')   t = tdblprime_to_t(t,0);
+  else if (fromtype == 'S"' && totype == "S'")  t = tdblprime_to_tprime(t,0);
+}
+
+var S_diagrams_title, Sprime_diagrams_title, Sdblprime_diagrams_title;
+
+function ref_frame(frame)
+{
+  if (frame == 'SR_lab')
+	{
+		hidden('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
+    $i("Sdblprime_diagrams").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
+    $i("Sdblprime_clocks_checkbox").disabled = true; setClocksCheckbox();
+		$i("SR_lab_button").checked = true;
+		$i("S_grid_span").title = "Grid of Laboratory Frame xy Coordinates";
+    $i("Sprime_grid_span").title = "Grid of Rocket Frame x'y' Coordinates";
+		$i("S_clocks_span").title = "Grid of Laboratory Frame t Clocks";
+    $i("Sprime_clocks_span").title = "Grid of Rocket Frame t' Clocks";
+		S_diagrams_title = "Spacetime Diagrams for Laboratory Frame"; $i("S_diagrams_span").title = S_diagrams_title;
+    Sprime_diagrams_title = "Spacetime Diagrams for Rocket Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
+		$i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click value to change it]";
+    centeredButton(false);
+	}
+  else if (frame == 'SR_rocket')
+  {
+    hidden('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
+    $i("Sdblprime_diagrams").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
+    $i("Sdblprime_clocks_checkbox").disabled = true; setClocksCheckbox();
+    $i("SR_rocket_button").checked = true;
+    $i("S_grid_span").title = "Grid of Laboratory Frame xy Coordinates";
+    $i("Sprime_grid_span").title = "Grid of Rocket Frame x'y' Coordinates";
+    $i("S_clocks_span").title = "Grid of Laboratory Frame t Clocks";
+    $i("Sprime_clocks_span").title = "Grid of Rocket Frame t' Clocks";
+    S_diagrams_title = "Spacetime Diagrams for Laboratory Frame"; $i("S_diagrams_span").title = S_diagrams_title;
+    Sprime_diagrams_title = "Spacetime Diagrams for Rocket Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
+    $i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click value to change it]";
+    centeredButton(true);
+  }
+  else if (frame == 'GR_rain')
+	{
+		inherit('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
+    $i("Sdblprime_diagrams").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
+    $i("Sdblprime_clocks_checkbox").disabled = false; setClocksCheckbox();
+		$i("GR_rain_button").checked = true;
+		$i("S_grid_span").title = "Grid of Free-Falling Rain Frame xy Coordinates";
+    $i("Sprime_grid_span").title = "Grid of Stationary Shell Frame x'y' Coordinates";
+		$i("S_clocks_span").title = "Grid of Free-Falling Rain Frame t Clocks";
+    $i("Sprime_clocks_span").title = "Grid of Stationary Shell Frame t' Clocks";
+    S_diagrams_title = "Spacetime Diagrams for Free-Falling Rain Frame"; $i("S_diagrams_span").title = S_diagrams_title;
+    Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
+		$i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]";
+    centeredButton(false);
+	}
+  else if (frame == 'GR_shell')
+	{
+		inherit('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
+    $i("Sdblprime_diagrams").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
+    $i("Sdblprime_clocks_checkbox").disabled = false; setClocksCheckbox();
+		$i("GR_shell_button").checked = true;
+		$i("S_grid_span").title = "Grid of Free-Falling Rain Frame xy Coordinates";
+    $i("Sprime_grid_span").title = "Grid of Stationary Shell Frame x'y' Coordinates";
+		$i("S_clocks_span").title = "Grid of Free-Falling Rain Frame t Clocks";
+    $i("Sprime_clocks_span").title = "Grid of Stationary Shell Frame t' Clocks";
+    S_diagrams_title = "Spacetime Diagrams for Free-Falling Rain Frame"; $i("S_diagrams_span").title = S_diagrams_title;
+    Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
+		$i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]";
+    centeredButton(true);
+	}
+	else if (frame == 'GR_far')
+	{
+		inherit('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
+    $i("Sdblprime_diagrams").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
+    $i("Sdblprime_clocks_checkbox").disabled = false; setClocksCheckbox();
+		$i("GR_far_button").checked = true;
+    $i("S_grid_span").title = "Grid of Free-Falling Rain Frame xy Coordinates";
+    $i("Sprime_grid_span").title = "Grid of Stationary Shell Frame x'y' Coordinates";
+		$i("S_clocks_span").title = "Grid of Free-Falling Rain Frame t Clocks";
+    $i("Sprime_clocks_span").title = "Grid of Stationary Shell Frame t' Clocks";
+    S_diagrams_title = "Spacetime Diagrams for Free-Falling Rain Frame"; $i("S_diagrams_span").title = S_diagrams_title;
+    Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
+    Sdblprime_diagrams_title = "Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)"; $i("Sdblprime_diagrams_span").title = Sdblprime_diagrams_title;
+		$i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]]";
+		centeredButton(true);
+	}
+  setTime(ref, frame); ref = frame; if (paused) setCurrentTime();
+  drawFrame();
+}
+
+function setCurrentTime()
+{
+  $i("current_time_span2").textContent = (t/d).toFixed(3);
+  if (refS())
+    {$i("current_time_span1").textContent = 't'; $i("current_time_span").style.color = 'lime';}
+  else if (refSprime())
+    {$i("current_time_span1").textContent = "t'"; $i("current_time_span").style.color = 'cyan';}
+  else if (refSdblprime())
+    {$i("current_time_span1").textContent = 't"'; $i("current_time_span").style.color = 'orange';}
+}
+function pause_resumeButton()
+{
+	paused = !paused;
+	if(paused)
+    {
+    clearInterval(frame_timerID);
+    $i("pause_resume_button").innerHTML = "Resume ";
+    $i("pause_resume_button").title="Resume the Animation";
+    inherit('single_steps'); inherit('coordinates');
+    }
+	else
+    {
+    frame_timerID = setInterval(animate_func,msec_delay);
+    $i("pause_resume_button").innerHTML = "Pause ";
+    $i("pause_resume_button").title="Pause the Animation";
+    hidden('single_steps'); hidden('coordinates');
+    }
+	enableCoord($i('coord_checkbox').checked);
+}
+function centeredButton(centered_value)
+{
+  centered = centered_value;
+	if (!centered)
+	{
+    offset_y = 0;
+    if (refSdblprime())  {offset_x = -v*t/(gamma*gamma);}  // t is S"
+    else                  {offset_x = -v*t;}
+    offset_x_down = offset_x; offset_y_down = offset_y;
+	}
+  else {offset_x = 0; offset_y = 0;}
+  if (centered) {$i("centered_button").innerHTML="Uncenter";  $i("centered_button").title="Let Light Clock Move in Window";}
+  else          {$i("centered_button").innerHTML="Center";    $i("centered_button").title="Keep Light Clock in Center of Window";}
+  drawFrame();
+}
+function gammaSpan()	{if (get_gamma()) {reset();}}
+function speedSpan()	{if (get_v()) {reset();}}
+function rSpan()		{if (get_r()) {reset();}}
+
+// checkboxes
+
+function wavesCheckbox(retarded)
+{
+	if (retarded) {retarded_waves = !$i("retarded_waves_checkbox").checked;}
+	else {advanced_waves = !$i("advanced_waves_checkbox").checked;}
+	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
+  drawFrame();
+}
+
+// event handlers
+
+function mouseClick()
+{
+	if (!started || control_input(event.target)) return;
+  if (E1_setting || E1_dragging || E2_setting || E2_dragging) return;
+  if ((P_mouseup.X == prev_P_mouseup.X) || (P_mouseup.Y == prev_P_mouseup.Y)) return;
+  if ((Math.abs(P_mouseup.X - P_mousedown.X) > 0) || (Math.abs(P_mouseup.Y - P_mousedown.Y) > 0)) return;
+  if (controls.style.visibility=='hidden')  //make controls visible
+  {
+    inherit('controls');
+    if (paused) enableCoord($i('coord_checkbox').checked);
+  }
+  else  //make all controls invisible
+  {
+    hidden('controls');
+    coords = false;
+  }
+	drawFrame();
+}
+
+function control_input(target)
+{
+  return(target.type=='submit' || target.type=='button' || target.type=='checkbox' || target.type=='radio' || target.type=='range');
+}
+
+function atEvent(E)
+{
+  //if (E1set) alert("P_mousedown=(" + P_mousedown.X + "," + P_mousedown.Y + ")    E=(" + x_to_X(E.x) + "," + y_to_Y(E.y) + ")    t=" + t + "  E.t=" + E.t);
+	if (refSdblprime())
+    return (Math.abs(P_mousedown.X - x_to_X(E.x)) < 15) && (Math.abs(P_mousedown.Y - y_to_Y(E.y)) < 15) && sameTime(E.t_dblprime,t);
+  else if (refSprime())
+    return (Math.abs(P_mousedown.X - x_to_X(E.x)) < 15) && (Math.abs(P_mousedown.Y - y_to_Y(E.y)) < 15) && sameTime(E.t_prime,t);
+	else // 'SR_lab' || 'GR_rain'
+    return (Math.abs(P_mousedown.X - x_to_X(E.x)) < 15) && (Math.abs(P_mousedown.Y - y_to_Y(E.y)) < 15) && sameTime(E.t,t);
+}
+
+function updateScale(newscale)
+{
+  scale = newscale;
+  if (ref != 'GR_far')  offset_x = (offset_x_down + v*t)*prev_scale/scale - v*t;
+  else                  offset_x = (offset_x_down + v*t/(gamma*gamma))*prev_scale/scale - v*t;
+  offset_y = offset_y_down*prev_scale/scale;
+}
+
+function mouseDown(event)
+{
+	if (!started || control_input(event.target)) return;
+	P_mousedown.X = event.pageX; P_mousedown.Y = event.pageY;
+	if		  ((E1_setting || atEvent(E1)) && paused) {E1_dragging = true; E1set = true; inherit('gotoE1_button');}
+	else if ((E2_setting || atEvent(E2)) && paused) {E2_dragging = true; E2set = true; inherit('gotoE2_button');}
+	else
+	{
+    offset_x_down = offset_x; offset_y_down = offset_y; canvasClockCoords(P_clock_down); prev_scale = scale;
+		r_mousedown = canvasDistance(P_clock_down, P_mousedown); r_mouse = r_mousedown; angle_mousedown = canvasAngle(P_clock_down, P_mousedown);
+		dragging = !centered && ((event.button==0 && !isMac) || (!event.ctrlKey && isMac));
+    scaling_and_rotating = ((event.button==2 && !isMac) || (event.ctrlKey && isMac)) && (centered || v==0 || paused);
+	}
+}
+function mouseMove(event)
+{
+    if (!started || control_input(event.target)) return;
+    P_mousemove.X = event.pageX; P_mousemove.Y = event.pageY;
+    if (dragging && !gesture && started) 	    
+    {
+      offset_x = offset_x_down + (P_mousemove.X - P_mousedown.X)/scale;
+      offset_y = offset_y_down + (P_mousemove.Y - P_mousedown.Y)/scale;
+      if (paused) drawFrame();
+    }
+    else if (scaling_and_rotating && !gesture && started)
+    {
+      r_mouse = canvasDistance(P_clock_down,P_mousemove);
+      if (scaling_enabled) updateScale(prev_scale*r_mouse/r_mousedown);
+      if (rotation_enabled) calcRotation(canvasAngle(P_clock_down,P_mousemove) - angle_mousedown);
+      if (paused) drawFrame();
+    }
+	else if (E1_dragging && paused && $i('coord_checkbox').checked) {setEvent(E1,t,X_to_x(P_mousemove.X),Y_to_y(P_mousemove.Y)); drawFrame();}
+	else if (E2_dragging && paused && $i('coord_checkbox').checked) {setEvent(E2,t,X_to_x(P_mousemove.X),Y_to_y(P_mousemove.Y)); drawFrame();}
+}
+function mouseUp(event)
+{
+  if (!started || control_input(event.target)) return;
+  P_mouseup.X = event.pageX; P_mouseup.Y = event.pageY;
+  if (dragging) {dragging = false;}
+  else if (scaling_and_rotating) {scaling_and_rotating = false; prev_scale = scale; prev_theta = theta;}
+	else if (E1_dragging) {setEvent(E1,t,X_to_x(P_mouseup.X),Y_to_y(P_mouseup.Y)); hide_E_setting(); drawFrame(); E1_dragging = false; E1_setting = false; prev_P_mouseup.X = P_mouseup.X; prev_P_mouseup.Y = P_mouseup.Y;}
+	else if (E2_dragging) {setEvent(E2,t,X_to_x(P_mouseup.X),Y_to_y(P_mouseup.Y)); hide_E_setting(); drawFrame(); E2_dragging = false; E2_setting = false; prev_P_mouseup.X = P_mouseup.X; prev_P_mouseup.Y = P_mouseup.Y;}
+	if ((P_mouseup.X == P_mousedown.X) && (P_mouseup.Y == P_mousedown.Y) && !control_input(event.target))
+    {mouseClick(); prev_P_mouseup.X = 0; prev_P_mouseup.Y = 0;}
+  else {prev_P_mouseup.X = P_mouseup.X; prev_P_mouseup.Y = P_mouseup.Y;}
+}
+
+function hide_E_setting() {$i('E_setting').innerHTML = " ";}
+function show_E_setting(eventID) {$i('E_setting').innerHTML = ">>>> Click to set event " + eventID + " position <<<<";}
+
+function touchStart(event)
+{
+  if (event.target.type != "range") event.preventDefault();
+	if (buttonClick(event))
+	{
+		drawFrame();
+	}
+	else
+	{
+		event.button = 0;
+		mouseDown(event);
+	}
+}
+function touchMove(event)
+{
+  if (event.target.type != "range") event.preventDefault();
+  mouseMove(event);
+}
+function touchEnd(event)
+{
+  if (event.target.type != "range") event.preventDefault();
+  mouseUp(event);
+}
+
+function gestureStart(event) { if (started && event.target.id == 'canvas') gesture = true; }
+function gestureChange(event)
+{
+	if (started && gesture)
+	{
+		if (scaling_enabled) scale = prev_scale*event.scale;
+		if (rotation_enabled) { rotation = event.rotation; calcRotation(rotation*Math.PI/180); }
+		if (scaling_enabled || rotation_enabled) drawFrame();
+    event.preventDefault();
+	}
+}
+function gestureEnd() { if (started) {gesture = false; prev_scale = scale; prev_theta = theta; } }
+
+function targetType(event,value) { return(event.target.type == value || event.target.parentElement.type == value); }
+
+function is_touch_enabled() {
+    return ( 'ontouchstart' in window ) ||
+           ( navigator.maxTouchPoints > 0 ) ||
+           ( navigator.msMaxTouchPoints > 0 );
+}
+
+function buttonClick(event)
+{
+	if (is_touch_enabled())
+		return (event.type == "touchstart") && (targetType(event,"button") || targetType(event,"radio") || targetType(event,"checkbox"));
+	else
+		return (event.type == "click")      && (targetType(event,"button") || targetType(event,"radio") || targetType(event,"checkbox"));
+}
+
+function diagram_disable()
+{
+  var reason;
+
+  reason = "";
+  if (theta != 0) reason = "rotation";
+  if (On("S_grid_checkbox"))            {if (reason != "") reason = reason + ", "; reason = reason + "xy grid";}
+  if (On("Sprime_grid_checkbox"))       {if (reason != "") reason = reason + ", "; reason = reason + "x'y' grid";}
+  if (On("Sdblprime_grid_checkbox"))    {if (reason != "") reason = reason + ", "; reason = reason + 'x"y" grid';}
+  if (On("S_clocks_checkbox"))          {if (reason != "") reason = reason + ", "; reason = reason + "t clocks";}
+  if (On("Sprime_clocks_checkbox"))     {if (reason != "") reason = reason + ", "; reason = reason + "t' clocks";}
+  if (On("Sdblprime_clocks_checkbox"))  {if (reason != "") reason = reason + ", "; reason = reason + 't" clocks';}
+  if (On("retarded_waves_checkbox"))    {if (reason != "") reason = reason + ", "; reason = reason + "Retarded Waves";}
+  if (On("advanced_waves_checkbox"))    {if (reason != "") reason = reason + ", "; reason = reason + "Advanced Waves";}
+  if (On("coord_checkbox"))             {if (reason != "") reason = reason + ", "; reason = reason + "Events";}
+  if (!On("photons_checkbox"))          {reason = "Photons off";}
+  return (reason);
+}
+
+function inherit(id) {$i(id).style.visibility = 'inherit';}
+function hidden(id) {$i(id).style.visibility = 'hidden';}
+function diagramsOn()
+{
+  var reason, title;
+  // if ((theta != 0) || On("S_grid_checkbox") || On("Sprime_grid_checkbox") || On("Sdblprime_grid_checkbox") || 
+  // On("S_clocks_checkbox") || On("Sprime_clocks_checkbox") || On("Sdblprime_clocks_checkbox") ||
+  // On("retarded_waves_checkbox") || On("advanced_waves_checkbox") || On("coord_checkbox"))
+  reason = diagram_disable();
+  if (reason == "Photons off")
+  {
+    title = S_diagrams_title + "\n--> To enable S diagrams check Photons"; if ($i("S_diagrams_span").title != title) $i("S_diagrams_span").title = title;
+    title = Sprime_diagrams_title + "\n--> To enable S' diagrams check Photons"; if ($i("Sprime_diagrams_span").title != title) $i("Sprime_diagrams_span").title = title;
+    title = Sdblprime_diagrams_title + '\n--> To enable S" diagrams check Photons' + reason; if ($i("Sdblprime_diagrams_span").title != title) $i("Sdblprime_diagrams_span").title = title;
+    $i("S_diagrams").disabled = true; $i("Sprime_diagrams").disabled = true; $i("Sdblprime_diagrams").disabled = true;
+    disableDiagrams();
+    return false;
+  }
+  else if (reason != "")
+  {
+    title = S_diagrams_title + "\n--> To enable S diagrams uncheck " + reason; if ($i("S_diagrams_span").title != title) $i("S_diagrams_span").title = title;
+    title = Sprime_diagrams_title + "\n--> To enable S' diagrams uncheck " + reason; if ($i("Sprime_diagrams_span").title != title) $i("Sprime_diagrams_span").title = title;
+    title = Sdblprime_diagrams_title + '\n--> To enable S" diagrams uncheck ' + reason; if ($i("Sdblprime_diagrams_span").title != title) $i("Sdblprime_diagrams_span").title = title;
+    $i("S_diagrams").disabled = true; $i("Sprime_diagrams").disabled = true; $i("Sdblprime_diagrams").disabled = true;
+    disableDiagrams();
+    return false;
+  }
+  else // OK to enable Diagrams
+  {
+    $i("S_diagrams_span").title = S_diagrams_title; $i("Sprime_diagrams_span").title = Sprime_diagrams_title; $i("Sdblprime_diagrams_span").title = Sdblprime_diagrams_title;
+    $i("S_diagrams").disabled = false; $i("Sprime_diagrams").disabled = false; $i("Sdblprime_diagrams").disabled = (ref == 'SR_lab' || ref == 'SR_rocket');
+    enableDiagrams();
+    return (On("S_diagrams") || On("Sprime_diagrams") || On("Sdblprime_diagrams"));
+  }
+}
+
+function setClocksCheckbox()
+{
+  if (On("S_clocks_checkbox") || On("Sprime_clocks_checkbox") || On("Sdblprime_clocks_checkbox"))
+        $i("mini_light_clocks_checkbox").disabled = false;
+  else  $i("mini_light_clocks_checkbox").disabled = true;
+}
+
+var button_timer;
+function holdButtonOn(delay, action)
+{
+  var repeat = function () {action(); drawFrame(); button_timer = setTimeout(repeat, delay);};
+  repeat();
+}
+function holdButtonOff() {clearTimeout(button_timer);}
+
+function checkDiagrams() {if (diagramsOn()) enableDiagrams(); else disableDiagrams();}
+function change() {checkDiagrams(); setClocksCheckbox(); enableCoord($i('coord_checkbox').checked); drawFrame();}
+
+// capture:false means use bubble up, passive:false means allow preventDefault
+
+canvas = $i('canvas');
+canvas.addEventListener("gesturestart",   gestureStart,   {capture:false, passive:false});
+canvas.addEventListener("gesturechange",  gestureChange,  {capture:false, passive:false});
+canvas.addEventListener("gestureend",     gestureEnd,     {capture:false, passive:false});
+canvas.addEventListener("touchstart",     touchStart,     {capture:false, passive:false});
+canvas.addEventListener("touchmove",      touchMove,      {capture:false, passive:false});
+canvas.addEventListener("touchend",       touchEnd,       {capture:false, passive:false});
+canvas.addEventListener("mousedown",      mouseDown,      {capture:false, passive:false});
+canvas.addEventListener("mousemove",      mouseMove,      {capture:false, passive:false});
+canvas.addEventListener("mouseup",        mouseUp,        {capture:false, passive:false});
+
+controls = $i('controls');
+controls.addEventListener("change",       change,         {capture:false, passive:false});
+controls.addEventListener("touchstart",   touchStart,     {capture:false, passive:false});
+controls.addEventListener("touchmove",    touchMove,      {capture:false, passive:false});
+controls.addEventListener("touchend",     touchEnd,       {capture:false, passive:false});
+controls.addEventListener("mousedown",    mouseDown,      {capture:false, passive:false});
+controls.addEventListener("mousemove",    mouseMove,      {capture:false, passive:false});
+controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
+
+    </script>
+  </body>
+</html>
