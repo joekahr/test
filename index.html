@@ -126,11 +126,11 @@
           onmouseup="$i('YT_button').checked = true; clearEvents();" ontouchend="$i('YT_button').checked = true; clearEvents();"><span>&#x2195; yt</span></span><br>
         <span title="Change Animation Scale" id="zoom">zoom:</span>
         <button title="Zoom Out" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="holdButtonOn(100, function() {updateScale(scale*0.99);});" ontouchend="prev_scale = scale; holdButtonOff(); event.preventDefault();" ontouchmove="prev_scale = scale; holdButtonOff();"
+          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*0.99);});" ontouchend="event.preventDefault(); prev_scale = scale; holdButtonOff();" ontouchmove=" event.preventDefault(); prev_scale = scale; holdButtonOff();"
           onmousedown="holdButtonOn(100, function() {updateScale(scale*0.99);});" onmouseup="prev_scale = scale; holdButtonOff();" onmouseout="prev_scale = scale; holdButtonOff();">-</button>
         <button title="Undo Zooming" onmousedown="initScaling(); drawFrame();" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
         <button title="Zoom In" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="holdButtonOn(100, function() {updateScale(scale*1.01);});" ontouchend="prev_scale = scale; holdButtonOff(); event.preventDefault();" ontouchmove="prev_scale = scale; holdButtonOff();"
+          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*1.01);});" ontouchend="event.preventDefault(); prev_scale = scale; holdButtonOff();" ontouchmove="event.preventDefault(); prev_scale = scale; holdButtonOff();"
           onmousedown="holdButtonOn(100, function() {updateScale(scale*1.01);});" onmouseup="prev_scale = scale; holdButtonOff();" onmouseout="prev_scale = scale; holdButtonOff();">+</button>
         <span title="Change Angle of Light Clock Mirrors" id="rotate">rotate:</span>
         <button title="Rotate Counter-Clockwise" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
