@@ -80,7 +80,7 @@
         <span title="General Relativity Reference Frames" id="GR">GR:</span>
         <span title="General Relativity: Free-Falling Rain Frame S" id="Rain"><input id="GR_rain_button" type="radio" name="reference"><span style="color:lime">Rain</span></span>
         <span title="General Relativity: Stationary Shell Frame S'" id="Shell"><input id="GR_shell_button" type="radio" name="reference"><span style="color:cyan">Shell</span></span>
-        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference"><Span style="color:orange">Far</span></span><br>
+        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference"><span style="color:orange">Far</span></span><br>
         <span title="Relative Light Clock Speed v&#013;(-c < v < c)" id="SpeedSlider"">
           <span style="font-family:cambria_math">speed (v): -c</span>
           <input id="speed_range" type="range" min="-1000" max="1000" value="0" class="slider"
@@ -2989,24 +2989,41 @@ function wavesCheckbox(event)
   if ($i(event.target.id) == 'advanced_waves_checkbox') {advanced_waves = !$i('advanced_waves_checkbox').checked;}
   if ($i(event.target.id) == 'retarded_waves_checkbox') {retarded_waves = !$i("retarded_waves_checkbox").checked;}
 	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
+  if (is_touch_enabled())
+  {
+    $i('advanced_waves_checkbox').checked = advanced_waves;
+    $i('retarded_waves_checkbox').checked = retarded_waves;
+  }
+  drawFrame();
+}
+
+function advwavesTouch()
+{
+	advanced_waves = !$i("advanced_waves_checkbox").checked;
+	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
   $i("advanced_waves_checkbox").checked = advanced_waves;
+  drawFrame();
+}
+
+function advwavesMouse()
+{
+	advanced_waves = !$i("advanced_waves_checkbox").checked;
+	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
+  drawFrame();
+}
+
+function retwavesTouch()
+{
+	retarded_waves = !$i("retarded_waves_checkbox").checked;
+	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
   $i("retarded_waves_checkbox").checked = retarded_waves;
   drawFrame();
 }
 
-function advwavesCheckbox(touch)
-{
-	advanced_waves = !$i("advanced_waves_checkbox").checked;
-	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  if (touch) $i("advanced_waves_checkbox").checked = advanced_waves;
-  drawFrame();
-}
-
-function retwavesCheckbox(touch)
+function retwavesMouse()
 {
 	retarded_waves = !$i("retarded_waves_checkbox").checked;
 	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  if (touch) $i("retarded_waves_checkbox").checked = retarded_waves;
   drawFrame();
 }
 
@@ -3269,10 +3286,12 @@ $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false,
 $i('r_reduced').addEventListener("mouseup",         rSpan,       {capture:false, passive:false});
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
 
-$i('photons_checkbox').addEventListener("touchend", toggleCheckbox,           {capture:false, passive:false});
-$i('annotation_checkbox').addEventListener("touchend", toggleCheckbox,        {capture:false, passive:false});
-$i('retarded_waves_checkbox').addEventListener("touchend", wavesCheckbox,    {capture:false, passive:false});
-$i('advanced_waves_checkbox').addEventListener("touchend", wavesCheckbox,    {capture:false, passive:false});
+$i('photons_checkbox').addEventListener("touchend", toggleCheckbox,         {capture:false, passive:false});
+$i('annotation_checkbox').addEventListener("touchend", toggleCheckbox,      {capture:false, passive:false});
+$i('retarded_waves_checkbox').addEventListener("touchend", retwavesTouch,   {capture:false, passive:false});
+$i('advanced_waves_checkbox').addEventListener("touchend", advwavesTouch,   {capture:false, passive:false});
+$i('retarded_waves_checkbox').addEventListener("mouseup", retwavesMouse,    {capture:false, passive:false});
+$i('advanced_waves_checkbox').addEventListener("mouseup", advwavesMouse,    {capture:false, passive:false});
 
     </script>
   </body>
