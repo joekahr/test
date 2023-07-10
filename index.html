@@ -126,11 +126,15 @@
           onmouseup="$i('YT_button').checked = true; clearEvents();" ontouchend="$i('YT_button').checked = true; clearEvents();"><span>&#x2195; yt</span></span><br>
         <span title="Change Animation Scale" id="zoom">zoom:</span>
         <button title="Zoom Out" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*0.99);});" ontouchend="event.preventDefault(); prev_scale = scale; holdButtonOff();" ontouchmove=" event.preventDefault(); prev_scale = scale; holdButtonOff();"
+          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*0.99);});"
+          ontouchend="event.preventDefault(); prev_scale = scale; holdButtonOff();"
+          ontouchmove=" event.preventDefault(); prev_scale = scale; holdButtonOff();"
           onmousedown="holdButtonOn(100, function() {updateScale(scale*0.99);});" onmouseup="prev_scale = scale; holdButtonOff();" onmouseout="prev_scale = scale; holdButtonOff();">-</button>
         <button title="Undo Zooming" onmousedown="initScaling(); drawFrame();" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
         <button title="Zoom In" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*1.01);});" ontouchend="event.preventDefault(); prev_scale = scale; holdButtonOff();" ontouchmove="event.preventDefault(); prev_scale = scale; holdButtonOff();"
+          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*1.01);});"
+          ontouchend="event.preventDefault(); prev_scale = scale; holdButtonOff();"
+          ontouchmove="event.preventDefault(); prev_scale = scale; holdButtonOff();"
           onmousedown="holdButtonOn(100, function() {updateScale(scale*1.01);});" onmouseup="prev_scale = scale; holdButtonOff();" onmouseout="prev_scale = scale; holdButtonOff();">+</button>
         <span title="Change Angle of Light Clock Mirrors" id="rotate">rotate:</span>
         <button title="Rotate Counter-Clockwise" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
@@ -138,7 +142,9 @@
           onmousedown="holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();">-</button>
         <button title="Undo Rotation" onmousedown="initRotation(); drawFrame();" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
         <button title="Rotate Clockwise" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();"
+          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});"
+          ontouchend="event.preventDefault(); holdButtonOff();"
+          ontouchmove="event.preventDefault(); holdButtonOff();"
           onmousedown="holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});" onmouseup="holdButtonOff();" onmouseout="prev_theta = theta; holdButtonOff();">+</button><br>
         <span title="Change Animation Time Direction" id="timedirection">time direction:</span>
         <span title="Normal Time Progression" id="Forward"><input id="forward_button" type="radio" name="time_direction"
@@ -147,11 +153,11 @@
           onmouseup="delta_t = -Math.abs(delta_t); $i('backward_button').checked = true;" ontouchend="delta_t = -Math.abs(delta_t); $i('backward_button').checked = true;"><span>Backward</span></span><br>
       </span>
       <button id="slower_button" title="Slow Down the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="steps_per_tick = steps_per_tick*2;" ontouchend="steps_per_tick = steps_per_tick*2;">Slower</button>
+        onmouseup="steps_per_tick = steps_per_tick*2;" ontouchend="event.preventDefault(); steps_per_tick = steps_per_tick*2;">Slower</button>
       <button id="faster_button" title="Speed Up the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="steps_per_tick = steps_per_tick/2;" ontouchend="steps_per_tick = steps_per_tick/2;">Faster</button>
+        onmouseup="steps_per_tick = steps_per_tick/2;" ontouchend="event.preventDefault(); steps_per_tick = steps_per_tick/2;">Faster</button>
       <button id="reset_button" title="Reset the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="reset();" ontouchend="reset();">Reset</button>
+        onmouseup="reset();" ontouchend="event.preventDefault(); reset();">Reset</button>
 			&nbsp;
 			<span id="current_time_span" onmousedown="get_t();">
         <span id="current_time_span1" style="font-family:cambria_math"></span>
@@ -159,33 +165,37 @@
 				<span id="current_time_span2"></span>
 			</span><br>
 			<button id="exit_button" title="Exit the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="return_to_start(); stop(); init();" ontouchend="return_to_start(); stop(); init();">Exit</button>
+        onmouseup="return_to_start(); stop(); init();" ontouchend="event.preventDefault(); return_to_start(); stop(); init();">Exit</button>
       <button id="pause_resume_button" title="Pause the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="pause_resumeButton();" ontouchend="pause_resumeButton();">Pause</button>
+        onmouseup="pause_resumeButton();" ontouchend="event.preventDefault(); pause_resumeButton();">Pause</button>
       <span id="single_steps">
         <span title="While Animation is Paused, Step to Previous/Next Time Slice" id="single_step">single step:</span>
         <button id="stepbackward_button" title="Step Animation Backward One Time Unit" type="button" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
         onmousedown="holdButtonOn(200, function() {step(false); setCurrentTime();});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();"
-        ontouchstart="holdButtonOn(200, function() {step(false); setCurrentTime();});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();">-</button>
+        ontouchstart="event.preventDefault(); holdButtonOn(200, function() {step(false); setCurrentTime();});"
+        ontouchend="event.preventDefault(); holdButtonOff();"
+        ontouchmove="event.preventDefault(); holdButtonOff();">-</button>
         <button id="stepforward_button" title="Step Animation Forward One Time Unit" type="button" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
         onmousedown="holdButtonOn(200, function() {step(true); setCurrentTime();});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();"
-        ontouchstart="holdButtonOn(200, function() {step(true); setCurrentTime();});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();">+</button>
+        ontouchstart="event.preventDefault(); holdButtonOn(200, function() {step(true); setCurrentTime();});"
+        ontouchend="event.preventDefault(); holdButtonOff();"
+        ontouchmove="event.preventDefault(); holdButtonOff();">+</button>
       </span><br>
       <span id="coordinates">
         <span title="Spacetime Events Coordinates and Interval" id="Events"><input id="coord_checkbox" type="checkbox">Events:</span>&nbsp;
         <span id="coord_buttons">
           <span title="Spacetime Event A" id="A_event" style="font-family:Arial,Helvetica,sans-serif; font-size:14pt;">A</span>
           <button id="set_E1" title="Define Position and Time of Event A" type="button" style="width:40px; vertical-align:middle; text-align:center; padding:0px; font-weight:bold;"
-            onmouseup="E1_setting = true; E2_setting = false; show_E_setting('A');" ontouchend="E1_setting = true; E2_setting = false; show_E_setting('A');">Set</button>
+            onmouseup="E1_setting = true; E2_setting = false; show_E_setting('A');" ontouchend="event.preventDefault(); E1_setting = true; E2_setting = false; show_E_setting('A');">Set</button>
           <button id="gotoE1_button" title="Jump to Time of Event A" type="button" style="width:48px; vertical-align:middle; text-align:center; padding:0px; font-weight:bold;"
             onmouseup="if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();"
-            ontouchend="if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();">GoTo</button>
+            ontouchend="event.preventDefault(); if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();">GoTo</button>
           <span title="Spacetime Event B" id="B_event" style="font-family:Arial,Helvetica,sans-serif; font-size:14pt;">B</span>
           <button id="set_E2" title="Define Position and Time of Event B" type="button" style="width:40px; vertical-align:middle; padding:0; font-weight:bold;"
             onmouseup="E2_setting = true; E1_setting = false; show_E_setting('B');" ontouchend="E2_setting = true; E1_setting = false; show_E_setting('B');">Set</button>
           <button id="gotoE2_button" title="Jump to Time of Event B" type="button" style="width:48px; vertical-align:middle; padding:0; font-weight:bold;"
             onmouseup="if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();"
-            ontouchend="if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();">GoTo</button><br>
+            ontouchend="event.preventDefault(); if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();">GoTo</button><br>
           <span id="E_setting" style="color:red; text-indent:30px;"> </span><br>
         </span>
       </span>
