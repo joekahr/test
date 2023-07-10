@@ -3273,13 +3273,14 @@ controls.addEventListener("touchend",     noAction,       {capture:false, passiv
 //controls.addEventListener("mousemove",    mouseMove,      {capture:false, passive:false});
 //controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
 
-$i('SR_lab_button').addEventListener("mouseup",     SRlab,                {capture:false, passive:false});
-$i('SR_lab_button').addEventListener("touchend",    SRlab,                {capture:false, passive:false});
-$i('SR_rocket_button').addEventListener("mouseup",  SRrocket,             {capture:false, passive:false});
-$i('GR_rain_button').addEventListener("mouseup",    GRrain,               {capture:false, passive:false});
-$i('GR_shell_button').addEventListener("mouseup",   GRshell,              {capture:false, passive:false});
-$i('GR_far_button').addEventListener("mouseup",     GRfar,                {capture:false, passive:false});
-$i('centered_button').addEventListener("mouseup",   centeredButton,       {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("mouseup",     SRlab,          {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("touchend",    SRlab,          {capture:false, passive:false});
+$i('SR_rocket_button').addEventListener("mouseup",  SRrocket,       {capture:false, passive:false});
+$i('SR_rocket_button').addEventListener("touchend", SRrocket,       {capture:false, passive:false});
+$i('GR_rain_button').addEventListener("mouseup",    GRrain,         {capture:false, passive:false});
+$i('GR_shell_button').addEventListener("mouseup",   GRshell,        {capture:false, passive:false});
+$i('GR_far_button').addEventListener("mouseup",     GRfar,          {capture:false, passive:false});
+$i('centered_button').addEventListener("mouseup",   centeredButton, {capture:false, passive:false});
 
 $i('v_over_c').addEventListener("mouseup",          speedSpan,   {capture:false, passive:false});
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
