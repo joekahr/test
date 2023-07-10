@@ -3250,9 +3250,9 @@ $i('SR_lab_button').addEventListener("mouseup",     SRlab,       {capture:false,
 $i('SR_lab_button').addEventListener("touchstart",  noAction,    {capture:false, passive:false});
 $i('SR_lab_button').addEventListener("touchmove",   noAction,    {capture:false, passive:false});
 $i('SR_lab_button').addEventListener("touchend",    SRlab,       {capture:false, passive:false});
-//controls.addEventListener("touchstart",   touchStart,     {capture:false, passive:false});
-//controls.addEventListener("touchmove",    touchMove,      {capture:false, passive:false});
-//controls.addEventListener("touchend",     touchEnd,       {capture:false, passive:false});
+controls.addEventListener("touchstart",   noAction,     {capture:false, passive:false});
+controls.addEventListener("touchmove",    noAction,     {capture:false, passive:false});
+controls.addEventListener("touchend",     noAction,      {capture:false, passive:false});
 //controls.addEventListener("mousedown",    mouseDown,      {capture:false, passive:false});
 //controls.addEventListener("mousemove",    mouseMove,      {capture:false, passive:false});
 //controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
