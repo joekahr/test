@@ -2980,6 +2980,8 @@ function toggleCheckbox(id)
   drawFrame();
 }
 
+function togglePhotons(id) {$i('photons_checkbox').checked = !$i('photons_checkbox').checked; drawFrame();}
+
 function advwavesCheckbox(touch)
 {
 	advanced_waves = !$i("advanced_waves_checkbox").checked;
@@ -3251,7 +3253,7 @@ $i('v_over_c').addEventListener("mouseup",          speedSpan,   {capture:false,
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
 $i('r_reduced').addEventListener("mouseup",         rSpan,       {capture:false, passive:false});
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
-//$i('photons_checkbox').addEventListener("touchend",  toggleCheckbox('photons_checkbox'),       {capture:false, passive:false});
+$i('photons_checkbox').addEventListener("touchend", togglePhotons,       {capture:false, passive:false});
 
     </script>
   </body>
