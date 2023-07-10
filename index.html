@@ -2974,13 +2974,16 @@ function rSpan()		{if (get_r()) {reset();}}
 
 // checkboxes
 
-function toggleCheckbox(id)
+function toggleCheckbox1()
 {
+  var id;
+  
+  id = event.target.id;
   $i(id).checked = !$i(id).checked;
   drawFrame();
 }
 
-function togglePhotons(id) {$i('photons_checkbox').checked = !$i('photons_checkbox').checked; drawFrame();}
+function toggleCheckbox(id) {$i(id).checked = !$i(id).checked; drawFrame();}
 
 function advwavesCheckbox(touch)
 {
@@ -3253,7 +3256,7 @@ $i('v_over_c').addEventListener("mouseup",          speedSpan,   {capture:false,
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
 $i('r_reduced').addEventListener("mouseup",         rSpan,       {capture:false, passive:false});
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
-$i('photons_checkbox').addEventListener("touchend", togglePhotons,       {capture:false, passive:false});
+$i('photons_checkbox').addEventListener("touchend", toggleCheckbox1,       {capture:false, passive:false});
 
     </script>
   </body>
