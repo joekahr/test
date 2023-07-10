@@ -96,12 +96,11 @@
         <span id="r_span" title='r is the r-coordinate (reduced circumference) for a Schwarzschild geometry&#013;(in this animation r is a distance in x" coordinates)&#013;[Click value to change it]' style="padding:0px; font-family:cambria_math">
           <span>rc&sup2;/GM = </span><span style="font-family:cambria_math"><span id="r_reduced">&infin;</span></span></span><br>
         <span title="Light Particles of Light Clock" id="Photons"><input id="photons_checkbox" type="checkbox">Photons</span>
-        <span title="Notation Explaining Animation" id="Annotation"><input id="annotation_checkbox" type="checkbox" ontouchend="toggleCheckbox('annotation_checkbox');">Annotation</span>&nbsp;&nbsp;
-        <button title="Keep Light Clock in Center of Window" id="centered_button" type="button" style="font-weight:bold; text-align:center; padding:0px; width:105px;"
-          onmouseup="centeredButton(!centered); event.preventDefault();" ontouchend="centeredButton(!centered); event.preventDefault();">Center</button><br>
+        <span title="Notation Explaining Animation" id="Annotation"><input id="annotation_checkbox" type="checkbox">Annotation</span>&nbsp;&nbsp;
+        <button title="Keep Light Clock in Center of Window" id="centered_button" type="button" style="font-weight:bold; text-align:center; padding:0px; width:105px;">Center</button><br>
         <span title="Light Waves of Light Clock" id="waves">waves:</span>
-        <span title="Forward-in-Time Light Waves" id="Retarded"><input id="retarded_waves_checkbox" type="checkbox" onmouseup="retwavesCheckbox(false);" ontouchend="retwavesCheckbox(true);">Retarded</span>
-        <span title="Backward-in-Time Light Waves" id="Advanced"><input id="advanced_waves_checkbox" type="checkbox" onmouseup="advwavesCheckbox(false);" ontouchend="advwavesCheckbox(true);">Advanced</span>
+        <span title="Forward-in-Time Light Waves" id="Retarded"><input id="retarded_waves_checkbox" type="checkbox">Retarded</span>
+        <span title="Backward-in-Time Light Waves" id="Advanced"><input id="advanced_waves_checkbox" type="checkbox">Advanced</span>
         <span title="Geometry of Original and Reflected Waves" id="full_arcs_span"><input id="full_arcs_checkbox" type="checkbox" ontouchend="toggleCheckbox('full_arcs_checkbox');">Full</span><br>
         <span title="Grids of Spatial Coordinates" id="space">space:</span>
         <span title="" id="S_grid_span"><input id="S_grid_checkbox" type="checkbox" ontouchend="toggleCheckbox('S_grid_checkbox');"><span style="color:lime; font-family:cambria_math">xy</span></span>
@@ -2846,7 +2845,7 @@ function SRlab()
   S_diagrams_title = "Spacetime Diagrams for Laboratory Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Rocket Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
   $i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click value to change it]";
-  centeredButton(false);
+  centeredChange(false);
   setTime(ref, 'SR_lab'); ref = 'SR_lab'; if (paused) setCurrentTime();
   drawFrame();
 }
@@ -2864,7 +2863,7 @@ function SRrocket()
   S_diagrams_title = "Spacetime Diagrams for Laboratory Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Rocket Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
   $i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click value to change it]";
-  centeredButton(true);
+  centeredChange(true);
   setTime(ref, 'SR_rocket'); ref = 'SR_rocket'; if (paused) setCurrentTime();
   drawFrame();
 }
@@ -2882,7 +2881,7 @@ function GRrain()
   S_diagrams_title = "Spacetime Diagrams for Free-Falling Rain Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
   $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]";
-  centeredButton(false);
+  centeredChange(false);
   setTime(ref, 'GR_rain'); ref = 'GR_rain'; if (paused) setCurrentTime();
   drawFrame();
 }
@@ -2900,7 +2899,7 @@ function GRshell()
   S_diagrams_title = "Spacetime Diagrams for Free-Falling Rain Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
   $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]";
-  centeredButton(true);
+  centeredChange(true);
   setTime(ref, 'GR_shell'); ref = 'GR_shell'; if (paused) setCurrentTime();
   drawFrame();
 }
@@ -2919,7 +2918,7 @@ function GRfar()
   Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
   Sdblprime_diagrams_title = "Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)"; $i("Sdblprime_diagrams_span").title = Sdblprime_diagrams_title;
   $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]]";
-  centeredButton(true);
+  centeredChange(true);
   setTime(ref, 'GR_far'); ref = 'GR_far'; if (paused) setCurrentTime();
   drawFrame();
 }
@@ -2953,7 +2952,9 @@ function pause_resumeButton()
     }
 	enableCoord($i('coord_checkbox').checked);
 }
-function centeredButton(centered_value)
+
+function centeredButton() {centeredChange(!centered);}
+function centeredChange(centered_value)
 {
   centered = centered_value;
 	if (!centered)
@@ -2974,7 +2975,7 @@ function rSpan()		{if (get_r()) {reset();}}
 
 // checkboxes
 
-function toggleCheckbox1()
+function toggleCheckbox(event)
 {
   var id;
   
@@ -2983,7 +2984,15 @@ function toggleCheckbox1()
   drawFrame();
 }
 
-function toggleCheckbox(id) {$i(id).checked = !$i(id).checked; drawFrame();}
+function wavesCheckbox(event)
+{
+  if ($i(event.target.id) == 'advanced_waves_checkbox') {advanced_waves = !$i('advanced_waves_checkbox').checked;}
+  if ($i(event.target.id) == 'retarded_waves_checkbox') {retarded_waves = !$i("retarded_waves_checkbox").checked;}
+	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
+  $i("advanced_waves_checkbox").checked = advanced_waves;
+  $i("retarded_waves_checkbox").checked = retarded_waves;
+  drawFrame();
+}
 
 function advwavesCheckbox(touch)
 {
@@ -3247,16 +3256,22 @@ controls.addEventListener("touchend",     noAction,       {capture:false, passiv
 //controls.addEventListener("mousemove",    mouseMove,      {capture:false, passive:false});
 //controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
 
-$i('SR_lab_button').addEventListener("mouseup",     SRlab,       {capture:false, passive:false});
-$i('SR_rocket_button').addEventListener("mouseup",  SRrocket,    {capture:false, passive:false});
-$i('GR_rain_button').addEventListener("mouseup",    GRrain,      {capture:false, passive:false});
-$i('GR_shell_button').addEventListener("mouseup",   GRshell,     {capture:false, passive:false});
-$i('GR_far_button').addEventListener("mouseup",     GRfar,       {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("mouseup",     SRlab,                {capture:false, passive:false});
+$i('SR_rocket_button').addEventListener("mouseup",  SRrocket,             {capture:false, passive:false});
+$i('GR_rain_button').addEventListener("mouseup",    GRrain,               {capture:false, passive:false});
+$i('GR_shell_button').addEventListener("mouseup",   GRshell,              {capture:false, passive:false});
+$i('GR_far_button').addEventListener("mouseup",     GRfar,                {capture:false, passive:false});
+$i('centered_button').addEventListener("mouseup",   centeredButton,       {capture:false, passive:false});
+
 $i('v_over_c').addEventListener("mouseup",          speedSpan,   {capture:false, passive:false});
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
 $i('r_reduced').addEventListener("mouseup",         rSpan,       {capture:false, passive:false});
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
-$i('photons_checkbox').addEventListener("touchend", toggleCheckbox1,       {capture:false, passive:false});
+
+$i('photons_checkbox').addEventListener("touchend", toggleCheckbox,           {capture:false, passive:false});
+$i('annotation_checkbox').addEventListener("touchend", toggleCheckbox,        {capture:false, passive:false});
+$i('retarded_waves_checkbox').addEventListener("touchend", wavesCheckbox,    {capture:false, passive:false});
+$i('advanced_waves_checkbox').addEventListener("touchend", wavesCheckbox,    {capture:false, passive:false});
 
     </script>
   </body>
