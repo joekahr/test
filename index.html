@@ -3229,6 +3229,8 @@ function holdButtonOff() {clearTimeout(button_timer);}
 function checkDiagrams() {if (diagramsOn()) enableDiagrams(); else disableDiagrams();}
 function change() {checkDiagrams(); setClocksCheckbox(); enableCoord($i('coord_checkbox').checked); drawFrame();}
 
+function noAction(event) {event.preventDefault(); event.stopPropagation();}
+
 // capture:false means use bubble up, passive:false means allow preventDefault
 
 canvas = $i('canvas');
@@ -3244,8 +3246,10 @@ canvas.addEventListener("mouseup",        mouseUp,        {capture:false, passiv
 
 controls = $i('controls');
 controls.addEventListener("change",       change,         {capture:false, passive:false});
-$i('SR_lab_button').addEventListener("mouseup",   SRlab,       {capture:false, passive:false});
-$i('SR_lab_button').addEventListener("touchend",  SRlab,       {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("mouseup",     SRlab,       {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("touchstart",  noAction,    {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("touchmove",   noAction,    {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("touchend",    SRlab,       {capture:false, passive:false});
 //controls.addEventListener("touchstart",   touchStart,     {capture:false, passive:false});
 //controls.addEventListener("touchmove",    touchMove,      {capture:false, passive:false});
 //controls.addEventListener("touchend",     touchEnd,       {capture:false, passive:false});
