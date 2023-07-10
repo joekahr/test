@@ -16,7 +16,7 @@
     <meta name="description" content="Light Clock">
     <meta name="author" content="joekahr@gmail.com">
     <meta name="generator" content="Joe Kahr">
-    <meta name="version" content="17.3">
+    <meta name="version" content="17.4">
     <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	
     <style type="text/css">
@@ -75,12 +75,12 @@
         <span style="font-family:cambria_math">D = </span>proper distance between mirrors<br>
         <span style="font-family:cambria_math">T = </span>proper light clock period<span style="font-family:cambria_math"> = D/c</span><br>
         <span title="Special Relativity Reference Frames" id="SR">SR:</span>
-        <span title="Special Relativity: Laboratory Frame S" id="Lab"><input id="SR_lab_button" type="radio" name="reference" onmouseup="ref_frame('SR_lab');" ontouchend="ref_frame('SR_lab');"><span style="color:lime">Lab</span></span>
-        <span title="Special Relativity: Rocket Frame S'" id="Rocket"><input id="SR_rocket_button" type="radio" name="reference" onmouseup="ref_frame('SR_rocket');" ontouchend="ref_frame('SR_rocket');"><span style="color:cyan">Rocket</span></span><br>
+        <span title="Special Relativity: Laboratory Frame S" id="Lab"><input id="SR_lab_button" type="radio" name="reference" onmouseup="ref_frame('SR_lab');" ontouchend="event.preventDefault(); ref_frame('SR_lab');"><span style="color:lime">Lab</span></span>
+        <span title="Special Relativity: Rocket Frame S'" id="Rocket"><input id="SR_rocket_button" type="radio" name="reference" onmouseup="ref_frame('SR_rocket');" ontouchend="event.preventDefault(); ref_frame('SR_rocket');"><span style="color:cyan">Rocket</span></span><br>
         <span title="General Relativity Reference Frames" id="GR">GR:</span>
-        <span title="General Relativity: Free-Falling Rain Frame S" id="Rain"><input id="GR_rain_button" type="radio" name="reference" onmouseup="ref_frame('GR_rain')" ontouchend="ref_frame('GR_rain')"><span style="color:lime">Rain</span></span>
-        <span title="General Relativity: Stationary Shell Frame S'" id="Shell"><input id="GR_shell_button" type="radio" name="reference" onmouseup="ref_frame('GR_shell')" ontouchend="ref_frame('GR_shell')"><span style="color:cyan">Shell</span></span>
-        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference" onmouseup="ref_frame('GR_far')" onmtouchend="ref_frame('GR_far')"><Span style="color:orange">Far</span></span><br>
+        <span title="General Relativity: Free-Falling Rain Frame S" id="Rain"><input id="GR_rain_button" type="radio" name="reference" onmouseup="ref_frame('GR_rain')" ontouchend="event.preventDefault(); ref_frame('GR_rain')"><span style="color:lime">Rain</span></span>
+        <span title="General Relativity: Stationary Shell Frame S'" id="Shell"><input id="GR_shell_button" type="radio" name="reference" onmouseup="ref_frame('GR_shell')" ontouchend="event.preventDefault(); ref_frame('GR_shell')"><span style="color:cyan">Shell</span></span>
+        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference" onmouseup="ref_frame('GR_far')" onmtouchend="event.preventDefault(); ref_frame('GR_far')"><Span style="color:orange">Far</span></span><br>
         <span title="Relative Light Clock Speed v&#013;(-c < v < c)" id="SpeedSlider"">
           <span style="font-family:cambria_math">speed (v): -c</span>
           <input id="speed_range" type="range" min="-1000" max="1000" value="0" class="slider"
@@ -1838,15 +1838,15 @@ function drawCoordLines(diagram,dir,Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv
   
   if (dir == "YT")
   {
-    if      (diagram == "S")  {h_label = "ct/D";  v_label = "y/D";}
-    else if (diagram == "S'") {h_label = "ct'/D"; v_label = "y'/D";}
-    else if (diagram == 'S"') {h_label = 'ct"/D'; v_label = 'y"/D';}
+    if      (diagram == "S")  {h_label = "t/T";  v_label = "y/D";}
+    else if (diagram == "S'") {h_label = "t'/T"; v_label = "y'/D";}
+    else if (diagram == 'S"') {h_label = 't"/T'; v_label = 'y"/D';}
   }
   else // XT or XT_Y+ or XT_Y-
   {
-    if      (diagram == "S")  {h_label = "x/D";   v_label = "ct/D";}
-    else if (diagram == "S'") {h_label = "x'/D";  v_label = "ct'/D";}
-    else if (diagram == 'S"') {h_label = 'x"/D';  v_label = 'ct"/D';}
+    if      (diagram == "S")  {h_label = "x/D";   v_label = "t/T";}
+    else if (diagram == "S'") {h_label = "x'/D";  v_label = "t'/T";}
+    else if (diagram == 'S"') {h_label = 'x"/D';  v_label = 't"/T';}
   }
 
 	// horizontal lines (spaced along vertical axis)
