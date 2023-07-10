@@ -75,12 +75,12 @@
         <span style="font-family:cambria_math">D = </span>proper distance between mirrors<br>
         <span style="font-family:cambria_math">T = </span>proper light clock period<span style="font-family:cambria_math"> = D/c</span><br>
         <span title="Special Relativity Reference Frames" id="SR">SR:</span>
-        <span title="Special Relativity: Laboratory Frame S" id="Lab"><input id="SR_lab_button" type="radio" name="reference" onmouseup="ref_frame('SR_lab');" ontouchend="event.preventDefault(); ref_frame('SR_lab');"><span style="color:lime">Lab</span></span>
-        <span title="Special Relativity: Rocket Frame S'" id="Rocket"><input id="SR_rocket_button" type="radio" name="reference" onmouseup="ref_frame('SR_rocket');" ontouchend="event.preventDefault(); ref_frame('SR_rocket');"><span style="color:cyan">Rocket</span></span><br>
+        <span title="Special Relativity: Laboratory Frame S" id="Lab"><input id="SR_lab_button" type="radio" name="reference"><span style="color:lime">Lab</span></span>
+        <span title="Special Relativity: Rocket Frame S'" id="Rocket"><input id="SR_rocket_button" type="radio" name="reference" onmouseup="ref_frame('SR_rocket');" ontouchend="ref_frame('SR_rocket');"><span style="color:cyan">Rocket</span></span><br>
         <span title="General Relativity Reference Frames" id="GR">GR:</span>
-        <span title="General Relativity: Free-Falling Rain Frame S" id="Rain"><input id="GR_rain_button" type="radio" name="reference" onmouseup="ref_frame('GR_rain')" ontouchend="event.preventDefault(); ref_frame('GR_rain')"><span style="color:lime">Rain</span></span>
-        <span title="General Relativity: Stationary Shell Frame S'" id="Shell"><input id="GR_shell_button" type="radio" name="reference" onmouseup="ref_frame('GR_shell')" ontouchend="event.preventDefault(); ref_frame('GR_shell')"><span style="color:cyan">Shell</span></span>
-        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference" onmouseup="ref_frame('GR_far')" onmtouchend="event.preventDefault(); ref_frame('GR_far')"><Span style="color:orange">Far</span></span><br>
+        <span title="General Relativity: Free-Falling Rain Frame S" id="Rain"><input id="GR_rain_button" type="radio" name="reference" onmouseup="ref_frame('GR_rain')" ontouchend="ref_frame('GR_rain')"><span style="color:lime">Rain</span></span>
+        <span title="General Relativity: Stationary Shell Frame S'" id="Shell"><input id="GR_shell_button" type="radio" name="reference" onmouseup="ref_frame('GR_shell')" ontouchend="ref_frame('GR_shell')"><span style="color:cyan">Shell</span></span>
+        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference" onmouseup="ref_frame('GR_far')" onmtouchend="ref_frame('GR_far')"><Span style="color:orange">Far</span></span><br>
         <span title="Relative Light Clock Speed v&#013;(-c < v < c)" id="SpeedSlider"">
           <span style="font-family:cambria_math">speed (v): -c</span>
           <input id="speed_range" type="range" min="-1000" max="1000" value="0" class="slider"
@@ -2833,6 +2833,26 @@ function setTime(from_ref, to_ref)
 
 var S_diagrams_title, Sprime_diagrams_title, Sdblprime_diagrams_title;
 
+function SRlab(event)
+{
+  event.preventDefault();
+  event.stopPropagation();
+  hidden('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
+  $i("Sdblprime_diagrams").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
+  $i("Sdblprime_clocks_checkbox").disabled = true; setClocksCheckbox();
+  $i("SR_lab_button").checked = true;
+  $i("S_grid_span").title = "Grid of Laboratory Frame xy Coordinates";
+  $i("Sprime_grid_span").title = "Grid of Rocket Frame x'y' Coordinates";
+  $i("S_clocks_span").title = "Grid of Laboratory Frame t Clocks";
+  $i("Sprime_clocks_span").title = "Grid of Rocket Frame t' Clocks";
+  S_diagrams_title = "Spacetime Diagrams for Laboratory Frame"; $i("S_diagrams_span").title = S_diagrams_title;
+  Sprime_diagrams_title = "Spacetime Diagrams for Rocket Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
+  $i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click value to change it]";
+  centeredButton(false);
+  setTime(ref, 'SR_lab'); ref = 'SR_lab'; if (paused) setCurrentTime();
+  drawFrame();
+}
+
 function ref_frame(frame)
 {
   if (frame == 'SR_lab')
@@ -3224,6 +3244,8 @@ canvas.addEventListener("mouseup",        mouseUp,        {capture:false, passiv
 
 controls = $i('controls');
 controls.addEventListener("change",       change,         {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("mouseup",   SRlab,       {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("touchend",  SRlab,       {capture:false, passive:false});
 //controls.addEventListener("touchstart",   touchStart,     {capture:false, passive:false});
 //controls.addEventListener("touchmove",    touchMove,      {capture:false, passive:false});
 //controls.addEventListener("touchend",     touchEnd,       {capture:false, passive:false});
