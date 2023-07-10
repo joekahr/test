@@ -92,10 +92,10 @@
           <span>v/c = </span><span style="font-family:cambria_math"><span id="v_over_c">0</span></span>
         </span>&nbsp;&nbsp;
         <span id="gamma_span" title="gamma is the Lorentz factor: ratio for length contraction and time dilation&#013;[Click value to change it]" style="padding:0px; font-family:cambria_math">
-          <span>&gamma; = </span><span id="gamma" style="font-family:cambria_math" onmousedown="gammaSpan();" ontouchend="gammaSpan();">1</span></span>&nbsp;&nbsp;
+          <span>&gamma; = </span><span id="gamma" style="font-family:cambria_math">1</span></span>&nbsp;&nbsp;
         <span id="r_span" title='r is the r-coordinate (reduced circumference) for a Schwarzschild geometry&#013;(in this animation r is a distance in x" coordinates)&#013;[Click value to change it]' style="padding:0px; font-family:cambria_math">
-          <span>rc&sup2;/GM = </span><span style="font-family:cambria_math"><span id="r_reduced" onmousedown="rSpan();" ontouchend="rSpan();">&infin;</span></span></span><br>
-        <span title="Light Particles of Light Clock" id="Photons"><input id="photons_checkbox" type="checkbox" ontouchend="toggleCheckbox('photons_checkbox');">Photons</span>
+          <span>rc&sup2;/GM = </span><span style="font-family:cambria_math"><span id="r_reduced">&infin;</span></span></span><br>
+        <span title="Light Particles of Light Clock" id="Photons"><input id="photons_checkbox" type="checkbox">Photons</span>
         <span title="Notation Explaining Animation" id="Annotation"><input id="annotation_checkbox" type="checkbox" ontouchend="toggleCheckbox('annotation_checkbox');">Annotation</span>&nbsp;&nbsp;
         <button title="Keep Light Clock in Center of Window" id="centered_button" type="button" style="font-weight:bold; text-align:center; padding:0px; width:105px;"
           onmouseup="centeredButton(!centered); event.preventDefault();" ontouchend="centeredButton(!centered); event.preventDefault();">Center</button><br>
@@ -2833,10 +2833,8 @@ function setTime(from_ref, to_ref)
 
 var S_diagrams_title, Sprime_diagrams_title, Sdblprime_diagrams_title;
 
-function SRlab(event)
+function SRlab()
 {
-  //event.preventDefault();
-  //event.stopPropagation();
   hidden('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
   $i("Sdblprime_diagrams").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
   $i("Sdblprime_clocks_checkbox").disabled = true; setClocksCheckbox();
@@ -2853,7 +2851,7 @@ function SRlab(event)
   drawFrame();
 }
 
-function SRrocket(event)
+function SRrocket()
 {
   hidden('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
   $i("Sdblprime_diagrams").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
@@ -3245,19 +3243,15 @@ controls.addEventListener("touchend",     noAction,       {capture:false, passiv
 //controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
 
 $i('SR_lab_button').addEventListener("mouseup",     SRlab,       {capture:false, passive:false});
-$i('SR_lab_button').addEventListener("touchend",    SRlab,       {capture:false, passive:false});
 $i('SR_rocket_button').addEventListener("mouseup",  SRrocket,    {capture:false, passive:false});
-$i('SR_rocket_button').addEventListener("touchend", SRrocket,    {capture:false, passive:false});
 $i('GR_rain_button').addEventListener("mouseup",    GRrain,      {capture:false, passive:false});
-$i('GR_rain_button').addEventListener("touchend",   GRrain,      {capture:false, passive:false});
 $i('GR_shell_button').addEventListener("mouseup",   GRshell,     {capture:false, passive:false});
-$i('GR_shell_button').addEventListener("touchend",  GRshell,     {capture:false, passive:false});
 $i('GR_far_button').addEventListener("mouseup",     GRfar,       {capture:false, passive:false});
-$i('GR_far_button').addEventListener("touchend",    GRfar,       {capture:false, passive:false});
 $i('v_over_c').addEventListener("mouseup",          speedSpan,   {capture:false, passive:false});
-$i('v_over_c').addEventListener("touchend",         speedSpan,   {capture:false, passive:false});
 $i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
-$i('gamma').addEventListener("touchend",            gammaSpan,   {capture:false, passive:false});
+$i('r_reduced').addEventListener("mouseup",         rSpan,       {capture:false, passive:false});
+$i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
+//$i('photons_checkbox').addEventListener("touchend",  toggleCheckbox('photons_checkbox'),       {capture:false, passive:false});
 
     </script>
   </body>
