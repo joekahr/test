@@ -3264,7 +3264,7 @@ canvas.addEventListener("mouseup",        mouseUp,        {capture:false, passiv
 
 controls = $i('controls');
 controls.addEventListener("change",       change,         {capture:false, passive:false});
-controls.addEventListener("contextmenu",    noAction);
+controls.addEventListener("contextmenu",    (e) => {e.preventDefault()});
 //controls.addEventListener("touchstart",   noAction,       {capture:false, passive:false});
 //controls.addEventListener("touchmove",    noAction,       {capture:false, passive:false});
 //controls.addEventListener("touchend",     noAction,       {capture:false, passive:false});
