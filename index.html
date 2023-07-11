@@ -859,7 +859,7 @@ function speed_change()
 	var v_over_c;
 	
   current_x = v*t;
-  if (!speed_slider) return;
+  //if (!speed_slider) return;
   v_over_c = $i('speed_range').value/1000;
 	//v_over_c = document.querySelector('#speed_range').value/1000;
 	if (v_over_c == 1) {v_over_c = 0.999; $i('speed_range').value = v_over_c*100;}
@@ -3272,12 +3272,13 @@ controls.addEventListener("touchend",     noAction,       {capture:false, passiv
 //controls.addEventListener("mousemove",    mouseMove,      {capture:false, passive:false});
 //controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
 
-$i('speed_range').addEventListener("touchstart",  function() {speed_slider = true;},                {capture:true, passive:true});
-$i('speed_range').addEventListener("touchmove",  speed_change,                                      {capture:true, passive:true});
-$i('speed_range').addEventListener("touchend",  function() {speed_change(); speed_slider = false;}, {capture:true, passive:true});
-$i('speed_range').addEventListener("mousedown",  function() {speed_slider = true;},                 {capture:true, passive:true});
-$i('speed_range').addEventListener("mousemove",  speed_change,                                      {capture:true, passive:true});
-$i('speed_range').addEventListener("mouseup",  function() {speed_change(); speed_slider = false;},  {capture:true, passive:true});
+$i('speed_range').addEventListener("input", speed_change);
+//$i('speed_range').addEventListener("touchstart",  function() {speed_slider = true;},                {capture:true, passive:true});
+//$i('speed_range').addEventListener("touchmove",  speed_change,                                      {capture:true, passive:true});
+//$i('speed_range').addEventListener("touchend",  function() {speed_change(); speed_slider = false;}, {capture:true, passive:true});
+//$i('speed_range').addEventListener("mousedown",  function() {speed_slider = true;},                 {capture:true, passive:true});
+//$i('speed_range').addEventListener("mousemove",  speed_change,                                      {capture:true, passive:true});
+//$i('speed_range').addEventListener("mouseup",  function() {speed_change(); speed_slider = false;},  {capture:true, passive:true});
 
 //radio buttons
 $i('SR_lab_button').addEventListener("mouseup",     SRlab,          {capture:false, passive:false});
