@@ -3247,7 +3247,8 @@ function holdButtonOff() {clearTimeout(button_timer);}
 function checkDiagrams() {if (diagramsOn()) enableDiagrams(); else disableDiagrams();}
 function change() {checkDiagrams(); setClocksCheckbox(); enableCoord($i('coord_checkbox').checked); drawFrame();}
 
-function noAction(event) {event.preventDefault(); event.stopPropagation();}
+//function noAction(event) {event.preventDefault(); event.stopPropagation();}
+function noAction(event) {event.preventDefault();}
 
 // capture:false means use bubble up, passive:false means allow preventDefault
 
