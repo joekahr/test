@@ -3247,7 +3247,6 @@ function holdButtonOff() {clearTimeout(button_timer);}
 function checkDiagrams() {if (diagramsOn()) enableDiagrams(); else disableDiagrams();}
 function change() {checkDiagrams(); setClocksCheckbox(); enableCoord($i('coord_checkbox').checked); drawFrame();}
 
-//function noAction(event) {event.preventDefault(); event.stopPropagation();}
 function noAction(event) {event.preventDefault();}
 
 // capture:false means use bubble up, passive:false means allow preventDefault
@@ -3265,14 +3264,14 @@ canvas.addEventListener("mouseup",        mouseUp,        {capture:false, passiv
 
 controls = $i('controls');
 controls.addEventListener("change",       change,         {capture:false, passive:false});
-controls.addEventListener("touchstart",   noAction,       {capture:false, passive:false});
-controls.addEventListener("touchmove",    noAction,       {capture:false, passive:false});
-controls.addEventListener("touchend",     noAction,       {capture:false, passive:false});
+//controls.addEventListener("touchstart",   noAction,       {capture:false, passive:false});
+//controls.addEventListener("touchmove",    noAction,       {capture:false, passive:false});
+//controls.addEventListener("touchend",     noAction,       {capture:false, passive:false});
 //controls.addEventListener("mousedown",    mouseDown,      {capture:false, passive:false});
 //controls.addEventListener("mousemove",    mouseMove,      {capture:false, passive:false});
 //controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
 
-$i('speed_range').addEventListener("input", speed_change, {capture:true, passive:true});
+$i('speed_range').addEventListener("input", speed_change);
 //$i('speed_range').addEventListener("touchstart",  function() {speed_slider = true;},                {capture:true, passive:true});
 //$i('speed_range').addEventListener("touchmove",  speed_change,                                      {capture:true, passive:true});
 //$i('speed_range').addEventListener("touchend",  function() {speed_change(); speed_slider = false;}, {capture:true, passive:true});
@@ -3281,10 +3280,10 @@ $i('speed_range').addEventListener("input", speed_change, {capture:true, passive
 //$i('speed_range').addEventListener("mouseup",  function() {speed_change(); speed_slider = false;},  {capture:true, passive:true});
 
 //radio buttons
-$i('SR_lab_button').addEventListener("mouseup",     SRlab,          {capture:false, passive:false});
-$i('SR_lab_button').addEventListener("touchend",    SRlab,          {capture:false, passive:false});
+$i('SR_lab_button').addEventListener("mouseup",     SRlab);
+$i('SR_lab_button').addEventListener("touchend",    function(e) {SRlab(); e.preventDefault();});
 $i('SR_rocket_button').addEventListener("mouseup",  SRrocket,       {capture:false, passive:false});
-$i('SR_rocket_button').addEventListener("touchend", SRrocket,       {capture:false, passive:false});
+$i('SR_rocket_button').addEventListener("touchend", function(e) {SRrocket(); e.preventDefault();});
 $i('GR_rain_button').addEventListener("mouseup",    GRrain,         {capture:false, passive:false});
 $i('GR_rain_button').addEventListener("touchend",   GRrain,         {capture:false, passive:false});
 $i('GR_shell_button').addEventListener("mouseup",   GRshell,        {capture:false, passive:false});
