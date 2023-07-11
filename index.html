@@ -3272,7 +3272,7 @@ controls.addEventListener("touchend",     noAction,       {capture:false, passiv
 //controls.addEventListener("mousemove",    mouseMove,      {capture:false, passive:false});
 //controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
 
-$i('speed_range').addEventListener("input", speed_change);
+$i('speed_range').addEventListener("input", speed_change, {capture:true, passive:true});
 //$i('speed_range').addEventListener("touchstart",  function() {speed_slider = true;},                {capture:true, passive:true});
 //$i('speed_range').addEventListener("touchmove",  speed_change,                                      {capture:true, passive:true});
 //$i('speed_range').addEventListener("touchend",  function() {speed_change(); speed_slider = false;}, {capture:true, passive:true});
