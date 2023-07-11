@@ -3264,6 +3264,7 @@ canvas.addEventListener("mouseup",        mouseUp,        {capture:false, passiv
 
 controls = $i('controls');
 controls.addEventListener("change",       change,         {capture:false, passive:false});
+controls.addEventListener("contextmenu",    noAction);
 //controls.addEventListener("touchstart",   noAction,       {capture:false, passive:false});
 //controls.addEventListener("touchmove",    noAction,       {capture:false, passive:false});
 //controls.addEventListener("touchend",     noAction,       {capture:false, passive:false});
@@ -3281,9 +3282,9 @@ $i('speed_range').addEventListener("input", speed_change);
 
 //radio buttons
 $i('SR_lab_button').addEventListener("mouseup",     SRlab);
-$i('SR_lab_button').addEventListener("touchend",    function(e) {SRlab(); e.preventDefault(); e.stopPropagation();});
-$i('SR_rocket_button').addEventListener("mouseup",  SRrocket,       {capture:false, passive:false});
-$i('SR_rocket_button').addEventListener("touchend", function(e) {SRrocket(); e.preventDefault(); e.stopPropagation();});
+$i('SR_lab_button').addEventListener("touchend",    SRlab);
+$i('SR_rocket_button').addEventListener("mouseup",  SRrocket);
+$i('SR_rocket_button').addEventListener("touchend", SRrocket);
 $i('GR_rain_button').addEventListener("mouseup",    GRrain,         {capture:false, passive:false});
 $i('GR_rain_button').addEventListener("touchend",   GRrain,         {capture:false, passive:false});
 $i('GR_shell_button').addEventListener("mouseup",   GRshell,        {capture:false, passive:false});
