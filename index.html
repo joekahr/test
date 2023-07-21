@@ -3013,6 +3013,14 @@ function advwavesMouse()
   drawFrame();
 }
 
+function retwaves(touch)
+{
+	retarded_waves = !$i("retarded_waves_checkbox").checked;
+	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
+  if (touch) $i("retarded_waves_checkbox").checked = retarded_waves;
+  drawFrame();
+}
+
 function retwavesTouch()
 {
 	retarded_waves = !$i("retarded_waves_checkbox").checked;
@@ -3267,7 +3275,7 @@ canvas.addEventListener("mouseup",        mouseUp,        {capture:false, passiv
 
 controls = $i('controls');
 controls.addEventListener("change",       change,         {capture:false, passive:false});
-controls.addEventListener("contextmenu",    (e) => {e.preventDefault()});
+//controls.addEventListener("contextmenu",    (e) => {e.preventDefault();});
 //controls.addEventListener("touchstart",   noAction,       {capture:false, passive:false});
 //controls.addEventListener("touchmove",    noAction,       {capture:false, passive:false});
 //controls.addEventListener("touchend",     noAction,       {capture:false, passive:false});
