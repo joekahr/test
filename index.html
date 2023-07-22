@@ -116,12 +116,9 @@
         <span title="" id="Sprime_diagrams_span"><input id="Sprime_diag_checkbox" type="checkbox"><span style="color:cyan">S'</span></span>
         <span title="Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)" id="Sdblprime_diagrams_span"><input id="Sdblprime_diag_checkbox" type="checkbox"><span style="color:orange">S"</span></span><br>
         <span title="x-t diagram for photons moving left and right" id="XT_span" style="font-family:cambria_math"><input id="XT_button" type="radio" name="diagram"><span>&harr; xt</span></span>
-        <span title="x-t diagram for upward moving photon" id="XT_Yplus_span" style="font-family:cambria_math"><input id="XT_Yplus_button" type="radio" name="diagram"
-          onmouseup="$i('XT_Yplus_button').checked = true; clearEvents();" ontouchend="$i('XT_Yplus_button').checked = true; clearEvents();"><span>&uarr; xt</span></span>
-        <span title="x-t diagram for downward moving photon" id="XT_Yminus_span" style="font-family:cambria_math"><input id="XT_Yminus_button" type="radio" name="diagram"
-          onmouseup="$i('XT_Yminus_button').checked = true; clearEvents();" ontouchend="$i('XT_Yminus_button').checked = true; clearEvents();"><span>&darr; xt</span></span>
-        <span title="y-t diagram for photons moving up and down" id="YT_span" style="font-family:cambria_math"><input id="YT_button" type="radio" name="diagram"
-          onmouseup="$i('YT_button').checked = true; clearEvents();" ontouchend="$i('YT_button').checked = true; clearEvents();"><span>&#x2195; yt</span></span><br>
+        <span title="x-t diagram for upward moving photon" id="XT_Yplus_span" style="font-family:cambria_math"><input id="XT_Yplus_button" type="radio" name="diagram"><span>&uarr; xt</span></span>
+        <span title="x-t diagram for downward moving photon" id="XT_Yminus_span" style="font-family:cambria_math"><input id="XT_Yminus_button" type="radio" name="diagram"><span>&darr; xt</span></span>
+        <span title="y-t diagram for photons moving up and down" id="YT_span" style="font-family:cambria_math"><input id="YT_button" type="radio" name="diagram"><span>&#x2195; yt</span></span><br>
         <span title="Change Animation Scale" id="zoom">zoom:</span>
         <button title="Zoom Out" id="zoom_out_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">-</button>
         <button title="Undo Zooming" id="zoom_zero_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
@@ -131,55 +128,34 @@
         <button title="Undo Rotation" id="rotate_zero_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
         <button title="Rotate Clockwise" id="rotate_cw_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">+</button><br>
         <span title="Change Animation Time Direction" id="timedirection">time direction:</span>
-        <span title="Normal Time Progression" id="Forward"><input id="forward_button" type="radio" name="time_direction"
-          onmouseup="delta_t = Math.abs(delta_t); $i('forward_button').checked = true;" ontouchend="delta_t = Math.abs(delta_t); $i('forward_button').checked = true;"><span>Forward</span></span>
-        <span title="Reversed Time Progression" id="Backward"><input id="backward_button" type="radio" name="time_direction"
-          onmouseup="delta_t = -Math.abs(delta_t); $i('backward_button').checked = true;" ontouchend="delta_t = -Math.abs(delta_t); $i('backward_button').checked = true;"><span>Backward</span></span><br>
+        <span title="Normal Time Progression" id="Forward"><input id="forward_button" type="radio" name="time_direction"><span>Forward</span></span>
+        <span title="Reversed Time Progression" id="Backward"><input id="backward_button" type="radio" name="time_direction"><span>Backward</span></span><br>
       </span>
-      <button id="slower_button" title="Slow Down the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="steps_per_tick = steps_per_tick*2;" ontouchend="event.preventDefault(); steps_per_tick = steps_per_tick*2;">Slower</button>
-      <button id="faster_button" title="Speed Up the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="steps_per_tick = steps_per_tick/2;" ontouchend="event.preventDefault(); steps_per_tick = steps_per_tick/2;">Faster</button>
-      <button id="reset_button" title="Reset the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="reset();" ontouchend="event.preventDefault(); reset();">Reset</button>
+      <button id="slower_button" title="Slow Down the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;">Slower</button>
+      <button id="faster_button" title="Speed Up the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;">Faster</button>
+      <button id="reset_button" title="Reset the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;">Reset</button>
 			&nbsp;
-			<span id="current_time_span" onmousedown="get_t();">
+			<span id="current_time">
         <span id="current_time_span1" style="font-family:cambria_math"></span>
         <span style="font-family:cambria_math">/T =</span>
 				<span id="current_time_span2"></span>
 			</span><br>
-			<button id="exit_button" title="Exit the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="return_to_start(); stop(); init();" ontouchend="event.preventDefault(); return_to_start(); stop(); init();">Exit</button>
-      <button id="pause_resume_button" title="Pause the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;"
-        onmouseup="pause_resumeButton();" ontouchend="event.preventDefault(); pause_resumeButton();">Pause</button>
+			<button id="exit_button" title="Exit the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;">Exit</button>
+      <button id="pause_resume_button" title="Pause the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;">Pause</button>
       <span id="single_steps">
         <span title="While Animation is Paused, Step to Previous/Next Time Slice" id="single_step">single step:</span>
-        <button id="stepbackward_button" title="Step Animation Backward One Time Unit" type="button" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-        onmousedown="holdButtonOn(200, function() {step(false); setCurrentTime();});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();"
-        ontouchstart="event.preventDefault(); holdButtonOn(200, function() {step(false); setCurrentTime();});"
-        ontouchend="event.preventDefault(); holdButtonOff();"
-        ontouchmove="event.preventDefault(); holdButtonOff();">-</button>
-        <button id="stepforward_button" title="Step Animation Forward One Time Unit" type="button" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-        onmousedown="holdButtonOn(200, function() {step(true); setCurrentTime();});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();"
-        ontouchstart="event.preventDefault(); holdButtonOn(200, function() {step(true); setCurrentTime();});"
-        ontouchend="event.preventDefault(); holdButtonOff();"
-        ontouchmove="event.preventDefault(); holdButtonOff();">+</button>
+        <button id="stepbackward_button" title="Step Animation Backward One Time Unit" type="button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">-</button>
+        <button id="stepforward_button" title="Step Animation Forward One Time Unit" type="button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">+</button>
       </span><br>
       <span id="coordinates">
         <span title="Spacetime Events Coordinates and Interval" id="Events"><input id="coord_checkbox" type="checkbox">Events:</span>&nbsp;
         <span id="coord_buttons">
           <span title="Spacetime Event A" id="A_event" style="font-family:Arial,Helvetica,sans-serif; font-size:14pt;">A</span>
-          <button id="set_E1" title="Define Position and Time of Event A" type="button" style="width:40px; vertical-align:middle; text-align:center; padding:0px; font-weight:bold;"
-            onmouseup="E1_setting = true; E2_setting = false; show_E_setting('A');" ontouchend="event.preventDefault(); E1_setting = true; E2_setting = false; show_E_setting('A');">Set</button>
-          <button id="gotoE1_button" title="Jump to Time of Event A" type="button" style="width:48px; vertical-align:middle; text-align:center; padding:0px; font-weight:bold;"
-            onmouseup="if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();"
-            ontouchend="event.preventDefault(); if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();">GoTo</button>
+          <button id="set_E1_button" title="Define Position and Time of Event A" type="button" style="width:40px; vertical-align:middle; text-align:center; padding:0px; font-weight:bold;">Set</button>
+          <button id="goto_E1_button" title="Jump to Time of Event A" type="button" style="width:48px; vertical-align:middle; text-align:center; padding:0px; font-weight:bold;">GoTo</button>
           <span title="Spacetime Event B" id="B_event" style="font-family:Arial,Helvetica,sans-serif; font-size:14pt;">B</span>
-          <button id="set_E2" title="Define Position and Time of Event B" type="button" style="width:40px; vertical-align:middle; padding:0; font-weight:bold;"
-            onmouseup="E2_setting = true; E1_setting = false; show_E_setting('B');" ontouchend="E2_setting = true; E1_setting = false; show_E_setting('B');">Set</button>
-          <button id="gotoE2_button" title="Jump to Time of Event B" type="button" style="width:48px; vertical-align:middle; padding:0; font-weight:bold;"
-            onmouseup="if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();"
-            ontouchend="event.preventDefault(); if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();">GoTo</button><br>
+          <button id="set_E2_button" title="Define Position and Time of Event B" type="button" style="width:40px; vertical-align:middle; padding:0; font-weight:bold;">Set</button>
+          <button id="goto_E2_button" title="Jump to Time of Event B" type="button" style="width:48px; vertical-align:middle; padding:0; font-weight:bold;">GoTo</button><br>
           <span id="E_setting" style="color:red; text-indent:30px;"> </span><br>
         </span>
       </span>
@@ -2637,7 +2613,7 @@ function init()
   $i('annotation_checkbox').checked = false;
 	initDiagrams(); disableDiagrams();
 	$i('coord_checkbox').checked = false;
-	hidden('coordinates'); hidden('gotoE1_button'); hidden('gotoE2_button');
+	hidden('coordinates'); hidden('goto_E1_button'); hidden('goto_E2_button');
   theta = 0; prev_theta = theta;
   $i('forward_button').checked = true; $i('backward_button').checked = false;
 	scaling_enabled = true; initScaling();
@@ -2758,8 +2734,8 @@ function initDiagrams()
 
 function clearEvents()
 {
-  E1set = false; hidden('gotoE1_button');
-  E2set = false; hidden('gotoE2_button');
+  E1set = false; hidden('goto_E1_button');
+  E2set = false; hidden('goto_E2_button');
 }
 
 function enableDiagrams()
@@ -2785,8 +2761,8 @@ function enableCoord(coords)
 	{
 		if (navigator.platform == "iPhone") $i('controls_part1').style.visibility = 'hidden';
 		inherit('coord_buttons');
-		if (E1set) {inherit('gotoE1_button');} else {hidden('gotoE1_button');}
-		if (E2set) {inherit('gotoE2_button');} else {hidden('gotoE2_button');}
+		if (E1set) {inherit('goto_E1_button');} else {hidden('goto_E1_button');}
+		if (E2set) {inherit('goto_E2_button');} else {hidden('goto_E2_button');}
 	}
 	else // hide events
 	{
@@ -2908,15 +2884,18 @@ function GRfar()
   drawFrame();
 }
 
+function forward_time() {delta_t = Math.abs(delta_t); $i('forward_button').checked = true;}
+function backward_time() {delta_t = -Math.abs(delta_t); $i('backward_button').checked = true;}
+
 function setCurrentTime()
 {
   $i("current_time_span2").textContent = (t/d).toFixed(3);
   if (refS())
-    {$i("current_time_span1").textContent = 't'; $i("current_time_span").style.color = 'lime';}
+    {$i("current_time_span1").textContent = 't'; $i("current_time").style.color = 'lime';}
   else if (refSprime())
-    {$i("current_time_span1").textContent = "t'"; $i("current_time_span").style.color = 'cyan';}
+    {$i("current_time_span1").textContent = "t'"; $i("current_time").style.color = 'cyan';}
   else if (refSdblprime())
-    {$i("current_time_span1").textContent = 't"'; $i("current_time_span").style.color = 'orange';}
+    {$i("current_time_span1").textContent = 't"'; $i("current_time").style.color = 'orange';}
 }
 function pause_resumeButton()
 {
@@ -3014,28 +2993,54 @@ function retwavesMouse()
 
 // buttons
 
-function XT_button()            {$i('XT_button').checked = true; clearEvents();}
-function XT_Yplus_button()      {$i('XT_Yplus_button').checked = true; clearEvents();}
-function XT_Yminus_button()     {$i('XT_Yminus_button').checked = true; clearEvents();}
-function YT_button()            {$i('YT_button').checked = true; clearEvents();}
-function zoom_out_touchstart()  {event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*0.99);});}
-function zoom_out_touchend()    {event.preventDefault(); prev_scale = scale; holdButtonOff();}
-function zoom_out_mousedown()   {holdButtonOn(100, function() {updateScale(scale*0.99);});}
-function zoom_out_mouseup()     {prev_scale = scale; holdButtonOff();}
-function zoom_zero()            {initScaling(); drawFrame();}
-function zoom_in_touchstart()   {event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*1.01);});}
-function zoom_in_touchend()     {event.preventDefault(); prev_scale = scale; holdButtonOff();}
-function zoom_in_mousedown()    {holdButtonOn(100, function() {updateScale(scale*1.01);});}
-function zoom_in_mouseup()      {prev_scale = scale; holdButtonOff();}
-function rotate_ccw_touchstart(){holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});}
-function rotate_ccw_touchend()  {event.preventDefault(); prev_theta = theta; holdButtonOff();}
-function rotate_ccw_mousedown() {holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});}
-function rotate_ccw_mouseup()   {prev_theta = theta; holdButtonOff();}
-function rotate_zero()          {initRotation(); drawFrame();}
-function rotate_cw_touchstart() {event.preventDefault(); holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});}
-function rotate_cw_touchend()   {event.preventDefault(); prev_theta = theta; holdButtonOff();}
-function rotate_cw_mousedown()  {holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});}
-function rotate_cw_mouseup()    {prev_theta = theta; holdButtonOff();}
+function XT_button()                {$i('XT_button').checked = true; clearEvents();}
+function XT_Yplus_button()          {$i('XT_Yplus_button').checked = true; clearEvents();}
+function XT_Yminus_button()         {$i('XT_Yminus_button').checked = true; clearEvents();}
+function YT_button()                {$i('YT_button').checked = true; clearEvents();}
+function zoom_out_touchstart()      {event.preventDefault(); zoom_out_mousedown();}
+function zoom_out_touchend()        {event.preventDefault(); zoom_out_mouseup();}
+function zoom_out_mousedown()       {holdButtonOn(100, function() {updateScale(scale*0.99);});}
+function zoom_out_mouseup()         {prev_scale = scale; holdButtonOff();}
+function zoom_zero()                {initScaling(); drawFrame();}
+function zoom_in_touchstart()       {event.preventDefault(); zoom_in_mousedown();}
+function zoom_in_touchend()         {event.preventDefault(); zoom_in_mouseup();}
+function zoom_in_mousedown()        {holdButtonOn(100, function() {updateScale(scale*1.01);});}
+function zoom_in_mouseup()          {prev_scale = scale; holdButtonOff();}
+function rotate_ccw_touchstart()    {event.preventDefault(); rotate_ccw_mousedown();}
+function rotate_ccw_touchend()      {event.preventDefault(); rotate_ccw_mouseup();}
+function rotate_ccw_mousedown()     {holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});}
+function rotate_ccw_mouseup()       {prev_theta = theta; holdButtonOff();}
+function rotate_zero()              {initRotation(); drawFrame();}
+function rotate_cw_touchstart()     {event.preventDefault(); rotate_cw_mousedown();}
+function rotate_cw_touchend()       {event.preventDefault(); rotate_cw_mouseup();}
+function rotate_cw_mousedown()      {holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});}
+function rotate_cw_mouseup()        {prev_theta = theta; holdButtonOff();}
+function slower_touchend()          {event.preventDefault(); slower_mouseup();}
+function slower_mouseup()           {steps_per_tick = steps_per_tick*2;}
+function faster_touchend()          {event.preventDefault(); faster_mouseup();}
+function faster_mouseup()           {steps_per_tick = steps_per_tick/2;}
+function reset_touchend()           {event.preventDefault(); reset_mouseup();}
+function reset_mouseup()            {reset();}
+function exit_touchend()            {event.preventDefault(); exit_mouseup();}
+function exit_mouseup()             {return_to_start(); stop(); init();}
+function pause_resume_touchend()    {event.preventDefault(); pause_resume_mouseup();}
+function pause_resume_mouseup()     {pause_resumeButton();}
+function stepbackward_touchstart()  {event.preventDefault(); stepbackward_mousedown();}
+function stepbackward_mousedown()   {holdButtonOn(200, function() {step(false); setCurrentTime();});}
+function stepbackward_touchend()    {event.preventDefault(); stepbackward_mouseup();}
+function stepbackward_mouseup()     {holdButtonOff();}
+function stepforward_touchstart()   {event.preventDefault(); stepforward_mousedown();}
+function stepforward_mousedown()    {holdButtonOn(200, function() {step(true); setCurrentTime();});}
+function stepforward_touchend()     {event.preventDefault(); stepforward_mouseup();}
+function stepforward_mouseup()      {holdButtonOff();}
+function set_E1_touchend()          {event.preventDefault(); set_E1_mouseup();}
+function set_E1_mouseup()           {E1_setting = true; E2_setting = false; show_E_setting('A');}
+function set_E2_touchend()          {event.preventDefault(); set_E2_mouseup();}
+function set_E2_mouseup()           {E2_setting = true; E1_setting = false; show_E_setting('B');}
+function goto_E1_touchend()         {event.preventDefault(); goto_E1_mouseup();}
+function goto_E1_mouseup()          {if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();}
+function goto_E2_touchend()         {event.preventDefault(); goto_E2_mouseup();}
+function goto_E2_mouseup()          {if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();}
 
 // event handlers
 
@@ -3087,8 +3092,8 @@ function mouseDown(event)
 {
 	if (!started || control_input(event)) return;
 	P_mousedown.X = event.pageX; P_mousedown.Y = event.pageY;
-	if		  ((E1_setting || atEvent(E1)) && paused) {E1_dragging = true; E1set = true; inherit('gotoE1_button');}
-	else if ((E2_setting || atEvent(E2)) && paused) {E2_dragging = true; E2set = true; inherit('gotoE2_button');}
+	if		  ((E1_setting || atEvent(E1)) && paused) {E1_dragging = true; E1set = true; inherit('goto_E1_button');}
+	else if ((E2_setting || atEvent(E2)) && paused) {E2_dragging = true; E2set = true; inherit('goto_E2_button');}
 	else
 	{
     offset_x_down = offset_x; offset_y_down = offset_y; canvasClockCoords(P_clock_down); prev_scale = scale;
@@ -3284,6 +3289,7 @@ controls.addEventListener("change",       change,         {capture:false, passiv
 //controls.addEventListener("mousemove",    mouseMove,      {capture:false, passive:false});
 //controls.addEventListener("mouseup",      mouseUp,        {capture:false, passive:false});
 
+// ranges
 $i('speed_range').addEventListener("input", speed_change);
 //$i('speed_range').addEventListener("touchstart",  function() {speed_slider = true;},                {capture:true, passive:true});
 //$i('speed_range').addEventListener("touchmove",  speed_change,                                      {capture:true, passive:true});
@@ -3292,7 +3298,7 @@ $i('speed_range').addEventListener("input", speed_change);
 //$i('speed_range').addEventListener("mousemove",  speed_change,                                      {capture:true, passive:true});
 //$i('speed_range').addEventListener("mouseup",  function() {speed_change(); speed_slider = false;},  {capture:true, passive:true});
 
-// radio buttons
+// radio input
 $i('SR_lab_button').addEventListener("mouseup",     SRlab);
 $i('SR_lab_button').addEventListener("touchend",    SRlab);
 $i('SR_rocket_button').addEventListener("mouseup",  SRrocket);
@@ -3302,16 +3308,19 @@ $i('GR_rain_button').addEventListener("touchend",   GRrain);
 $i('GR_shell_button').addEventListener("mouseup",   GRshell);
 $i('GR_shell_button').addEventListener("touchend",  GRshell);
 $i('GR_far_button').addEventListener("mouseup",     GRfar);
-$i('GR_far_button').addEventListener("touchend",    GRfar);
+$i('Forward').addEventListener("mouseup",           forward_time);
+$i('Forward').addEventListener("touchend",          forward_time);
+$i('Backward').addEventListener("mouseup",          backward_time);
+$i('Backward').addEventListener("touchend",         backward_time);
 
-$i('centered_button').addEventListener("mouseup",   centeredButton);
-
+// spans
 $i('v_over_c').addEventListener("mouseup",          speedSpan);
 $i('v_over_c').addEventListener("touchend",         speedSpan);
 $i('gamma').addEventListener("mouseup",             gammaSpan);
 $i('gamma').addEventListener("touchend",            gammaSpan);
 $i('r_reduced').addEventListener("mouseup",         rSpan);
 $i('r_reduced').addEventListener("touchend",        rSpan);
+$i('current_time').addEventListener("mousedown",    get_t);
 
 // checkboxes
 $i('photons_checkbox').addEventListener("touchend",         toggleCheckbox);
@@ -3333,41 +3342,72 @@ $i('Sprime_diag_checkbox').addEventListener("touchend",     toggleCheckbox);
 $i('Sdblprime_diag_checkbox').addEventListener("touchend",  toggleCheckbox);
 
 // buttons
-$i('XT_button').addEventListener("mouseup",           XT_button);
-$i('XT_button').addEventListener("touchend",          XT_button);
-$i('XT_Yplus_button').addEventListener("mouseup",     XT_Yplus_button);
-$i('XT_Yplus_button').addEventListener("touchend",    XT_Yplus_button);
-$i('XT_Yminus_button').addEventListener("mouseup",    XT_Yminus_button);
-$i('XT_Yminus_button').addEventListener("touchend",   XT_Yminus_button);
-$i('YT_button').addEventListener("mouseup",           YT_button);
-$i('YT_button').addEventListener("touchend",          YT_button);
-$i('zoom_out_button').addEventListener("mousedown",   zoom_out_mousedown);
-$i('zoom_out_button').addEventListener("mouseout",    zoom_out_mouseup);
-$i('zoom_out_button').addEventListener("mouseup",     zoom_out_mouseup);
-$i('zoom_out_button').addEventListener("touchstart",  zoom_out_touchstart);
-$i('zoom_out_button').addEventListener("touchmove",   zoom_out_touchend);
-$i('zoom_out_button').addEventListener("touchend",    zoom_out_touchend);
-$i('zoom_zero_button').addEventListener("mousedown",  zoom_zero);
-$i('zoom_in_button').addEventListener("mousedown",    zoom_in_mousedown);
-$i('zoom_in_button').addEventListener("mouseout",     zoom_in_mouseup);
-$i('zoom_in_button').addEventListener("mouseup",      zoom_in_mouseup);
-$i('zoom_in_button').addEventListener("touchstart",   zoom_in_touchstart);
-$i('zoom_in_button').addEventListener("touchmove",    zoom_in_touchend);
-$i('zoom_in_button').addEventListener("touchend",     zoom_in_touchend);
-$i('rotate_cw_button').addEventListener("touchend",   rotate_cw_touchend);
-$i('rotate_ccw_button').addEventListener("mousedown", rotate_ccw_mousedown);
-$i('rotate_ccw_button').addEventListener("mouseout",  rotate_ccw_mouseup);
-$i('rotate_ccw_button').addEventListener("mouseup",   rotate_ccw_mouseup);
-$i('rotate_ccw_button').addEventListener("touchstart",rotate_ccw_touchstart);
-$i('rotate_ccw_button').addEventListener("touchmove", rotate_ccw_touchend);
-$i('rotate_ccw_button').addEventListener("touchend",  rotate_ccw_touchend);
-$i('rotate_zero_button').addEventListener("mousedown",rotate_zero);
-$i('rotate_cw_button').addEventListener("mousedown",  rotate_cw_mousedown);
-$i('rotate_cw_button').addEventListener("mouseout",   rotate_cw_mouseup);
-$i('rotate_cw_button').addEventListener("mouseup",    rotate_cw_mouseup);
-$i('rotate_cw_button').addEventListener("touchstart", rotate_cw_touchstart);
-$i('rotate_cw_button').addEventListener("touchmove",  rotate_cw_touchend);
-$i('rotate_cw_button').addEventListener("touchend",   rotate_cw_touchend);
+$i('centered_button').addEventListener("mouseup",       centeredButton);
+$i('XT_button').addEventListener("mouseup",             XT_button);
+$i('XT_button').addEventListener("touchend",            XT_button);
+$i('XT_Yplus_button').addEventListener("mouseup",       XT_Yplus_button);
+$i('XT_Yplus_button').addEventListener("touchend",      XT_Yplus_button);
+$i('XT_Yminus_button').addEventListener("mouseup",      XT_Yminus_button);
+$i('XT_Yminus_button').addEventListener("touchend",     XT_Yminus_button);
+$i('YT_button').addEventListener("mouseup",             YT_button);
+$i('YT_button').addEventListener("touchend",            YT_button);
+$i('zoom_out_button').addEventListener("mousedown",     zoom_out_mousedown);
+$i('zoom_out_button').addEventListener("mouseout",      zoom_out_mouseup);
+$i('zoom_out_button').addEventListener("mouseup",       zoom_out_mouseup);
+$i('zoom_out_button').addEventListener("touchstart",    zoom_out_touchstart);
+$i('zoom_out_button').addEventListener("touchmove",     zoom_out_touchend);
+$i('zoom_out_button').addEventListener("touchend",      zoom_out_touchend);
+$i('zoom_zero_button').addEventListener("mousedown",    zoom_zero);
+$i('zoom_in_button').addEventListener("mousedown",      zoom_in_mousedown);
+$i('zoom_in_button').addEventListener("mouseout",       zoom_in_mouseup);
+$i('zoom_in_button').addEventListener("mouseup",        zoom_in_mouseup);
+$i('zoom_in_button').addEventListener("touchstart",     zoom_in_touchstart);
+$i('zoom_in_button').addEventListener("touchmove",      zoom_in_touchend);
+$i('zoom_in_button').addEventListener("touchend",       zoom_in_touchend);
+$i('rotate_cw_button').addEventListener("touchend",     rotate_cw_touchend);
+$i('rotate_ccw_button').addEventListener("mousedown",   rotate_ccw_mousedown);
+$i('rotate_ccw_button').addEventListener("mouseout",    rotate_ccw_mouseup);
+$i('rotate_ccw_button').addEventListener("mouseup",     rotate_ccw_mouseup);
+$i('rotate_ccw_button').addEventListener("touchstart",  rotate_ccw_touchstart);
+$i('rotate_ccw_button').addEventListener("touchmove",   rotate_ccw_touchend);
+$i('rotate_ccw_button').addEventListener("touchend",    rotate_ccw_touchend);
+$i('rotate_zero_button').addEventListener("mousedown",  rotate_zero);
+$i('rotate_cw_button').addEventListener("mousedown",    rotate_cw_mousedown);
+$i('rotate_cw_button').addEventListener("mouseout",     rotate_cw_mouseup);
+$i('rotate_cw_button').addEventListener("mouseup",      rotate_cw_mouseup);
+$i('rotate_cw_button').addEventListener("touchstart",   rotate_cw_touchstart);
+$i('rotate_cw_button').addEventListener("touchmove",    rotate_cw_touchend);
+$i('rotate_cw_button').addEventListener("touchend",     rotate_cw_touchend);
+$i('slower_button').addEventListener("touchend",        slower_touchend);
+$i('slower_button').addEventListener("mouseup",         slower_mouseup);
+$i('faster_button').addEventListener("touchend",        faster_touchend);
+$i('faster_button').addEventListener("mouseup",         faster_mouseup);
+$i('reset_button').addEventListener("touchend",         reset_touchend);
+$i('reset_button').addEventListener("mouseup",          reset_mouseup);
+$i('exit_button').addEventListener("touchend",          exit_touchend);
+$i('exit_button').addEventListener("mouseup",           exit_mouseup);
+$i('pause_resume_button').addEventListener("touchend",  pause_resume_touchend);
+$i('pause_resume_button').addEventListener("mouseup",   pause_resume_mouseup);
+$i('stepbackward_button').addEventListener("mousedown", stepbackward_mousedown);
+$i('stepbackward_button').addEventListener("mouseout",  stepbackward_mouseup);
+$i('stepbackward_button').addEventListener("mouseup",   stepbackward_mouseup);
+$i('stepbackward_button').addEventListener("touchstart",stepbackward_touchstart);
+$i('stepbackward_button').addEventListener("touchmove", stepbackward_touchend);
+$i('stepbackward_button').addEventListener("touchend",  stepbackward_touchend);
+$i('stepforward_button').addEventListener("mousedown",  stepforward_mousedown);
+$i('stepforward_button').addEventListener("mouseout",   stepforward_mouseup);
+$i('stepforward_button').addEventListener("mouseup",    stepforward_mouseup);
+$i('stepforward_button').addEventListener("touchstart", stepforward_touchstart);
+$i('stepforward_button').addEventListener("touchmove",  stepforward_touchend);
+$i('stepforward_button').addEventListener("touchend",   stepforward_touchend);
+$i('set_E1_button').addEventListener("touchend",        set_E1_touchend);
+$i('set_E1_button').addEventListener("mouseup",         set_E1_mouseup);
+$i('set_E2_button').addEventListener("touchend",        set_E2_touchend);
+$i('set_E2_button').addEventListener("mouseup",         set_E2_mouseup);
+$i('goto_E1_button').addEventListener("touchend",       goto_E1_touchend);
+$i('goto_E1_button').addEventListener("mouseup",        goto_E1_mouseup);
+$i('goto_E2_button').addEventListener("touchend",       goto_E2_touchend);
+$i('goto_E2_button').addEventListener("mouseup",        goto_E2_mouseup);
 
     </script>
   </body>
