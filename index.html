@@ -3346,7 +3346,8 @@ $i('zoom_zero_button').addEventListener("mousedown",zoom_zero);
 $i('zoom_in_button').addEventListener("mousedown",  zoom_in_mousedown);
 $i('zoom_in_button').addEventListener("mouseout",   zoom_in_mouseup);
 $i('zoom_in_button').addEventListener("mouseup",    zoom_in_mouseup);
-$i('zoom_in_button').addEventListener("touchstart", zoom_in_touchend);
+$i('zoom_in_button').addEventListener("touchstart", zoom_in_touchstart);
+$i('zoom_in_button').addEventListener("touchmove",  zoom_in_touchend);
 $i('zoom_in_button').addEventListener("touchend",   zoom_in_touchend);
 
     </script>
