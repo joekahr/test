@@ -3292,7 +3292,7 @@ $i('speed_range').addEventListener("input", speed_change);
 //$i('speed_range').addEventListener("mousemove",  speed_change,                                      {capture:true, passive:true});
 //$i('speed_range').addEventListener("mouseup",  function() {speed_change(); speed_slider = false;},  {capture:true, passive:true});
 
-//radio buttons
+// radio buttons
 $i('SR_lab_button').addEventListener("mouseup",     SRlab);
 $i('SR_lab_button').addEventListener("touchend",    SRlab);
 $i('SR_rocket_button').addEventListener("mouseup",  SRrocket);
@@ -3313,6 +3313,7 @@ $i('gamma').addEventListener("touchend",            gammaSpan);
 $i('r_reduced').addEventListener("mouseup",         rSpan);
 $i('r_reduced').addEventListener("touchend",        rSpan);
 
+// checkboxes
 $i('photons_checkbox').addEventListener("touchend",         toggleCheckbox);
 $i('annotation_checkbox').addEventListener("touchend",      toggleCheckbox);
 $i('retarded_waves_checkbox').addEventListener("mouseup",   retwavesMouse);
@@ -3331,26 +3332,28 @@ $i('S_diag_checkbox').addEventListener("touchend",          toggleCheckbox);
 $i('Sprime_diag_checkbox').addEventListener("touchend",     toggleCheckbox);
 $i('Sdblprime_diag_checkbox').addEventListener("touchend",  toggleCheckbox);
 
-$i('XT_button').addEventListener("mouseup",         XT_button);
-$i('XT_button').addEventListener("touchend",        XT_button);
-$i('XT_Yplus_button').addEventListener("mouseup",   XT_Yplus_button);
-$i('XT_Yplus_button').addEventListener("touchend",  XT_Yplus_button);
-$i('XT_Yminus_button').addEventListener("mouseup",  XT_Yminus_button);
-$i('XT_Yminus_button').addEventListener("touchend", XT_Yminus_button);
-$i('YT_button').addEventListener("mouseup",         YT_button);
-$i('YT_button').addEventListener("touchend",        YT_button);
-$i('zoom_out_button').addEventListener("mousedown", zoom_out_mousedown);
-$i('zoom_out_button').addEventListener("mouseout",  zoom_out_mouseup);
-$i('zoom_out_button').addEventListener("mouseup",   zoom_out_mouseup);
-$i('zoom_out_button').addEventListener("touchstart",zoom_out_touchstart);
-$i('zoom_out_button').addEventListener("touchmove", zoom_out_touchend);
-$i('zoom_out_button').addEventListener("touchend",  zoom_out_touchend);
-$i('zoom_zero_button').addEventListener("mousedown",zoom_zero);
-$i('zoom_in_button').addEventListener("mousedown",  zoom_in_mousedown);
-$i('zoom_in_button').addEventListener("mouseout",   zoom_in_mouseup);
-$i('zoom_in_button').addEventListener("mouseup",    zoom_in_mouseup);
-$i('zoom_in_button').addEventListener("touchstart", zoom_in_touchstart);
-$i('zoom_in_button').addEventListener("touchmove",  zoom_in_touchend);
+// buttons
+$i('XT_button').addEventListener("mouseup",           XT_button);
+$i('XT_button').addEventListener("touchend",          XT_button);
+$i('XT_Yplus_button').addEventListener("mouseup",     XT_Yplus_button);
+$i('XT_Yplus_button').addEventListener("touchend",    XT_Yplus_button);
+$i('XT_Yminus_button').addEventListener("mouseup",    XT_Yminus_button);
+$i('XT_Yminus_button').addEventListener("touchend",   XT_Yminus_button);
+$i('YT_button').addEventListener("mouseup",           YT_button);
+$i('YT_button').addEventListener("touchend",          YT_button);
+$i('zoom_out_button').addEventListener("mousedown",   zoom_out_mousedown);
+$i('zoom_out_button').addEventListener("mouseout",    zoom_out_mouseup);
+$i('zoom_out_button').addEventListener("mouseup",     zoom_out_mouseup);
+$i('zoom_out_button').addEventListener("touchstart",  zoom_out_touchstart);
+$i('zoom_out_button').addEventListener("touchmove",   zoom_out_touchend);
+$i('zoom_out_button').addEventListener("touchend",    zoom_out_touchend);
+$i('zoom_zero_button').addEventListener("mousedown",  zoom_zero);
+$i('zoom_in_button').addEventListener("mousedown",    zoom_in_mousedown);
+$i('zoom_in_button').addEventListener("mouseout",     zoom_in_mouseup);
+$i('zoom_in_button').addEventListener("mouseup",      zoom_in_mouseup);
+$i('zoom_in_button').addEventListener("touchstart",   zoom_in_touchstart);
+$i('zoom_in_button').addEventListener("touchmove",    zoom_in_touchend);
+$i('zoom_in_button').addEventListener("touchend",     zoom_in_touchend);
 $i('rotate_cw_button').addEventListener("touchend",   rotate_cw_touchend);
 $i('rotate_ccw_button').addEventListener("mousedown", rotate_ccw_mousedown);
 $i('rotate_ccw_button').addEventListener("mouseout",  rotate_ccw_mouseup);
