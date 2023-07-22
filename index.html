@@ -123,17 +123,9 @@
         <span title="y-t diagram for photons moving up and down" id="YT_span" style="font-family:cambria_math"><input id="YT_button" type="radio" name="diagram"
           onmouseup="$i('YT_button').checked = true; clearEvents();" ontouchend="$i('YT_button').checked = true; clearEvents();"><span>&#x2195; yt</span></span><br>
         <span title="Change Animation Scale" id="zoom">zoom:</span>
-        <button title="Zoom Out" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*0.99);});"
-          ontouchend="event.preventDefault(); prev_scale = scale; holdButtonOff();"
-          ontouchmove=" event.preventDefault(); prev_scale = scale; holdButtonOff();"
-          onmousedown="holdButtonOn(100, function() {updateScale(scale*0.99);});" onmouseup="prev_scale = scale; holdButtonOff();" onmouseout="prev_scale = scale; holdButtonOff();">-</button>
-        <button title="Undo Zooming" onmousedown="initScaling(); drawFrame();" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
-        <button title="Zoom In" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*1.01);});"
-          ontouchend="event.preventDefault(); prev_scale = scale; holdButtonOff();"
-          ontouchmove="event.preventDefault(); prev_scale = scale; holdButtonOff();"
-          onmousedown="holdButtonOn(100, function() {updateScale(scale*1.01);});" onmouseup="prev_scale = scale; holdButtonOff();" onmouseout="prev_scale = scale; holdButtonOff();">+</button>
+        <button title="Zoom Out" id="zoom_out_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">-</button>
+        <button title="Undo Zooming" id="zoom_zero_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
+        <button title="Zoom In" id="zoom_in_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">+</button>
         <span title="Change Angle of Light Clock Mirrors" id="rotate">rotate:</span>
         <button title="Rotate Counter-Clockwise" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
           ontouchstart="holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();"
@@ -3028,10 +3020,19 @@ function retwavesMouse()
 
 // buttons
 
-function XT_button()        {$i('XT_button').checked = true; clearEvents();}
-function XT_Yplus_button()  {$i('XT_Yplus_button').checked = true; clearEvents();}
-function XT_Yminus_button() {$i('XT_Yminus_button').checked = true; clearEvents();}
-function YT_button()        {$i('YT_button').checked = true; clearEvents();}
+function XT_button()            {$i('XT_button').checked = true; clearEvents();}
+function XT_Yplus_button()      {$i('XT_Yplus_button').checked = true; clearEvents();}
+function XT_Yminus_button()     {$i('XT_Yminus_button').checked = true; clearEvents();}
+function YT_button()            {$i('YT_button').checked = true; clearEvents();}
+function zoom_out_touchstart()  {event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*0.99);});}
+function zoom_out_touchend()    {event.preventDefault(); prev_scale = scale; holdButtonOff();}
+function zoom_out_mousedown()   {holdButtonOn(100, function() {updateScale(scale*0.99);});}
+function zoom_out_mouseup()     {prev_scale = scale; holdButtonOff();}
+function zoom_zero()            {initScaling(); drawFrame();}
+function zoom_in_touchstart()   {event.preventDefault(); holdButtonOn(100, function() {updateScale(scale*1.01);});}
+function zoom_in_touchend()     {event.preventDefault(); prev_scale = scale; holdButtonOff();}
+function zoom_in_mousedown()    {holdButtonOn(100, function() {updateScale(scale*1.01);});}
+function zoom_in_mouseup()      {prev_scale = scale; holdButtonOff();}
 
 // event handlers
 
@@ -3327,14 +3328,26 @@ $i('S_diag_checkbox').addEventListener("touchend",          toggleCheckbox);
 $i('Sprime_diag_checkbox').addEventListener("touchend",     toggleCheckbox);
 $i('Sdblprime_diag_checkbox').addEventListener("touchend",  toggleCheckbox);
 
-$i('XT_button').addEventListener("mouseup",                 XT_button);
-$i('XT_button').addEventListener("touchend",                XT_button);
-$i('XT_Yplus_button').addEventListener("mouseup",           XT_Yplus_button);
-$i('XT_Yplus_button').addEventListener("touchend",          XT_Yplus_button);
-$i('XT_Yminus_button').addEventListener("mouseup",          XT_Yminus_button);
-$i('XT_Yminus_button').addEventListener("touchend",         XT_Yminus_button);
-$i('YT_button').addEventListener("mouseup",                 YT_button);
-$i('YT_button').addEventListener("touchend",                YT_button);
+$i('XT_button').addEventListener("mouseup",         XT_button);
+$i('XT_button').addEventListener("touchend",        XT_button);
+$i('XT_Yplus_button').addEventListener("mouseup",   XT_Yplus_button);
+$i('XT_Yplus_button').addEventListener("touchend",  XT_Yplus_button);
+$i('XT_Yminus_button').addEventListener("mouseup",  XT_Yminus_button);
+$i('XT_Yminus_button').addEventListener("touchend", XT_Yminus_button);
+$i('YT_button').addEventListener("mouseup",         YT_button);
+$i('YT_button').addEventListener("touchend",        YT_button);
+$i('zoom_out_button').addEventListener("mousedown", zoom_out_mousedown);
+$i('zoom_out_button').addEventListener("mouseout",  zoom_out_mouseup);
+$i('zoom_out_button').addEventListener("mouseup",   zoom_out_mouseup);
+$i('zoom_out_button').addEventListener("touchstart",zoom_out_touchstart);
+$i('zoom_out_button').addEventListener("touchmove", zoom_out_touchend);
+$i('zoom_out_button').addEventListener("touchend",  zoom_out_touchend);
+$i('zoom_zero_button').addEventListener("mousedown",zoom_zero);
+$i('zoom_in_button').addEventListener("mousedown",  zoom_in_mousedown);
+$i('zoom_in_button').addEventListener("mouseout",   zoom_in_mouseup);
+$i('zoom_in_button').addEventListener("mouseup",    zoom_in_mouseup);
+$i('zoom_in_button').addEventListener("touchstart", zoom_in_touchend);
+$i('zoom_in_button').addEventListener("touchend",   zoom_in_touchend);
 
     </script>
   </body>
