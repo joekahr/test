@@ -24,8 +24,7 @@
 			body  {margin:0; padding:0}
 			td, th {padding:2px}
       * {-webkit-user-select: none; /* Safari */
-        -ms-user-select: none; /* IE 10 and IE 11 */
-        user-select: none; /* Standard syntax */}
+        -ms-user-select: none; /* IE 10 and IE 11 */}
       input[type=range] {-webkit-appearance: none;  -moz-appearance: none;}
       input[type=checkbox]
         {
@@ -3013,14 +3012,6 @@ function advwavesMouse()
   drawFrame();
 }
 
-function retwaves(touch)
-{
-	retarded_waves = !$i("retarded_waves_checkbox").checked;
-	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  if (touch) $i("retarded_waves_checkbox").checked = retarded_waves;
-  drawFrame();
-}
-
 function retwavesTouch()
 {
 	retarded_waves = !$i("retarded_waves_checkbox").checked;
@@ -3296,28 +3287,28 @@ $i('SR_lab_button').addEventListener("mouseup",     SRlab);
 $i('SR_lab_button').addEventListener("touchend",    SRlab);
 $i('SR_rocket_button').addEventListener("mouseup",  SRrocket);
 $i('SR_rocket_button').addEventListener("touchend", SRrocket);
-$i('GR_rain_button').addEventListener("mouseup",    GRrain,         {capture:false, passive:false});
-$i('GR_rain_button').addEventListener("touchend",   GRrain,         {capture:false, passive:false});
-$i('GR_shell_button').addEventListener("mouseup",   GRshell,        {capture:false, passive:false});
-$i('GR_shell_button').addEventListener("touchend",  GRshell,        {capture:false, passive:false});
-$i('GR_far_button').addEventListener("mouseup",     GRfar,          {capture:false, passive:false});
-$i('GR_far_button').addEventListener("touchend",    GRfar,          {capture:false, passive:false});
+$i('GR_rain_button').addEventListener("mouseup",    GRrain);
+$i('GR_rain_button').addEventListener("touchend",   GRrain);
+$i('GR_shell_button').addEventListener("mouseup",   GRshell);
+$i('GR_shell_button').addEventListener("touchend",  GRshell);
+$i('GR_far_button').addEventListener("mouseup",     GRfar);
+$i('GR_far_button').addEventListener("touchend",    GRfar);
 
-$i('centered_button').addEventListener("mouseup",   centeredButton, {capture:false, passive:false});
+$i('centered_button').addEventListener("mouseup",   centeredButton);
 
-$i('v_over_c').addEventListener("mouseup",          speedSpan,   {capture:false, passive:false});
-$i('v_over_c').addEventListener("touchend",         speedSpan,   {capture:false, passive:false});
-$i('gamma').addEventListener("mouseup",             gammaSpan,   {capture:false, passive:false});
-$i('gamma').addEventListener("touchend",            gammaSpan,   {capture:false, passive:false});
-$i('r_reduced').addEventListener("mouseup",         rSpan,       {capture:false, passive:false});
-$i('r_reduced').addEventListener("touchend",        rSpan,       {capture:false, passive:false});
+$i('v_over_c').addEventListener("mouseup",          speedSpan);
+$i('v_over_c').addEventListener("touchend",         speedSpan);
+$i('gamma').addEventListener("mouseup",             gammaSpan);
+$i('gamma').addEventListener("touchend",            gammaSpan);
+$i('r_reduced').addEventListener("mouseup",         rSpan);
+$i('r_reduced').addEventListener("touchend",        rSpan);
 
-$i('photons_checkbox').addEventListener("touchend", toggleCheckbox,         {capture:false, passive:false});
-$i('annotation_checkbox').addEventListener("touchend", toggleCheckbox,      {capture:false, passive:false});
-$i('retarded_waves_checkbox').addEventListener("touchend", retwavesTouch,   {capture:false, passive:false});
-$i('advanced_waves_checkbox').addEventListener("touchend", advwavesTouch,   {capture:false, passive:false});
-$i('retarded_waves_checkbox').addEventListener("mouseup", retwavesMouse,    {capture:false, passive:false});
-$i('advanced_waves_checkbox').addEventListener("mouseup", advwavesMouse,    {capture:false, passive:false});
+$i('photons_checkbox').addEventListener("touchend",       toggleCheckbox);
+$i('annotation_checkbox').addEventListener("touchend",    toggleCheckbox);
+$i('retarded_waves_checkbox').addEventListener("mouseup", retwavesMouse);
+$i('retarded_waves_checkbox').addEventListener("touchend",retwavesTouch);
+$i('advanced_waves_checkbox').addEventListener("mouseup", advwavesMouse);
+$i('advanced_waves_checkbox').addEventListener("touchend",advwavesTouch);
 
     </script>
   </body>
