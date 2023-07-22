@@ -171,10 +171,10 @@
 			This results in length contraction (in the direction of motion) and time dilation, consistent with Relativity.<br>
 			</p>
 			<br>
-			<button type="button" style="font-weight:bold" onmouseup="SR_Button();">Special Relativity</button>
-      <button type="button" style="font-weight:bold" onmouseup="GR_Button();">General Relativity</button>
+			<button type="button" id="SR_button" style="font-weight:bold">Special Relativity</button>
+      <button type="button" id="GR_button" style="font-weight:bold">General Relativity</button>
 			<br><br>
-			<button type="button" style="font-weight:bold" onmouseup="return_to_start();">RETURN</button>
+			<button type="button" id="return_to_start" style="font-weight:bold">RETURN</button>
     </div>
         
     <div id="SR_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
@@ -230,7 +230,7 @@
         = (&Delta;<font color='cyan'>x'</font>)&sup2; + (&Delta;<font color='cyan'>y'</font>)&sup2; + (&Delta;<font color='cyan'>z'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;
       </div>
 			<br><br>
-			<button type="button" style="font-weight:bold" onmouseup="return_to_description();">RETURN</button>
+			<button type="button" id="return_from_SR" style="font-weight:bold">RETURN</button>
     </div>
         
 		<div id="GR_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
@@ -262,7 +262,7 @@
 			</div><br>
 			[the far-away frame is also the Schwarzschild frame which is usually represented by (t, x, y), but here (<font color='orange'>t", x", y"</font>) is used instead]<br>
 			<br>
-			<button style="text-align:center; font-weight:bold" type="button" onmouseup="return_to_description();">RETURN</button><br>
+			<button type="button" id="return_from_GR" style="text-align:center; font-weight:bold">RETURN</button><br>
 			<br>
 		
 			<u>Derivation of the "velocity of space"</u><br>
@@ -289,7 +289,7 @@
 		</div>
 		
 		<div id="FAQ" style="font-family:Cambria,Math; text-align:left; visibility:hidden; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2">
-			<div style="text-align:center; font-weight:bold"> <button type="button" onmouseup="return_to_start();">RETURN</button></div>
+			<div style="text-align:center; font-weight:bold"> <button type="button" id="return_from_FAQ_1">RETURN</button></div>
 			<br>
 			<span style="font-weight:bold">What is a Light Clock?</span><br>	
 			Following Einstein we define time to be what is measured with a clock, and the ideal time measurement device is a Light Clock.<br>
@@ -573,18 +573,18 @@
       if (QM is time-symmetric waves in 3D space) and (GR is flowing 3D space) then (QG is time-symmetric waves in flowing 3D space)<br>
       <br>
       
-			<div style="text-align:center; font-weight:bold"> <button type="button"onmouseup="return_to_start();">RETURN</button> </div>
+			<div style="text-align:center; font-weight:bold"> <button type="button" id="return_from_FAQ_2">RETURN</button> </div>
 		</div>
 		
   	<div id="start" style="font-family:Arial,Helvetica,sans-serif; text-align:center; font-weight:bold; background-color:rgb(0,0,0); position:absolute; width:100%; height:100%; left:0%; top:0px">
 			<br>
-			<button title="Start the Light Clock Animation" type="button" style="text-align:center; background-color:rgb(0,255,0);" onmouseup="startButton(event);">START ANIMATION</button>
+			<button title="Start the Light Clock Animation" type="button" id="start_button" style="text-align:center; background-color:rgb(0,255,0);">START ANIMATION</button>
 			<br><br>
-			<button title="LightClock App Description" type="button" style="text-align:center; font-weight:bold" onmouseup="descriptionButton();">Description</button>
+			<button title="LightClock App Description" type="button" id="description_button" style="text-align:center; font-weight:bold">Description</button>
 			<br><br>
-      <button type="button" style="font-weight:bold" onmouseup="FAQ_Button();">FAQ</button>
+      <button type="button" id="FAQ_button" style="font-weight:bold">FAQ</button>
 			<br><br>
-			<button title="Mouse and Touch Screen Controls" type="button" style="text-align:center; font-weight:bold" onmouseup="UI_Button();">User Interface Help</button>
+			<button title="Mouse and Touch Screen Controls" type="button" id="UI_button" style="text-align:center; font-weight:bold">User Interface Help</button>
     </div>
 		
 		<div id="UI" style="font-family:Arial,Helvetica,sans-serif; visibility:hidden; text-align:center; background-color:rgb(0,0,0); color:rgb(255,255,255); position:absolute; width:100%; left:0%; top:0px">
@@ -595,7 +595,7 @@
 				<tr> <td style="text-align:left">zoom grid/rotate clock</td> <td style="border-left:3px solid blue; font-style:italic;">right mouse drag</td> <td style="border-left:1px solid blue; font-style:italic;">two finger gesture</td> </tr>
 			</table>
 			<br>
-			<button type="button" style="font-weight:bold" onmouseup="return_to_start();">RETURN</button>
+			<button type="button" id="return_from_UI" style="font-weight:bold">RETURN</button>
     </div>
 		
     <script type="text/javascript">
@@ -2948,19 +2948,6 @@ function toggleCheckbox(event)
   drawFrame();
 }
 
-function wavesCheckbox(event)
-{
-  if ($i(event.target.id) == 'advanced_waves_checkbox') {advanced_waves = !$i('advanced_waves_checkbox').checked;}
-  if ($i(event.target.id) == 'retarded_waves_checkbox') {retarded_waves = !$i("retarded_waves_checkbox").checked;}
-	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  if (is_touch_enabled())
-  {
-    $i('advanced_waves_checkbox').checked = advanced_waves;
-    $i('retarded_waves_checkbox').checked = retarded_waves;
-  }
-  drawFrame();
-}
-
 function advwavesTouch()
 {
 	advanced_waves = !$i("advanced_waves_checkbox").checked;
@@ -3264,8 +3251,6 @@ function holdButtonOff() {clearTimeout(button_timer);}
 function checkDiagrams() {if (diagramsOn()) enableDiagrams(); else disableDiagrams();}
 function change() {checkDiagrams(); setClocksCheckbox(); enableCoord($i('coord_checkbox').checked); drawFrame();}
 
-function noAction(event) {event.preventDefault();}
-
 // capture:false means use bubble up, passive:false means allow preventDefault
 
 canvas = $i('canvas');
@@ -3408,6 +3393,18 @@ $i('goto_E1_button').addEventListener("touchend",       goto_E1_touchend);
 $i('goto_E1_button').addEventListener("mouseup",        goto_E1_mouseup);
 $i('goto_E2_button').addEventListener("touchend",       goto_E2_touchend);
 $i('goto_E2_button').addEventListener("mouseup",        goto_E2_mouseup);
+$i('SR_button').addEventListener("mouseup",             SR_Button);
+$i('GR_button').addEventListener("mouseup",             GR_Button);
+$i('return_to_start').addEventListener("mouseup",       return_to_start);
+$i('return_from_UI').addEventListener("mouseup",        return_to_start);
+$i('return_from_FAQ_1').addEventListener("mouseup",     return_to_start);
+$i('return_from_FAQ_2').addEventListener("mouseup",     return_to_start);
+$i('return_from_SR').addEventListener("mouseup",        return_to_description);
+$i('return_from_GR').addEventListener("mouseup",        return_to_description);
+$i('start_button').addEventListener("mouseup",          startButton);
+$i('description_button').addEventListener("mouseup",    descriptionButton);
+$i('FAQ_button').addEventListener("mouseup",            FAQ_Button);
+$i('UI_button').addEventListener("mouseup",             UI_Button);
 
     </script>
   </body>
