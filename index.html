@@ -101,22 +101,21 @@
         <span title="Light Waves of Light Clock" id="waves">waves:</span>
         <span title="Forward-in-Time Light Waves" id="Retarded"><input id="retarded_waves_checkbox" type="checkbox">Retarded</span>
         <span title="Backward-in-Time Light Waves" id="Advanced"><input id="advanced_waves_checkbox" type="checkbox">Advanced</span>
-        <span title="Geometry of Original and Reflected Waves" id="full_arcs_span"><input id="full_arcs_checkbox" type="checkbox" ontouchend="toggleCheckbox('full_arcs_checkbox');">Full</span><br>
+        <span title="Geometry of Original and Reflected Waves" id="full_arcs_span"><input id="full_arcs_checkbox" type="checkbox">Full</span><br>
         <span title="Grids of Spatial Coordinates" id="space">space:</span>
-        <span title="" id="S_grid_span"><input id="S_grid_checkbox" type="checkbox" ontouchend="toggleCheckbox('S_grid_checkbox');"><span style="color:lime; font-family:cambria_math">xy</span></span>
-        <span title="" id="Sprime_grid_span"><input id="Sprime_grid_checkbox" type="checkbox" ontouchend="toggleCheckbox('Sprime_checkbox');"><span style="color:cyan; font-family:cambria_math">x'y'</span></span>
-        <span title='Grid of Far-Away Bookkeeper (Schwarzschild Frame) x"y" Coordinates' id="Sdblprime_grid_span"><input id="Sdblprime_grid_checkbox" type="checkbox" ontouchend="toggleCheckbox('Sdblprime_grid_checkbox');"><span style="color:orange; font-family:cambria_math">x"y"</span></span><br>
+        <span title="" id="S_grid_span"><input id="S_grid_checkbox" type="checkbox"><span style="color:lime; font-family:cambria_math">xy</span></span>
+        <span title="" id="Sprime_grid_span"><input id="Sprime_grid_checkbox" type="checkbox"><span style="color:cyan; font-family:cambria_math">x'y'</span></span>
+        <span title='Grid of Far-Away Bookkeeper (Schwarzschild Frame) x"y" Coordinates' id="Sdblprime_grid_span"><input id="Sdblprime_grid_checkbox" type="checkbox"><span style="color:orange; font-family:cambria_math">x"y"</span></span><br>
         <span title="Grids of Time Coordinates" id="time">time:</span>
-        <span title="" id="S_clocks_span"><input id="S_clocks_checkbox" type="checkbox" ontouchend="toggleCheckbox('S_clocks_checkbox');"><span style="color:lime; font-family:cambria_math">t</span></span>
-        <span title="" id="Sprime_clocks_span"><input id="Sprime_clocks_checkbox" type="checkbox" ontouchend="toggleCheckbox('Sprime_clocks_checkbox');"><span style="color:cyan; font-family:cambria_math">t'</span></span>
-        <span title='Grid of Far-Away Bookkeeper (Schwarzschild Frame) t" Clocks' id="Sdblprime_clocks_span" ><input id="Sdblprime_clocks_checkbox" type="checkbox" ontouchend="toggleCheckbox('Sdblprime_clocks_checkbox');"><span style="color:orange; font-family:cambria_math">t"</span></span>
-        <span title='Lattice of Mini Light Clocks (10x)' id="mini_light_clocks"><input id="mini_light_clocks_checkbox" type="checkbox" ontouchend="toggleCheckbox('mini_light_clocks_checkbox');"><span style="color:white">mini light clocks</span></span><br>
+        <span title="" id="S_clocks_span"><input id="S_clocks_checkbox" type="checkbox"><span style="color:lime; font-family:cambria_math">t</span></span>
+        <span title="" id="Sprime_clocks_span"><input id="Sprime_clocks_checkbox" type="checkbox"><span style="color:cyan; font-family:cambria_math">t'</span></span>
+        <span title='Grid of Far-Away Bookkeeper (Schwarzschild Frame) t" Clocks' id="Sdblprime_clocks_span" ><input id="Sdblprime_clocks_checkbox" type="checkbox"><span style="color:orange; font-family:cambria_math">t"</span></span>
+        <span title='Lattice of Mini Light Clocks (10x)' id="mini_light_clocks"><input id="mini_lightclocks_checkbox" type="checkbox"><span style="color:white">mini light clocks</span></span><br>
         <span title="Spacetime Diagrams for Light Clock photons" id="diagrams">diagrams:</span>
-        <span title="" id="S_diagrams_span"><input id="S_diagrams" type="checkbox" ontouchend="toggleCheckbox('S_diagrams');"><span style="color:lime">S</span></span>
-        <span title="" id="Sprime_diagrams_span"><input id="Sprime_diagrams" type="checkbox" ontouchend="toggleCheckbox('Sprime_diagrams');"><span style="color:cyan">S'</span></span>
-        <span title="Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)" id="Sdblprime_diagrams_span"><input id="Sdblprime_diagrams" type="checkbox" ontouchend="toggleCheckbox('Sdblprime_diagrams');"><span style="color:orange">S"</span></span><br>
-        <span title="x-t diagram for photons moving left and right" id="XT_span" style="font-family:cambria_math"><input id="XT_button" type="radio" name="diagram"
-          onmouseup="$i('XT_button').checked = true; clearEvents();" ontouchend="$i('XT_button').checked = true; clearEvents();"><span>&harr; xt</span></span>
+        <span title="" id="S_diagrams_span"><input id="S_diag_checkbox" type="checkbox"><span style="color:lime">S</span></span>
+        <span title="" id="Sprime_diagrams_span"><input id="Sprime_diag_checkbox" type="checkbox"><span style="color:cyan">S'</span></span>
+        <span title="Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)" id="Sdblprime_diagrams_span"><input id="Sdblprime_diag_checkbox" type="checkbox"><span style="color:orange">S"</span></span><br>
+        <span title="x-t diagram for photons moving left and right" id="XT_span" style="font-family:cambria_math"><input id="XT_button" type="radio" name="diagram"><span>&harr; xt</span></span>
         <span title="x-t diagram for upward moving photon" id="XT_Yplus_span" style="font-family:cambria_math"><input id="XT_Yplus_button" type="radio" name="diagram"
           onmouseup="$i('XT_Yplus_button').checked = true; clearEvents();" ontouchend="$i('XT_Yplus_button').checked = true; clearEvents();"><span>&uarr; xt</span></span>
         <span title="x-t diagram for downward moving photon" id="XT_Yminus_span" style="font-family:cambria_math"><input id="XT_Yminus_button" type="radio" name="diagram"
@@ -1938,7 +1937,7 @@ function drawXT_Y(plus)  //only for theta == 0
   else      {t_bottom = (Math.ceil(-0.5 + clockStime(ref)/t_tick) + 0.5); t_factor = -1;}
   vel = Math.abs(v);
 
-  if (On('S_diagrams'))
+  if (On('S_diag_checkbox'))
   {
     //diagram = 'S'; x_label="x";  t_label="t"; speedcolor=S_color(1); speedfactor = ""; x_left = xprime_to_x(v*tick_cnt,-0.5); x_right = xprime_to_x(v*tick_cnt,0.5);
     diagram = 'S'; x_label="x";  t_label="t"; speedcolor=S_color(1); speedfactor = "";
@@ -1951,7 +1950,7 @@ function drawXT_Y(plus)  //only for theta == 0
     if (!plus) {Hangle =-Hangle; Vangle =-Vangle;}
     drawCoordLines(diagram,dir,Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
   }
-  if (On('Sprime_diagrams'))
+  if (On('Sprime_diag_checkbox'))
   {
     diagram = "S'"; x_label="x'"; t_label="t'"; speedcolor=Sprime_color(1); speedfactor = ""; x_left = -0.5; x_right = 0.5;
     if (v == 0)               {Hangle = 0;        Hw = d/2;           Hh = d/2;         h0 = t_bottom;        dh_per_dH = t_factor/(2*Hh);        Vangle = 0;       Vh = d/2;         Vw = d/2;         v0 = -1/2;                  dv_per_dV = 1/(2*Vw);}
@@ -1961,7 +1960,7 @@ function drawXT_Y(plus)  //only for theta == 0
     if (!plus) {Hangle =-Hangle; Vangle =-Vangle;}
     drawCoordLines(diagram,dir,Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
   }
-  if (On('Sdblprime_diagrams'))
+  if (On('Sdblprime_diag_checkbox'))
   {
     diagram = 'S"'; x_label='x"'; t_label='t"'; speedcolor=Sdblprime_color(1); if (v != 0) speedfactor = "/\u03B3\u00B2"; else speedfactor = ""; x_left = xprime_to_xdblprime(-0.5); x_right = xprime_to_xdblprime(0.5);
     if (v == 0)               {Hangle = 0;        Hw = d/2;           Hh = d/2;         h0 = t_bottom*gamma;  dh_per_dH = t_factor/(2*Hh);        Vangle = 0;       Vh = d/2;         Vw = d/2;         v0 = -1/2;                  dv_per_dV = 1/(2*Vw);}
@@ -2040,7 +2039,7 @@ function drawXT()  //only for theta == 0
   else if ((refS()) && !centered)       {context.translate(offset_x + x0 + f, offset_y + y0 - b + c*t_cycle);}
   else if ((refS()) && centered)        {context.translate(-v*t_cycle + f, -b + c*t_cycle);}
   
-	if (On('S_diagrams'))
+	if (On('S_diag_checkbox'))
   {
     diagram = 'S'; x_label="x";  t_label="t"; t_bottom = gamma*ticks; x_left = xprime_to_x(-0.5,ticks+0.5); speedcolor=S_color(1); speedfactor = "";
     if      (refS())         {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = gamma/(2*Hh);   Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = gamma/(2*Vw);}
@@ -2048,7 +2047,7 @@ function drawXT()  //only for theta == 0
     else if (refSdblprime()) {Hangle = angle2;  Hw = a*cos2;  Hh = b*cos2;  h0 = t_bottom;  dh_per_dH = gamma/(2*Hh);   Vangle = -angle2;  Vh = b*cos2; Vw = a*cos2; v0 = x_left;  dv_per_dV = gamma/(2*Vw);}
     drawCoordLines(diagram,'XT',Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
   }
-  if (On('Sprime_diagrams'))
+  if (On('Sprime_diag_checkbox'))
   {
     diagram = "S'"; x_label="x'"; t_label="t'"; t_bottom = ticks; x_left = -0.5; speedcolor=Sprime_color(1); speedfactor = "";
     if      (refS())         {Hangle = -angle1; Hw = e;       Hh = e*cos3;  h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = angle1;   Vh = e;      Vw = e*cos3; v0 = x_left;    dv_per_dV = 1/(2*Vw);}
@@ -2056,7 +2055,7 @@ function drawXT()  //only for theta == 0
     else if (refSdblprime()) {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;    dv_per_dV = 1/(2*Vw);}
     drawCoordLines(diagram,'XT',Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
   }
-  if (On('Sdblprime_diagrams'))
+  if (On('Sdblprime_diag_checkbox'))
   {
     diagram = 'S"'; x_label='x"'; t_label='t"'; t_bottom = gamma*ticks; x_left = xprime_to_xdblprime(-0.5); speedcolor=Sdblprime_color(1); if (v != 0) speedfactor = "/\u03B3\u00B2"; else speedfactor = "";
     if      (refS())         {Hangle = -angle1; Hw = e;       Hh = e*cos3;  h0 = t_bottom;   dh_per_dH = gamma/(2*Hh);  Vangle = angle1;   Vh = e;      Vw = e*cos3; v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
@@ -2065,7 +2064,7 @@ function drawXT()  //only for theta == 0
     drawCoordLines(diagram,'XT',Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
   }
     
-  if (On('S_diagrams') || On('Sprime_diagrams') || (On('Sdblprime_diagrams') && ref != 'SR_lab')) // draw light paths
+  if (On('S_diag_checkbox') || On('Sprime_diag_checkbox') || (On('Sdblprime_diag_checkbox') && ref != 'SR_lab')) // draw light paths
 	{
 		context.strokeStyle = lightpath_color(0.8); context.lineWidth=2.0;
     X0 =-f;Y0 = b;    X1 = -a;Y1 = f;    X2 = a;Y2 =-f;    X3 = f; Y3 = -b;
@@ -2098,7 +2097,7 @@ function drawYT()  //only for theta == 0
   else if	(ref != 'GR_far')	{context.translate(offset_x + x0_init + v*t - c*t_tick/2 + c*t_cycle, offset_y + y0);}
   else if	(ref == 'GR_far')	{context.translate(offset_x + (x0_init + v*t)/(gamma*gamma) - c*t_tick/2 + c*t_cycle, offset_y + y0);}
   
-  if (On('S_diagrams')) // draw yt
+  if (On('S_diag_checkbox')) // draw yt
 	{
     y_label="y";  t_label="t";  yt_color=S_color(1);
 		a = c*t_tick/2; b = d/2;
@@ -2111,7 +2110,7 @@ function drawYT()  //only for theta == 0
 		annotate(speedtext1 + ' = -' + speedtext2,(-a)/2,(-b)/2,'center','bottom',Math.atan((b)/(-a)),yt_color);  //NW
 	}
   
-	if (On('Sprime_diagrams')) // draw y't'
+	if (On('Sprime_diag_checkbox')) // draw y't'
 	{
     y_label="y'";  t_label="t'";  yt_color=Sprime_color(1);
 		a = d/2; b = a;
@@ -2124,7 +2123,7 @@ function drawYT()  //only for theta == 0
 		annotate(speedtext1 + ' = -c',(-a)/2,(-b)/2,'center','top',Math.atan((b)/(-a)),yt_color);  //NW
 	}
   
-  if (On('Sdblprime_diagrams')) // draw y"t"
+  if (On('Sdblprime_diag_checkbox')) // draw y"t"
 	{
     y_label='y"';  t_label='t"';  yt_color=Sdblprime_color(1);
 		a = c*t_tick/2; b = d/2;
@@ -2138,7 +2137,7 @@ function drawYT()  //only for theta == 0
 	}
   context.restore();
 
-	if (On('S_diagrams') || On('Sprime_diagrams') || On('Sdblprime_diagrams')) // draw light paths
+	if (On('S_diag_checkbox') || On('Sprime_diag_checkbox') || On('Sdblprime_diag_checkbox')) // draw light paths
 	{
     context.save();
     if      (centered)        {context.translate(-c*t_tick/2 + c*t_cycle, 0);}
@@ -2545,9 +2544,9 @@ function drawFrame()
   //context.beginPath(); context.rect(0, 0, w, h); context.lineWidth = 5; context.strokeStyle = "blue"; context.stroke(); context.closePath();
   opacity = 1-((t_cycle)/1.2)/t_tick;
 	calcMirrors(theta);
-	drawLattice("S",  On('S_grid_checkbox'),          On('S_clocks_checkbox'),          On('mini_light_clocks_checkbox'));
-	drawLattice("S'", On('Sprime_grid_checkbox'),     On('Sprime_clocks_checkbox'),     On('mini_light_clocks_checkbox'));
-	drawLattice('S"', On('Sdblprime_grid_checkbox'),  On('Sdblprime_clocks_checkbox'),  On('mini_light_clocks_checkbox'));
+	drawLattice("S",  On('S_grid_checkbox'),          On('S_clocks_checkbox'),          On('mini_lightclocks_checkbox'));
+	drawLattice("S'", On('Sprime_grid_checkbox'),     On('Sprime_clocks_checkbox'),     On('mini_lightclocks_checkbox'));
+	drawLattice('S"', On('Sdblprime_grid_checkbox'),  On('Sdblprime_clocks_checkbox'),  On('mini_lightclocks_checkbox'));
   mark_left = false; mark_right = false; mark_up = false; mark_down = false;
   setCurrentTime();
   if (diagramsOn())
@@ -2648,7 +2647,7 @@ function init()
 	centered = false; $i("centered_button").innerHTML="Center"; hidden('centered_button');
 	$i('S_grid_checkbox').checked = false; $i('Sprime_grid_checkbox').checked = false; $i('Sdblprime_grid_checkbox').checked = false;
 	$i('S_clocks_checkbox').checked = false; $i('Sprime_clocks_checkbox').checked = false; $i('Sdblprime_clocks_checkbox').checked = false;
-  $i('mini_light_clocks_checkbox').checked = false; $i('mini_light_clocks_checkbox').disabled = true;
+  $i('mini_lightclocks_checkbox').checked = false; $i('mini_lightclocks_checkbox').disabled = true;
   $i('annotation_checkbox').checked = false;
 	initDiagrams(); disableDiagrams();
 	$i('coord_checkbox').checked = false;
@@ -2761,9 +2760,9 @@ function return_to_description()
 
 function initDiagrams()
 {
-  $i('S_diagrams').checked = false;
-  $i('Sprime_diagrams').checked = false;
-  $i('Sdblprime_diagrams').checked = false;
+  $i('S_diag_checkbox').checked = false;
+  $i('Sprime_diag_checkbox').checked = false;
+  $i('Sdblprime_diag_checkbox').checked = false;
 	$i("XT_button").checked = true;
 	$i("XT_Yplus_button").checked = false;
 	$i("XT_Yminus_button").checked = false;
@@ -2835,7 +2834,7 @@ var S_diagrams_title, Sprime_diagrams_title, Sdblprime_diagrams_title;
 function SRlab()
 {
   hidden('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
-  $i("Sdblprime_diagrams").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
+  $i("Sdblprime_diag_checkbox").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
   $i("Sdblprime_clocks_checkbox").disabled = true; setClocksCheckbox();
   $i("SR_lab_button").checked = true;
   $i("S_grid_span").title = "Grid of Laboratory Frame xy Coordinates";
@@ -2853,7 +2852,7 @@ function SRlab()
 function SRrocket()
 {
   hidden('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
-  $i("Sdblprime_diagrams").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
+  $i("Sdblprime_diag_checkbox").disabled = true; $i("Sdblprime_grid_checkbox").disabled = true;
   $i("Sdblprime_clocks_checkbox").disabled = true; setClocksCheckbox();
   $i("SR_rocket_button").checked = true;
   $i("S_grid_span").title = "Grid of Laboratory Frame xy Coordinates";
@@ -2871,7 +2870,7 @@ function SRrocket()
 function GRrain()
 {
   inherit('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
-  $i("Sdblprime_diagrams").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
+  $i("Sdblprime_diag_checkbox").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
   $i("Sdblprime_clocks_checkbox").disabled = false; setClocksCheckbox();
   $i("GR_rain_button").checked = true;
   $i("S_grid_span").title = "Grid of Free-Falling Rain Frame xy Coordinates";
@@ -2889,7 +2888,7 @@ function GRrain()
 function GRshell()
 {
   inherit('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
-  $i("Sdblprime_diagrams").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
+  $i("Sdblprime_diag_checkbox").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
   $i("Sdblprime_clocks_checkbox").disabled = false; setClocksCheckbox();
   $i("GR_shell_button").checked = true;
   $i("S_grid_span").title = "Grid of Free-Falling Rain Frame xy Coordinates";
@@ -2907,7 +2906,7 @@ function GRshell()
 function GRfar()
 {
   inherit('r_span'); if (v != 0) inherit('centered_button'); else hidden('centered_button');
-  $i("Sdblprime_diagrams").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
+  $i("Sdblprime_diag_checkbox").disabled = false; $i("Sdblprime_grid_checkbox").disabled = false;
   $i("Sdblprime_clocks_checkbox").disabled = false; setClocksCheckbox();
   $i("GR_far_button").checked = true;
   $i("S_grid_span").title = "Grid of Free-Falling Rain Frame xy Coordinates";
@@ -3026,6 +3025,13 @@ function retwavesMouse()
 	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
   drawFrame();
 }
+
+// buttons
+
+function XT_button()        {$i('XT_button').checked = true; clearEvents();}
+function XT_Yplus_button()  {$i('XT_Yplus_button').checked = true; clearEvents();}
+function XT_Yminus_button() {$i('XT_Yminus_button').checked = true; clearEvents();}
+function YT_button()        {$i('YT_button').checked = true; clearEvents();}
 
 // event handlers
 
@@ -3209,7 +3215,7 @@ function diagramsOn()
     title = S_diagrams_title + "\n--> To enable S diagrams check Photons"; if ($i("S_diagrams_span").title != title) $i("S_diagrams_span").title = title;
     title = Sprime_diagrams_title + "\n--> To enable S' diagrams check Photons"; if ($i("Sprime_diagrams_span").title != title) $i("Sprime_diagrams_span").title = title;
     title = Sdblprime_diagrams_title + '\n--> To enable S" diagrams check Photons' + reason; if ($i("Sdblprime_diagrams_span").title != title) $i("Sdblprime_diagrams_span").title = title;
-    $i("S_diagrams").disabled = true; $i("Sprime_diagrams").disabled = true; $i("Sdblprime_diagrams").disabled = true;
+    $i("S_diag_checkbox").disabled = true; $i("Sprime_diag_checkbox").disabled = true; $i("Sdblprime_diag_checkbox").disabled = true;
     disableDiagrams();
     return false;
   }
@@ -3218,24 +3224,24 @@ function diagramsOn()
     title = S_diagrams_title + "\n--> To enable S diagrams uncheck " + reason; if ($i("S_diagrams_span").title != title) $i("S_diagrams_span").title = title;
     title = Sprime_diagrams_title + "\n--> To enable S' diagrams uncheck " + reason; if ($i("Sprime_diagrams_span").title != title) $i("Sprime_diagrams_span").title = title;
     title = Sdblprime_diagrams_title + '\n--> To enable S" diagrams uncheck ' + reason; if ($i("Sdblprime_diagrams_span").title != title) $i("Sdblprime_diagrams_span").title = title;
-    $i("S_diagrams").disabled = true; $i("Sprime_diagrams").disabled = true; $i("Sdblprime_diagrams").disabled = true;
+    $i("S_diag_checkbox").disabled = true; $i("Sprime_diag_checkbox").disabled = true; $i("Sdblprime_diag_checkbox").disabled = true;
     disableDiagrams();
     return false;
   }
   else // OK to enable Diagrams
   {
     $i("S_diagrams_span").title = S_diagrams_title; $i("Sprime_diagrams_span").title = Sprime_diagrams_title; $i("Sdblprime_diagrams_span").title = Sdblprime_diagrams_title;
-    $i("S_diagrams").disabled = false; $i("Sprime_diagrams").disabled = false; $i("Sdblprime_diagrams").disabled = (ref == 'SR_lab' || ref == 'SR_rocket');
+    $i("S_diag_checkbox").disabled = false; $i("Sprime_diag_checkbox").disabled = false; $i("Sdblprime_diag_checkbox").disabled = (ref == 'SR_lab' || ref == 'SR_rocket');
     enableDiagrams();
-    return (On("S_diagrams") || On("Sprime_diagrams") || On("Sdblprime_diagrams"));
+    return (On("S_diag_checkbox") || On("Sprime_diag_checkbox") || On("Sdblprime_diag_checkbox"));
   }
 }
 
 function setClocksCheckbox()
 {
   if (On("S_clocks_checkbox") || On("Sprime_clocks_checkbox") || On("Sdblprime_clocks_checkbox"))
-        $i("mini_light_clocks_checkbox").disabled = false;
-  else  $i("mini_light_clocks_checkbox").disabled = true;
+        $i("mini_lightclocks_checkbox").disabled = false;
+  else  $i("mini_lightclocks_checkbox").disabled = true;
 }
 
 var button_timer;
@@ -3303,12 +3309,32 @@ $i('gamma').addEventListener("touchend",            gammaSpan);
 $i('r_reduced').addEventListener("mouseup",         rSpan);
 $i('r_reduced').addEventListener("touchend",        rSpan);
 
-$i('photons_checkbox').addEventListener("touchend",       toggleCheckbox);
-$i('annotation_checkbox').addEventListener("touchend",    toggleCheckbox);
-$i('retarded_waves_checkbox').addEventListener("mouseup", retwavesMouse);
-$i('retarded_waves_checkbox').addEventListener("touchend",retwavesTouch);
-$i('advanced_waves_checkbox').addEventListener("mouseup", advwavesMouse);
-$i('advanced_waves_checkbox').addEventListener("touchend",advwavesTouch);
+$i('photons_checkbox').addEventListener("touchend",         toggleCheckbox);
+$i('annotation_checkbox').addEventListener("touchend",      toggleCheckbox);
+$i('retarded_waves_checkbox').addEventListener("mouseup",   retwavesMouse);
+$i('retarded_waves_checkbox').addEventListener("touchend",  retwavesTouch);
+$i('advanced_waves_checkbox').addEventListener("mouseup",   advwavesMouse);
+$i('advanced_waves_checkbox').addEventListener("touchend",  advwavesTouch);
+$i('full_arcs_checkbox').addEventListener("touchend",       toggleCheckbox);
+$i('S_grid_checkbox').addEventListener("touchend",          toggleCheckbox);
+$i('Sprime_grid_checkbox').addEventListener("touchend",     toggleCheckbox);
+$i('Sdblprime_grid_checkbox').addEventListener("touchend",  toggleCheckbox);
+$i('S_clocks_checkbox').addEventListener("touchend",        toggleCheckbox);
+$i('Sprime_clocks_checkbox').addEventListener("touchend",   toggleCheckbox);
+$i('Sdblprime_clocks_checkbox').addEventListener("touchend",toggleCheckbox);
+$i('mini_lightclocks_checkbox').addEventListener("touchend",toggleCheckbox);
+$i('S_diag_checkbox').addEventListener("touchend",          toggleCheckbox);
+$i('Sprime_diag_checkbox').addEventListener("touchend",     toggleCheckbox);
+$i('Sdblprime_diag_checkbox').addEventListener("touchend",  toggleCheckbox);
+
+$i('XT_button').addEventListener("mouseup",                 XT_button);
+$i('XT_button').addEventListener("touchend",                XT_button);
+$i('XT_Yplus_button').addEventListener("mouseup",           XT_Yplus_button);
+$i('XT_Yplus_button').addEventListener("touchend",          XT_Yplus_button);
+$i('XT_Yminus_button').addEventListener("mouseup",          XT_Yminus_button);
+$i('XT_Yminus_button').addEventListener("touchend",         XT_Yminus_button);
+$i('YT_button').addEventListener("mouseup",                 YT_button);
+$i('YT_button').addEventListener("touchend",                YT_button);
 
     </script>
   </body>
