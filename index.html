@@ -127,15 +127,9 @@
         <button title="Undo Zooming" id="zoom_zero_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
         <button title="Zoom In" id="zoom_in_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">+</button>
         <span title="Change Angle of Light Clock Mirrors" id="rotate">rotate:</span>
-        <button title="Rotate Counter-Clockwise" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});" ontouchend="holdButtonOff();" ontouchmove="holdButtonOff();"
-          onmousedown="holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});" onmouseup="holdButtonOff();" onmouseout="holdButtonOff();">-</button>
-        <button title="Undo Rotation" onmousedown="initRotation(); drawFrame();" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
-        <button title="Rotate Clockwise" style="font-weight:bold; text-align:center; padding:0px; width:30px;"
-          ontouchstart="event.preventDefault(); holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});"
-          ontouchend="event.preventDefault(); holdButtonOff();"
-          ontouchmove="event.preventDefault(); holdButtonOff();"
-          onmousedown="holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});" onmouseup="holdButtonOff();" onmouseout="prev_theta = theta; holdButtonOff();">+</button><br>
+        <button title="Rotate Counter-Clockwise" id="rotate_ccw_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">-</button>
+        <button title="Undo Rotation" id="rotate_zero_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
+        <button title="Rotate Clockwise" id="rotate_cw_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">+</button><br>
         <span title="Change Animation Time Direction" id="timedirection">time direction:</span>
         <span title="Normal Time Progression" id="Forward"><input id="forward_button" type="radio" name="time_direction"
           onmouseup="delta_t = Math.abs(delta_t); $i('forward_button').checked = true;" ontouchend="delta_t = Math.abs(delta_t); $i('forward_button').checked = true;"><span>Forward</span></span>
@@ -3033,6 +3027,15 @@ function zoom_in_touchstart()   {event.preventDefault(); holdButtonOn(100, funct
 function zoom_in_touchend()     {event.preventDefault(); prev_scale = scale; holdButtonOff();}
 function zoom_in_mousedown()    {holdButtonOn(100, function() {updateScale(scale*1.01);});}
 function zoom_in_mouseup()      {prev_scale = scale; holdButtonOff();}
+function rotate_ccw_touchstart(){holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});}
+function rotate_ccw_touchend()  {event.preventDefault(); prev_theta = theta; holdButtonOff();}
+function rotate_ccw_mousedown() {holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});}
+function rotate_ccw_mouseup()   {prev_theta = theta; holdButtonOff();}
+function rotate_zero()          {initRotation(); drawFrame();}
+function rotate_cw_touchstart() {event.preventDefault(); holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});}
+function rotate_cw_touchend()   {event.preventDefault(); prev_theta = theta; holdButtonOff();}
+function rotate_cw_mousedown()  {holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});}
+function rotate_cw_mouseup()    {prev_theta = theta; holdButtonOff();}
 
 // event handlers
 
@@ -3348,7 +3351,20 @@ $i('zoom_in_button').addEventListener("mouseout",   zoom_in_mouseup);
 $i('zoom_in_button').addEventListener("mouseup",    zoom_in_mouseup);
 $i('zoom_in_button').addEventListener("touchstart", zoom_in_touchstart);
 $i('zoom_in_button').addEventListener("touchmove",  zoom_in_touchend);
-$i('zoom_in_button').addEventListener("touchend",   zoom_in_touchend);
+$i('rotate_cw_button').addEventListener("touchend",   rotate_cw_touchend);
+$i('rotate_ccw_button').addEventListener("mousedown", rotate_ccw_mousedown);
+$i('rotate_ccw_button').addEventListener("mouseout",  rotate_ccw_mouseup);
+$i('rotate_ccw_button').addEventListener("mouseup",   rotate_ccw_mouseup);
+$i('rotate_ccw_button').addEventListener("touchstart",rotate_ccw_touchstart);
+$i('rotate_ccw_button').addEventListener("touchmove", rotate_ccw_touchend);
+$i('rotate_ccw_button').addEventListener("touchend",  rotate_ccw_touchend);
+$i('rotate_zero_button').addEventListener("mousedown",rotate_zero);
+$i('rotate_cw_button').addEventListener("mousedown",  rotate_cw_mousedown);
+$i('rotate_cw_button').addEventListener("mouseout",   rotate_cw_mouseup);
+$i('rotate_cw_button').addEventListener("mouseup",    rotate_cw_mouseup);
+$i('rotate_cw_button').addEventListener("touchstart", rotate_cw_touchstart);
+$i('rotate_cw_button').addEventListener("touchmove",  rotate_cw_touchend);
+$i('rotate_cw_button').addEventListener("touchend",   rotate_cw_touchend);
 
     </script>
   </body>
