@@ -2943,6 +2943,7 @@ function toggleCheckbox(event)
 {
   var checkbox;
   
+  event.preventDefault();
   checkbox = event.target.firstChild;
   checkbox.checked = !checkbox.checked;
   drawFrame();
@@ -3295,15 +3296,15 @@ $i('Backward').addEventListener("mouseup",          backward_time);
 $i('Backward').addEventListener("touchend",         backward_time);
 
 // spans
-$i('speed_span').addEventListener("mouseup",          speedSpan);
-$i('speed_span').addEventListener("touchend",         speedSpan);
-$i('gamma_span').addEventListener("mouseup",             gammaSpan);
-$i('gamma_span').addEventListener("touchend",            gammaSpan);
-$i('r_span').addEventListener("mouseup",         rSpan);
-$i('r_span').addEventListener("touchend",        rSpan);
+$i('speed_span').addEventListener("mouseup",        speedSpan);
+$i('speed_span').addEventListener("touchend",       speedSpan);
+$i('gamma_span').addEventListener("mouseup",        gammaSpan);
+$i('gamma_span').addEventListener("touchend",       gammaSpan);
+$i('r_span').addEventListener("mouseup",            rSpan);
+$i('r_span').addEventListener("touchend",           rSpan);
 $i('current_time').addEventListener("mousedown",    get_t);
 
-// checkboxes
+// checkboxes as firstChild
 $i('Photons').addEventListener("mouseup",                 toggleCheckbox);
 $i('Photons').addEventListener("touchend",                toggleCheckbox);
 $i('Annotation').addEventListener("touchend",             toggleCheckbox);
@@ -3323,14 +3324,14 @@ $i('Sdblprime_diagrams_span').addEventListener("touchend",toggleCheckbox);
 
 // buttons
 $i('centered_button').addEventListener("mouseup",       centeredButton);
-$i('XT_span').addEventListener("mouseup",             XT_button);
-$i('XT_span').addEventListener("touchend",            XT_button);
-$i('XT_Yplus_span').addEventListener("mouseup",       XT_Yplus_button);
-$i('XT_Yplus_span').addEventListener("touchend",      XT_Yplus_button);
-$i('XT_Yminus_span').addEventListener("mouseup",      XT_Yminus_button);
-$i('XT_Yminus_span').addEventListener("touchend",     XT_Yminus_button);
-$i('YT_span').addEventListener("mouseup",             YT_button);
-$i('YT_span').addEventListener("touchend",            YT_button);
+$i('XT_span').addEventListener("mouseup",               XT_button);
+$i('XT_span').addEventListener("touchend",              XT_button);
+$i('XT_Yplus_span').addEventListener("mouseup",         XT_Yplus_button);
+$i('XT_Yplus_span').addEventListener("touchend",        XT_Yplus_button);
+$i('XT_Yminus_span').addEventListener("mouseup",        XT_Yminus_button);
+$i('XT_Yminus_span').addEventListener("touchend",       XT_Yminus_button);
+$i('YT_span').addEventListener("mouseup",               YT_button);
+$i('YT_span').addEventListener("touchend",              YT_button);
 $i('zoom_out_button').addEventListener("mousedown",     zoom_out_mousedown);
 $i('zoom_out_button').addEventListener("mouseout",      zoom_out_mouseup);
 $i('zoom_out_button').addEventListener("mouseup",       zoom_out_mouseup);
