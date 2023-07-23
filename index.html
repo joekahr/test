@@ -2952,8 +2952,8 @@ function rSpan()		{if (get_r()) {reset();}}
 
 function toggleCheckbox(event)
 {
-  event.preventDefault();
-  event.stopPropagation();
+  //event.preventDefault();
+  //event.stopPropagation();
   if (event.target.nodeName == "SPAN") event.target.firstChild.checked = !event.target.firstChild.checked;
   drawFrame();
 }
@@ -3316,7 +3316,7 @@ $i('current_time').addEventListener("mousedown",    get_t);
 // checkboxes as firstChild
 //$i('Photons').addEventListener("mouseup",                 toggleCheckbox);
 //$i('Photons').addEventListener("touchend",                toggleCheckbox);
-$i('Photons').addEventListener("pointerdown",             toggleCheckbox);
+$i('Photons').addEventListener("pointerup",               toggleCheckbox);
 $i('Annotation').addEventListener("touchend",             toggleCheckbox);
 $i('Retarded').addEventListener("touchend",               retwavesTouch);
 $i('Advanced').addEventListener("touchend",               advwavesTouch);
