@@ -2944,8 +2944,9 @@ function toggleCheckbox(event)
   var checkbox;
   
   event.preventDefault();
-  checkbox = event.target.firstChild;
-  checkbox.checked = !checkbox.checked;
+  if (event.target.nodeName == "SPAN") checkbox = event.target.firstChild;
+  else checkbox = event.target;
+  if (event.type == "touchend" || event.target.nodeName == "SPAN") checkbox.checked = !checkbox.checked;
   drawFrame();
 }
 
