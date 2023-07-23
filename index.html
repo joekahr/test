@@ -2955,6 +2955,7 @@ function toggleCheckbox(event)
   var checkbox;
   
   event.preventDefault();
+  event.stopPropagation();
   if (event.target.nodeName == "SPAN") checkbox = event.target.firstChild;
   else checkbox = event.target;
   if (event.target.nodeName == "SPAN" || event.pointerType == 'touch') checkbox.checked = !checkbox.checked;
