@@ -101,7 +101,7 @@
         <span title="Light Waves of Light Clock" id="waves">waves:</span>
         <span title="Forward-in-Time Light Waves" id="Retarded"><input id="retarded_waves_checkbox" type="checkbox">Retarded</span>
         <span title="Backward-in-Time Light Waves" id="Advanced"><input id="advanced_waves_checkbox" type="checkbox">Advanced</span>
-        <span title="Geometry of Original and Reflected Waves" id="full_arcs_span"><input id="full_arcs_checkbox" type="checkbox">Full</span><br>
+        <span title="Geometry of Original and Reflected Waves" id="Full"><input id="full_arcs_checkbox" type="checkbox">Full</span><br>
         <span title="Grids of Spatial Coordinates" id="space">space:</span>
         <span title="" id="S_grid_span"><input id="S_grid_checkbox" type="checkbox"><span style="color:lime; font-family:cambria_math">xy</span></span>
         <span title="" id="Sprime_grid_span"><input id="Sprime_grid_checkbox" type="checkbox"><span style="color:cyan; font-family:cambria_math">x'y'</span></span>
@@ -110,7 +110,7 @@
         <span title="" id="S_clocks_span"><input id="S_clocks_checkbox" type="checkbox"><span style="color:lime; font-family:cambria_math">t</span></span>
         <span title="" id="Sprime_clocks_span"><input id="Sprime_clocks_checkbox" type="checkbox"><span style="color:cyan; font-family:cambria_math">t'</span></span>
         <span title='Grid of Far-Away Bookkeeper (Schwarzschild Frame) t" Clocks' id="Sdblprime_clocks_span" ><input id="Sdblprime_clocks_checkbox" type="checkbox"><span style="color:orange; font-family:cambria_math">t"</span></span>
-        <span title='Lattice of Mini Light Clocks (10x)' id="mini_light_clocks"><input id="mini_lightclocks_checkbox" type="checkbox"><span style="color:white">mini light clocks</span></span><br>
+        <span title='Lattice of Mini Light Clocks (10x)' id="mini_lightclocks"><input id="mini_lightclocks_checkbox" type="checkbox"><span style="color:white">mini light clocks</span></span><br>
         <span title="Spacetime Diagrams for Light Clock photons" id="diagrams">diagrams:</span>
         <span title="" id="S_diagrams_span"><input id="S_diag_checkbox" type="checkbox"><span style="color:lime">S</span></span>
         <span title="" id="Sprime_diagrams_span"><input id="Sprime_diag_checkbox" type="checkbox"><span style="color:cyan">S'</span></span>
@@ -1071,7 +1071,7 @@ function clockStime(ref) // S time at center of light clock
   else if (frameType(ref) == 'S"') return(tdblprime_to_t(t,0));
 }
 
-function drawLattice(type, grid, clocks, mini_light_clocks)
+function drawLattice(type, grid, clocks, mini_lightclocks)
 {
   var dx,dy,x,y,delta_x,delta_y,grid_opacity;
   var r,x_scale,dv,clock_angle,t_left,t_right,v_left,v_right;
@@ -1204,7 +1204,7 @@ function drawLattice(type, grid, clocks, mini_light_clocks)
       else if (refSdblprime())  clock_angle = angleLatticeClock(type,t,x - offset_x - v*t/(gamma*gamma)); // t is S" time
       else if (refSprime())     clock_angle = angleLatticeClock(type,t,x - offset_x - v*t); // t is S' time
       else if (refS())          clock_angle = angleLatticeClock(type,t,x - offset_x - v*t); // t is S time
-      if (mini_light_clocks) // set up mini light clocks
+      if (mini_lightclocks) // set up mini light clocks
       {
         miniclock_angle = clock_angle*10; mini_t_cycle = (miniclock_angle % (2*Math.PI))/(2*Math.PI)*(t_tick/10);
         if (miniclock_angle < 0) mini_t_cycle = (t_tick/10) + mini_t_cycle;
@@ -1237,7 +1237,7 @@ function drawLattice(type, grid, clocks, mini_light_clocks)
         context.strokeStyle = grid_color;
         drawArc(x/x_scale, y, r, 0, 2*Math.PI); // draw clock w/o hands
         drawLine(x/x_scale, y, x/x_scale + r*Math.cos(clock_angle - Math.PI/2)*0.8, y + r*Math.sin(clock_angle - Math.PI/2)*0.8); // draw clock hand
-        if (mini_light_clocks) // draw mini light clocks
+        if (mini_lightclocks) // draw mini light clocks
         {
           drawLine(x/x_scale, y, x/x_scale + r*Math.cos(miniclock_angle - Math.PI/2), y + r*Math.sin(miniclock_angle - Math.PI/2)); // draw miniclock hand
           context.strokeStyle = 'silver';
@@ -2941,10 +2941,10 @@ function rSpan()		{if (get_r()) {reset();}}
 
 function toggleCheckbox(event)
 {
-  var id;
+  var checkbox;
   
-  id = event.target.id;
-  $i(id).checked = !$i(id).checked;
+  checkbox = event.target.firstChild;
+  checkbox.checked = !checkbox.checked;
   drawFrame();
 }
 
@@ -3295,43 +3295,42 @@ $i('Backward').addEventListener("mouseup",          backward_time);
 $i('Backward').addEventListener("touchend",         backward_time);
 
 // spans
-$i('v_over_c').addEventListener("mouseup",          speedSpan);
-$i('v_over_c').addEventListener("touchend",         speedSpan);
-$i('gamma').addEventListener("mouseup",             gammaSpan);
-$i('gamma').addEventListener("touchend",            gammaSpan);
-$i('r_reduced').addEventListener("mouseup",         rSpan);
-$i('r_reduced').addEventListener("touchend",        rSpan);
+$i('speed_span').addEventListener("mouseup",          speedSpan);
+$i('speed_span').addEventListener("touchend",         speedSpan);
+$i('gamma_span').addEventListener("mouseup",             gammaSpan);
+$i('gamma_span').addEventListener("touchend",            gammaSpan);
+$i('r_span').addEventListener("mouseup",         rSpan);
+$i('r_span').addEventListener("touchend",        rSpan);
 $i('current_time').addEventListener("mousedown",    get_t);
 
 // checkboxes
-$i('photons_checkbox').addEventListener("touchend",         toggleCheckbox);
-$i('annotation_checkbox').addEventListener("touchend",      toggleCheckbox);
-$i('retarded_waves_checkbox').addEventListener("mouseup",   retwavesMouse);
-$i('retarded_waves_checkbox').addEventListener("touchend",  retwavesTouch);
-$i('advanced_waves_checkbox').addEventListener("mouseup",   advwavesMouse);
-$i('advanced_waves_checkbox').addEventListener("touchend",  advwavesTouch);
-$i('full_arcs_checkbox').addEventListener("touchend",       toggleCheckbox);
-$i('S_grid_checkbox').addEventListener("touchend",          toggleCheckbox);
-$i('Sprime_grid_checkbox').addEventListener("touchend",     toggleCheckbox);
-$i('Sdblprime_grid_checkbox').addEventListener("touchend",  toggleCheckbox);
-$i('S_clocks_checkbox').addEventListener("touchend",        toggleCheckbox);
-$i('Sprime_clocks_checkbox').addEventListener("touchend",   toggleCheckbox);
-$i('Sdblprime_clocks_checkbox').addEventListener("touchend",toggleCheckbox);
-$i('mini_lightclocks_checkbox').addEventListener("touchend",toggleCheckbox);
-$i('S_diag_checkbox').addEventListener("touchend",          toggleCheckbox);
-$i('Sprime_diag_checkbox').addEventListener("touchend",     toggleCheckbox);
-$i('Sdblprime_diag_checkbox').addEventListener("touchend",  toggleCheckbox);
+$i('Photons').addEventListener("mouseup",                 toggleCheckbox);
+$i('Photons').addEventListener("touchend",                toggleCheckbox);
+$i('Annotation').addEventListener("touchend",             toggleCheckbox);
+$i('Retarded').addEventListener("touchend",               retwavesTouch);
+$i('Advanced').addEventListener("touchend",               advwavesTouch);
+$i('Full').addEventListener("touchend",                   toggleCheckbox);
+$i('S_grid_span').addEventListener("touchend",            toggleCheckbox);
+$i('Sprime_grid_span').addEventListener("touchend",       toggleCheckbox);
+$i('Sdblprime_grid_span').addEventListener("touchend",    toggleCheckbox);
+$i('S_clocks_span').addEventListener("touchend",          toggleCheckbox);
+$i('Sprime_clocks_span').addEventListener("touchend",     toggleCheckbox);
+$i('Sdblprime_clocks_span').addEventListener("touchend",  toggleCheckbox);
+$i('mini_lightclocks').addEventListener("touchend",       toggleCheckbox);
+$i('S_diagrams_span').addEventListener("touchend",        toggleCheckbox);
+$i('Sprime_diagrams_span').addEventListener("touchend",   toggleCheckbox);
+$i('Sdblprime_diagrams_span').addEventListener("touchend",toggleCheckbox);
 
 // buttons
 $i('centered_button').addEventListener("mouseup",       centeredButton);
-$i('XT_button').addEventListener("mouseup",             XT_button);
-$i('XT_button').addEventListener("touchend",            XT_button);
-$i('XT_Yplus_button').addEventListener("mouseup",       XT_Yplus_button);
-$i('XT_Yplus_button').addEventListener("touchend",      XT_Yplus_button);
-$i('XT_Yminus_button').addEventListener("mouseup",      XT_Yminus_button);
-$i('XT_Yminus_button').addEventListener("touchend",     XT_Yminus_button);
-$i('YT_button').addEventListener("mouseup",             YT_button);
-$i('YT_button').addEventListener("touchend",            YT_button);
+$i('XT_span').addEventListener("mouseup",             XT_button);
+$i('XT_span').addEventListener("touchend",            XT_button);
+$i('XT_Yplus_span').addEventListener("mouseup",       XT_Yplus_button);
+$i('XT_Yplus_span').addEventListener("touchend",      XT_Yplus_button);
+$i('XT_Yminus_span').addEventListener("mouseup",      XT_Yminus_button);
+$i('XT_Yminus_span').addEventListener("touchend",     XT_Yminus_button);
+$i('YT_span').addEventListener("mouseup",             YT_button);
+$i('YT_span').addEventListener("touchend",            YT_button);
 $i('zoom_out_button').addEventListener("mousedown",     zoom_out_mousedown);
 $i('zoom_out_button').addEventListener("mouseout",      zoom_out_mouseup);
 $i('zoom_out_button').addEventListener("mouseup",       zoom_out_mouseup);
