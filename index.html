@@ -2939,6 +2939,17 @@ function rSpan()		{if (get_r()) {reset();}}
 
 // checkboxes
 
+//function toggleCheckbox(event)
+//{
+//  var checkbox;
+//  
+//  event.preventDefault();
+//  if (event.target.nodeName == "SPAN") checkbox = event.target.firstChild;
+//  else checkbox = event.target;
+//  if (event.type == "touchend" || event.target.nodeName == "SPAN") checkbox.checked = !checkbox.checked;
+//  drawFrame();
+//}
+
 function toggleCheckbox(event)
 {
   var checkbox;
@@ -2946,7 +2957,7 @@ function toggleCheckbox(event)
   event.preventDefault();
   if (event.target.nodeName == "SPAN") checkbox = event.target.firstChild;
   else checkbox = event.target;
-  if (event.type == "touchend" || event.target.nodeName == "SPAN") checkbox.checked = !checkbox.checked;
+  if (event.target.nodeName == "SPAN") checkbox.checked = !checkbox.checked;
   drawFrame();
 }
 
@@ -3306,8 +3317,9 @@ $i('r_span').addEventListener("touchend",           rSpan);
 $i('current_time').addEventListener("mousedown",    get_t);
 
 // checkboxes as firstChild
-$i('Photons').addEventListener("mouseup",                 toggleCheckbox);
-$i('Photons').addEventListener("touchend",                toggleCheckbox);
+//$i('Photons').addEventListener("mouseup",                 toggleCheckbox);
+//$i('Photons').addEventListener("touchend",                toggleCheckbox);
+$i('Photons').addEventListener("pointerdown",             toggleCheckbox);
 $i('Annotation').addEventListener("touchend",             toggleCheckbox);
 $i('Retarded').addEventListener("touchend",               retwavesTouch);
 $i('Advanced').addEventListener("touchend",               advwavesTouch);
