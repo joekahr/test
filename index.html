@@ -2958,7 +2958,7 @@ function toggleCheckbox(event)
   event.stopPropagation();
   if (event.target.nodeName == "SPAN") checkbox = event.target.firstChild;
   else checkbox = event.target;
-  if (event.target.nodeName == "SPAN" || event.pointerType == 'touch') checkbox.checked = !checkbox.checked;
+  if (!((event.pointerType == 'mouse') && (event.target.nodeName == "INPUT"))) checkbox.checked = !checkbox.checked;
   drawFrame();
 }
 
