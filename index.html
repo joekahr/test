@@ -2954,8 +2954,6 @@ function toggleCheckbox(event)
 {
   var node;
   var count;
-  //event.preventDefault();
-  //event.stopPropagation();
   if (event.target.nodeName == "SPAN")
   {
     count = event.currentTarget.childElementCount;
@@ -2968,34 +2966,18 @@ function toggleCheckbox(event)
   else drawFrame();
 }
 
-function advwavesTouch()
+function advwaves(event)
 {
 	advanced_waves = !$i("advanced_waves_checkbox").checked;
 	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  $i("advanced_waves_checkbox").checked = advanced_waves;
-  drawFrame();
+  toggleCheckbox(event);
 }
 
-function advwavesMouse()
-{
-	advanced_waves = !$i("advanced_waves_checkbox").checked;
-	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  drawFrame();
-}
-
-function retwavesTouch()
+function retwaves(event)
 {
 	retarded_waves = !$i("retarded_waves_checkbox").checked;
 	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  $i("retarded_waves_checkbox").checked = retarded_waves;
-  drawFrame();
-}
-
-function retwavesMouse()
-{
-	retarded_waves = !$i("retarded_waves_checkbox").checked;
-	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  drawFrame();
+  toggleCheckbox(event);
 }
 
 // buttons
@@ -3326,8 +3308,8 @@ $i('current_time').addEventListener("mousedown",    get_t);
 // checkboxes as firstChild
 $i('Photons').addEventListener("pointerdown",                 toggleCheckbox);
 $i('Annotation').addEventListener("pointerdown",              toggleCheckbox);
-$i('Retarded').addEventListener("touchend",                   retwavesTouch);
-$i('Advanced').addEventListener("touchend",                   advwavesTouch);
+$i('Retarded').addEventListener("pointerdown",                retwaves);
+$i('Advanced').addEventListener("pointerdown",                advwaves);
 $i('Full').addEventListener("pointerdown",                    toggleCheckbox);
 $i('S_grid_span').addEventListener("pointerdown",             toggleCheckbox);
 $i('Sprime_grid_span').addEventListener("pointerdown",        toggleCheckbox);
