@@ -2623,7 +2623,7 @@ function init()
   SRlab();
 }
 
-function start()
+function start_animation()
 {
   init();
   frame_timerID = setInterval(animate_func,msec_delay);
@@ -2688,23 +2688,23 @@ function resize()
 
 //buttons
 
-function startButton()		    {hidden('start'); start(); inherit('canvas');}
+function start()		    {hidden('start'); start_animation(); inherit('canvas');}
 
-function descriptionButton()	{hidden('start'); inherit('description');}
+function description()	{hidden('start'); inherit('description');}
 
-function SR_Button()			{hidden('description'); inherit('SR_text'); $i('body').style.overflow = "auto";}
+function SR()			      {hidden('description'); inherit('SR_text'); $i('body').style.overflow = "auto";}
 
-function GR_Button()			{hidden('description'); inherit('GR_text'); $i('body').style.overflow = "auto";}
+function GR()			      {hidden('description'); inherit('GR_text'); $i('body').style.overflow = "auto";}
 
-function FAQ_Button()			{hidden('description'); inherit('FAQ'); $i('body').style.overflow = "auto";}
+function FAQ()			    {hidden('description'); inherit('FAQ'); $i('body').style.overflow = "auto";}
 
-function UI_Button()		    {hidden('start'); inherit('UI');}
+function UI()		        {hidden('start'); inherit('UI');}
 
 function return_to_start()
 {
 	window.scrollTo(0,0);
 	hidden('description');
-    hidden('FAQ');
+  hidden('FAQ');
 	hidden('UI');
 	hidden('canvas');
 	hidden('controls');
@@ -2884,8 +2884,8 @@ function GRfar()
   drawFrame();
 }
 
-function forward_time() {delta_t = Math.abs(delta_t); $i('forward_button').checked = true;}
-function backward_time() {delta_t = -Math.abs(delta_t); $i('backward_button').checked = true;}
+function forward_time() {delta_t = Math.abs(delta_t); $i('forward_button').checked = true; drawFrame();}
+function backward_time() {delta_t = -Math.abs(delta_t); $i('backward_button').checked = true; drwaFrame();}
 
 function setCurrentTime()
 {
@@ -2897,7 +2897,7 @@ function setCurrentTime()
   else if (refSdblprime())
     {$i("current_time_span1").textContent = 't"'; $i("current_time").style.color = 'orange';}
 }
-function pause_resumeButton()
+function pause_resume()
 {
 	paused = !paused;
 	if(paused)
@@ -2980,56 +2980,34 @@ function retwaves(event)
   toggleCheckbox(event);
 }
 
-// buttons
+// radio input
+function XT()                  {$i('XT_button').checked = true; clearEvents(); drawFrame();}
+function XT_Yplus()            {$i('XT_Yplus_button').checked = true; clearEvents(); drawFrame();}
+function XT_Yminus()           {$i('XT_Yminus_button').checked = true; clearEvents(); drawFrame();}
+function YT()                  {$i('YT_button').checked = true; clearEvents(); drawFrame();}
 
-function XT_button()                {$i('XT_button').checked = true; clearEvents();}
-function XT_Yplus_button()          {$i('XT_Yplus_button').checked = true; clearEvents();}
-function XT_Yminus_button()         {$i('XT_Yminus_button').checked = true; clearEvents();}
-function YT_button()                {$i('YT_button').checked = true; clearEvents();}
-function zoom_out_touchstart()      {event.preventDefault(); zoom_out_mousedown();}
-function zoom_out_touchend()        {event.preventDefault(); zoom_out_mouseup();}
-function zoom_out_mousedown()       {holdButtonOn(100, function() {updateScale(scale*0.99);});}
-function zoom_out_mouseup()         {prev_scale = scale; holdButtonOff();}
-function zoom_zero()                {initScaling(); drawFrame();}
-function zoom_in_touchstart()       {event.preventDefault(); zoom_in_mousedown();}
-function zoom_in_touchend()         {event.preventDefault(); zoom_in_mouseup();}
-function zoom_in_mousedown()        {holdButtonOn(100, function() {updateScale(scale*1.01);});}
-function zoom_in_mouseup()          {prev_scale = scale; holdButtonOff();}
-function rotate_ccw_touchstart()    {event.preventDefault(); rotate_ccw_mousedown();}
-function rotate_ccw_touchend()      {event.preventDefault(); rotate_ccw_mouseup();}
-function rotate_ccw_mousedown()     {holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});}
-function rotate_ccw_mouseup()       {prev_theta = theta; holdButtonOff();}
-function rotate_zero()              {initRotation(); drawFrame();}
-function rotate_cw_touchstart()     {event.preventDefault(); rotate_cw_mousedown();}
-function rotate_cw_touchend()       {event.preventDefault(); rotate_cw_mouseup();}
-function rotate_cw_mousedown()      {holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});}
-function rotate_cw_mouseup()        {prev_theta = theta; holdButtonOff();}
-function slower_touchend()          {event.preventDefault(); slower_mouseup();}
-function slower_mouseup()           {steps_per_tick = steps_per_tick*2;}
-function faster_touchend()          {event.preventDefault(); faster_mouseup();}
-function faster_mouseup()           {steps_per_tick = steps_per_tick/2;}
-function reset_touchend()           {event.preventDefault(); reset_mouseup();}
-function reset_mouseup()            {reset();}
-function exit_touchend()            {event.preventDefault(); exit_mouseup();}
-function exit_mouseup()             {return_to_start(); stop(); init();}
-function pause_resume_touchend()    {event.preventDefault(); pause_resume_mouseup();}
-function pause_resume_mouseup()     {pause_resumeButton();}
-function stepbackward_touchstart()  {event.preventDefault(); stepbackward_mousedown();}
-function stepbackward_mousedown()   {holdButtonOn(200, function() {step(false); setCurrentTime();});}
-function stepbackward_touchend()    {event.preventDefault(); stepbackward_mouseup();}
-function stepbackward_mouseup()     {holdButtonOff();}
-function stepforward_touchstart()   {event.preventDefault(); stepforward_mousedown();}
-function stepforward_mousedown()    {holdButtonOn(200, function() {step(true); setCurrentTime();});}
-function stepforward_touchend()     {event.preventDefault(); stepforward_mouseup();}
-function stepforward_mouseup()      {holdButtonOff();}
-function set_E1_touchend()          {event.preventDefault(); set_E1_mouseup();}
-function set_E1_mouseup()           {E1_setting = true; E2_setting = false; show_E_setting('A');}
-function set_E2_touchend()          {event.preventDefault(); set_E2_mouseup();}
-function set_E2_mouseup()           {E2_setting = true; E1_setting = false; show_E_setting('B');}
-function goto_E1_touchend()         {event.preventDefault(); goto_E1_mouseup();}
-function goto_E1_mouseup()          {if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();}
-function goto_E2_touchend()         {event.preventDefault(); goto_E2_mouseup();}
-function goto_E2_mouseup()          {if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();}
+// buttons
+function zoom_out_down()       {holdButtonOn(100, function() {updateScale(scale*0.99);});}
+function zoom_out_up()         {prev_scale = scale; holdButtonOff();}
+function zoom_zero()           {initScaling(); drawFrame();}
+function zoom_in_down()        {holdButtonOn(100, function() {updateScale(scale*1.01);});}
+function zoom_in_up()          {prev_scale = scale; holdButtonOff();}
+function rotate_ccw_down()     {holdButtonOn(100, function() {calcRotation(-0.01); prev_theta = theta;});}
+function rotate_ccw_up()       {prev_theta = theta; holdButtonOff();}
+function rotate_zero()         {initRotation(); drawFrame();}
+function rotate_cw_down()      {holdButtonOn(100, function() {calcRotation(0.01); prev_theta = theta;});}
+function rotate_cw_up()        {prev_theta = theta; holdButtonOff();}
+function slower()              {steps_per_tick = steps_per_tick*2;}
+function faster()              {steps_per_tick = steps_per_tick/2;}
+function exit()                {return_to_start(); stop(); init();}
+function stepbackward_down()   {holdButtonOn(200, function() {step(false); setCurrentTime();});}
+function stepbackward_up()     {holdButtonOff();}
+function stepforward_down()    {holdButtonOn(200, function() {step(true); setCurrentTime();});}
+function stepforward_up()      {holdButtonOff();}
+function set_E1()              {E1_setting = true; E2_setting = false; show_E_setting('A');}
+function set_E2()              {E2_setting = true; E1_setting = false; show_E_setting('B');}
+function goto_E1()             {if (refSdblprime()) {t = E1.t_dblprime;} else if (refSprime()) {t = E1.t_prime;} else {t = E1.t;} calcTime(); drawFrame();}
+function goto_E2()             {if (refSdblprime()) {t = E2.t_dblprime;} else if (refSprime()) {t = E2.t_prime;} else {t = E2.t;} calcTime(); drawFrame();}
 
 // event handlers
 
@@ -3180,7 +3158,7 @@ function buttonClick(event)
 		return (event.type == "click")      && ((targetType(event,"button") || targetType(event,"radio") || targetType(event,"checkbox")));
 }
 
-function diagram_disable()
+function diagram_disabled()
 {
   var reason;
 
@@ -3194,7 +3172,7 @@ function diagram_disable()
   if (On("Sdblprime_clocks_checkbox"))  {if (reason != "") reason = reason + ", "; reason = reason + 't" clocks';}
   if (On("retarded_waves_checkbox"))    {if (reason != "") reason = reason + ", "; reason = reason + "Retarded Waves";}
   if (On("advanced_waves_checkbox"))    {if (reason != "") reason = reason + ", "; reason = reason + "Advanced Waves";}
-  if (On("coord_checkbox"))             {if (reason != "") reason = reason + ", "; reason = reason + "Events";}
+  if (On("coord_checkbox") && paused)   {if (reason != "") reason = reason + ", "; reason = reason + "Events";}
   if (!On("photons_checkbox"))          {reason = "Photons off";}
   return (reason);
 }
@@ -3207,7 +3185,7 @@ function diagramsOn()
   // if ((theta != 0) || On("S_grid_checkbox") || On("Sprime_grid_checkbox") || On("Sdblprime_grid_checkbox") || 
   // On("S_clocks_checkbox") || On("Sprime_clocks_checkbox") || On("Sdblprime_clocks_checkbox") ||
   // On("retarded_waves_checkbox") || On("advanced_waves_checkbox") || On("coord_checkbox"))
-  reason = diagram_disable();
+  reason = diagram_disabled();
   if (reason == "Photons off")
   {
     title = S_diagrams_title + "\n--> To enable S diagrams check Photons"; if ($i("S_diagrams_span").title != title) $i("S_diagrams_span").title = title;
@@ -3281,29 +3259,24 @@ $i('speed_range').addEventListener("input", speed_change);
 //$i('speed_range').addEventListener("mouseup",  function() {speed_change(); speed_slider = false;});
 
 // radio input
-$i('Lab').addEventListener("mouseup",     SRlab);
-$i('Lab').addEventListener("touchend",    SRlab);
-$i('Rocket').addEventListener("mouseup",  SRrocket);
-$i('Rocket').addEventListener("touchend", SRrocket);
-$i('Rain').addEventListener("mouseup",    GRrain);
-$i('Rain').addEventListener("touchend",   GRrain);
-$i('Shell').addEventListener("mouseup",   GRshell);
-$i('Shell').addEventListener("touchend",  GRshell);
-$i('Far').addEventListener("mouseup",     GRfar);
-$i('Far').addEventListener("touchend",    GRfar);
-$i('Forward').addEventListener("mouseup",           forward_time);
-$i('Forward').addEventListener("touchend",          forward_time);
-$i('Backward').addEventListener("mouseup",          backward_time);
-$i('Backward').addEventListener("touchend",         backward_time);
+$i('Lab').addEventListener("pointerdown",             SRlab);
+$i('Rocket').addEventListener("pointerdown",          SRrocket);
+$i('Rain').addEventListener("pointerdown",            GRrain);
+$i('Shell').addEventListener("pointerdown",           GRshell);
+$i('Far').addEventListener("pointerdown",             GRfar);
+$i('Forward').addEventListener("pointerdown",         forward_time);
+$i('Backward').addEventListener("pointerdown",        backward_time);
+$i('centered_button').addEventListener("pointerdown", centeredButton);
+$i('XT_span').addEventListener("pointerdown",         XT);
+$i('XT_Yplus_span').addEventListener("pointerdown",   XT_Yplus);
+$i('XT_Yminus_span').addEventListener("pointerdown",  XT_Yminus);
+$i('YT_span').addEventListener("pointerdown",         YT);
 
 // spans
-$i('speed_span').addEventListener("mouseup",        speedSpan);
-$i('speed_span').addEventListener("touchend",       speedSpan);
-$i('gamma_span').addEventListener("mouseup",        gammaSpan);
-$i('gamma_span').addEventListener("touchend",       gammaSpan);
-$i('r_span').addEventListener("mouseup",            rSpan);
-$i('r_span').addEventListener("touchend",           rSpan);
-$i('current_time').addEventListener("mousedown",    get_t);
+$i('speed_span').addEventListener("pointerdown",      speedSpan);
+$i('gamma_span').addEventListener("pointerdown",      gammaSpan);
+$i('r_span').addEventListener("pointerdown",          rSpan);
+$i('current_time').addEventListener("pointerdown",    get_t);
 
 // checkboxes as firstChild
 $i('Photons').addEventListener("pointerdown",                 toggleCheckbox);
@@ -3323,84 +3296,41 @@ $i('Sprime_diagrams_span').addEventListener("pointerdown",    toggleCheckbox);
 $i('Sdblprime_diagrams_span').addEventListener("pointerdown", toggleCheckbox);
 
 // buttons
-$i('centered_button').addEventListener("pointerdown",         centeredButton);
-$i('XT_span').addEventListener("mouseup",               XT_button);
-$i('XT_span').addEventListener("touchend",              XT_button);
-$i('XT_Yplus_span').addEventListener("mouseup",         XT_Yplus_button);
-$i('XT_Yplus_span').addEventListener("touchend",        XT_Yplus_button);
-$i('XT_Yminus_span').addEventListener("mouseup",        XT_Yminus_button);
-$i('XT_Yminus_span').addEventListener("touchend",       XT_Yminus_button);
-$i('YT_span').addEventListener("mouseup",               YT_button);
-$i('YT_span').addEventListener("touchend",              YT_button);
-$i('zoom_out_button').addEventListener("mousedown",     zoom_out_mousedown);
-$i('zoom_out_button').addEventListener("mouseout",      zoom_out_mouseup);
-$i('zoom_out_button').addEventListener("mouseup",       zoom_out_mouseup);
-$i('zoom_out_button').addEventListener("touchstart",    zoom_out_touchstart);
-$i('zoom_out_button').addEventListener("touchmove",     zoom_out_touchend);
-$i('zoom_out_button').addEventListener("touchend",      zoom_out_touchend);
-$i('zoom_zero_button').addEventListener("mousedown",    zoom_zero);
-$i('zoom_in_button').addEventListener("mousedown",      zoom_in_mousedown);
-$i('zoom_in_button').addEventListener("mouseout",       zoom_in_mouseup);
-$i('zoom_in_button').addEventListener("mouseup",        zoom_in_mouseup);
-$i('zoom_in_button').addEventListener("touchstart",     zoom_in_touchstart);
-$i('zoom_in_button').addEventListener("touchmove",      zoom_in_touchend);
-$i('zoom_in_button').addEventListener("touchend",       zoom_in_touchend);
-$i('rotate_cw_button').addEventListener("touchend",     rotate_cw_touchend);
-$i('rotate_ccw_button').addEventListener("mousedown",   rotate_ccw_mousedown);
-$i('rotate_ccw_button').addEventListener("mouseout",    rotate_ccw_mouseup);
-$i('rotate_ccw_button').addEventListener("mouseup",     rotate_ccw_mouseup);
-$i('rotate_ccw_button').addEventListener("touchstart",  rotate_ccw_touchstart);
-$i('rotate_ccw_button').addEventListener("touchmove",   rotate_ccw_touchend);
-$i('rotate_ccw_button').addEventListener("touchend",    rotate_ccw_touchend);
-$i('rotate_zero_button').addEventListener("mousedown",  rotate_zero);
-$i('rotate_cw_button').addEventListener("mousedown",    rotate_cw_mousedown);
-$i('rotate_cw_button').addEventListener("mouseout",     rotate_cw_mouseup);
-$i('rotate_cw_button').addEventListener("mouseup",      rotate_cw_mouseup);
-$i('rotate_cw_button').addEventListener("touchstart",   rotate_cw_touchstart);
-$i('rotate_cw_button').addEventListener("touchmove",    rotate_cw_touchend);
-$i('rotate_cw_button').addEventListener("touchend",     rotate_cw_touchend);
-$i('slower_button').addEventListener("touchend",        slower_touchend);
-$i('slower_button').addEventListener("mouseup",         slower_mouseup);
-$i('faster_button').addEventListener("touchend",        faster_touchend);
-$i('faster_button').addEventListener("mouseup",         faster_mouseup);
-$i('reset_button').addEventListener("touchend",         reset_touchend);
-$i('reset_button').addEventListener("mouseup",          reset_mouseup);
-$i('exit_button').addEventListener("touchend",          exit_touchend);
-$i('exit_button').addEventListener("mouseup",           exit_mouseup);
-$i('pause_resume_button').addEventListener("touchend",  pause_resume_touchend);
-$i('pause_resume_button').addEventListener("mouseup",   pause_resume_mouseup);
-$i('stepbackward_button').addEventListener("mousedown", stepbackward_mousedown);
-$i('stepbackward_button').addEventListener("mouseout",  stepbackward_mouseup);
-$i('stepbackward_button').addEventListener("mouseup",   stepbackward_mouseup);
-$i('stepbackward_button').addEventListener("touchstart",stepbackward_touchstart);
-$i('stepbackward_button').addEventListener("touchmove", stepbackward_touchend);
-$i('stepbackward_button').addEventListener("touchend",  stepbackward_touchend);
-$i('stepforward_button').addEventListener("mousedown",  stepforward_mousedown);
-$i('stepforward_button').addEventListener("mouseout",   stepforward_mouseup);
-$i('stepforward_button').addEventListener("mouseup",    stepforward_mouseup);
-$i('stepforward_button').addEventListener("touchstart", stepforward_touchstart);
-$i('stepforward_button').addEventListener("touchmove",  stepforward_touchend);
-$i('stepforward_button').addEventListener("touchend",   stepforward_touchend);
-$i('set_E1_button').addEventListener("touchend",        set_E1_touchend);
-$i('set_E1_button').addEventListener("mouseup",         set_E1_mouseup);
-$i('set_E2_button').addEventListener("touchend",        set_E2_touchend);
-$i('set_E2_button').addEventListener("mouseup",         set_E2_mouseup);
-$i('goto_E1_button').addEventListener("touchend",       goto_E1_touchend);
-$i('goto_E1_button').addEventListener("mouseup",        goto_E1_mouseup);
-$i('goto_E2_button').addEventListener("touchend",       goto_E2_touchend);
-$i('goto_E2_button').addEventListener("mouseup",        goto_E2_mouseup);
-$i('SR_button').addEventListener("mouseup",             SR_Button);
-$i('GR_button').addEventListener("mouseup",             GR_Button);
-$i('return_to_start').addEventListener("mouseup",       return_to_start);
-$i('return_from_UI').addEventListener("mouseup",        return_to_start);
-$i('return_from_FAQ_1').addEventListener("mouseup",     return_to_start);
-$i('return_from_FAQ_2').addEventListener("mouseup",     return_to_start);
-$i('return_from_SR').addEventListener("mouseup",        return_to_description);
-$i('return_from_GR').addEventListener("mouseup",        return_to_description);
-$i('start_button').addEventListener("mouseup",          startButton);
-$i('description_button').addEventListener("mouseup",    descriptionButton);
-$i('FAQ_button').addEventListener("mouseup",            FAQ_Button);
-$i('UI_button').addEventListener("mouseup",             UI_Button);
+$i('zoom_out_button').addEventListener("pointerdown",         zoom_out_down);
+$i('zoom_out_button').addEventListener("pointerup",           zoom_out_up);
+$i('zoom_zero_button').addEventListener("pointerdown",        zoom_zero);
+$i('zoom_in_button').addEventListener("pointerdown",          zoom_in_down);
+$i('zoom_in_button').addEventListener("pointerup",            zoom_in_up);
+$i('rotate_ccw_button').addEventListener("pointerdown",       rotate_ccw_down);
+$i('rotate_ccw_button').addEventListener("pointerout",        rotate_ccw_up);
+$i('rotate_zero_button').addEventListener("pointerdown",      rotate_zero);
+$i('rotate_cw_button').addEventListener("pointerdown",        rotate_cw_down);
+$i('rotate_cw_button').addEventListener("pointerup",          rotate_cw_up);
+$i('slower_button').addEventListener("pointerdown",           slower);
+$i('faster_button').addEventListener("pointerdown",           faster);
+$i('reset_button').addEventListener("pointerdown",            reset);
+$i('exit_button').addEventListener("pointerdown",             exit);
+$i('pause_resume_button').addEventListener("pointerdown",     pause_resume);
+$i('stepbackward_button').addEventListener("pointerdown",     stepbackward_down);
+$i('stepbackward_button').addEventListener("pointerup",       stepbackward_up);
+$i('stepforward_button').addEventListener("pointerdown",      stepforward_down);
+$i('stepforward_button').addEventListener("pointerup",        stepforward_up);
+$i('set_E1_button').addEventListener("pointerdown",           set_E1);
+$i('set_E2_button').addEventListener("pointerdown",           set_E2);
+$i('goto_E1_button').addEventListener("pointerdown",          goto_E1);
+$i('goto_E2_button').addEventListener("pointerdown",          goto_E2);
+$i('SR_button').addEventListener("pointerdown",               SR);
+$i('GR_button').addEventListener("pointerdown",               GR);
+$i('return_to_start').addEventListener("pointerdown",         return_to_start);
+$i('return_from_UI').addEventListener("pointerdown",          return_to_start);
+$i('return_from_FAQ_1').addEventListener("pointerdown",       return_to_start);
+$i('return_from_FAQ_2').addEventListener("pointerdown",       return_to_start);
+$i('return_from_SR').addEventListener("pointerdown",          return_to_description);
+$i('return_from_GR').addEventListener("pointerdown",          return_to_description);
+$i('start_button').addEventListener("pointerdown",            start);
+$i('description_button').addEventListener("pointerdown",      description);
+$i('FAQ_button').addEventListener("pointerdown",              FAQ);
+$i('UI_button').addEventListener("pointerdown",               UI);
 
     </script>
   </body>
