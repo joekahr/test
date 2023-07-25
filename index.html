@@ -646,7 +646,7 @@ var frame_timerID;  //interval timer ID
 var opacity;
 var started=false;
 var scaling_enabled, rotation_enabled;
-var retarded_waves, advanced_waves, paused, centered, coords;  //toggles
+var paused, centered, coords;  //toggles
 var ticks=0;
 var t_tick;  //S time to complete one roundtrip = S_tick (if dr'= 0 or dr"= 0 then S_tick = S'_tick*gamma = S"_tick)
 var t,delta_t; //lab,rain: S time since start; far: S" time since start
@@ -2497,7 +2497,7 @@ function On(id) {return ($i(id).checked && !$i(id).disabled);}
 
 function drawFrame()
 {
-  var left_photon,right_photon,up_photon,down_photon;
+  var left_photon,right_photon,up_photon,down_photon,retarded_waves,advanced_waves;
   
   context.save();
   context.clearRect(0,0,w,h);  //erase frame
@@ -2523,6 +2523,9 @@ function drawFrame()
   {
     disableDiagrams();
     if (paused) inherit('coordinates'); else hidden('coordinates');
+    advanced_waves = $i("advanced_waves_checkbox").checked;
+    retarded_waves = $i("retarded_waves_checkbox").checked;
+    $i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
     if (retarded_waves) if (ref == "GR_far") {drawEllipticalWaves(true);} else {drawWaves(true);}
     if (advanced_waves) if (ref == "GR_far") {drawEllipticalWaves(false);} else {drawWaves(false);}
     if ($i('photons_checkbox').checked) drawPhotons(true,true,true,true);
@@ -2601,8 +2604,8 @@ function init()
 	
   mthick = 5; mlen = 50; mlen_prime = mlen/gamma;
 	$i('photons_checkbox').checked = true;
-  retarded_waves = false; $i('retarded_waves_checkbox').checked = false;
-	advanced_waves = false; $i('advanced_waves_checkbox').checked = false;
+  $i('retarded_waves_checkbox').checked = false;
+	$i('advanced_waves_checkbox').checked = false;
   $i('full_arcs_checkbox').checked = false; $i('full_arcs_checkbox').disabled = true;
 	coords = false; $i('coord_checkbox').checked = false;
   paused = false; $i('pause_resume_button').innerHTML = "Pause "; hidden('single_steps');
@@ -2966,20 +2969,6 @@ function toggleCheckbox(event)
   else drawFrame();
 }
 
-function advwaves(event)
-{
-	advanced_waves = !$i("advanced_waves_checkbox").checked;
-	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  toggleCheckbox(event);
-}
-
-function retwaves(event)
-{
-	retarded_waves = !$i("retarded_waves_checkbox").checked;
-	$i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-  toggleCheckbox(event);
-}
-
 // radio input
 function XT()                  {$i('XT_button').checked = true; clearEvents(); drawFrame();}
 function XT_Yplus()            {$i('XT_Yplus_button').checked = true; clearEvents(); drawFrame();}
@@ -3281,8 +3270,8 @@ $i('current_time').addEventListener("pointerup",    get_t);
 // checkboxes as firstChild
 $i('Photons').addEventListener("pointerup",                 toggleCheckbox);
 $i('Annotation').addEventListener("pointerup",              toggleCheckbox);
-$i('Retarded').addEventListener("pointerup",                retwaves);
-$i('Advanced').addEventListener("pointerup",                advwaves);
+$i('Retarded').addEventListener("pointerup",                toggleCheckbox);
+$i('Advanced').addEventListener("pointerup",                toggleCheckbox);
 $i('Full').addEventListener("pointerup",                    toggleCheckbox);
 $i('S_grid_span').addEventListener("pointerup",             toggleCheckbox);
 $i('Sprime_grid_span').addEventListener("pointerup",        toggleCheckbox);
