@@ -16,7 +16,7 @@
     <meta name="description" content="Light Clock">
     <meta name="author" content="joekahr@gmail.com">
     <meta name="generator" content="Joe Kahr">
-    <meta name="version" content="17.5">
+    <meta name="version" content="17.6">
     <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	
     <style type="text/css">
@@ -3221,6 +3221,7 @@ function checkDiagrams() {if (diagramsOn()) enableDiagrams(); else disableDiagra
 function change() {checkDiagrams(); setClocksCheckbox(); enableCoord($i('coord_checkbox').checked); drawFrame();}
 
 function contextmenu() {return false;}
+
 // capture:false means use bubble up, passive:false means allow preventDefault
 
 canvas = $i('canvas');
