@@ -16,7 +16,7 @@
     <meta name="description" content="Light Clock">
     <meta name="author" content="joekahr@gmail.com">
     <meta name="generator" content="Joe Kahr">
-    <meta name="version" content="17.6">
+    <meta name="version" content="17.7">
     <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	
     <style type="text/css">
@@ -3248,80 +3248,92 @@ $i('speed_range').addEventListener("input", speed_change);
 //$i('speed_range').addEventListener("mousemove",  speed_change);
 //$i('speed_range').addEventListener("mouseup",  function() {speed_change(); speed_slider = false;});
 
-// radio input
-$i('Lab').addEventListener("pointerup",             SRlab);
-$i('Rocket').addEventListener("pointerup",          SRrocket);
-$i('Rain').addEventListener("pointerup",            GRrain);
-$i('Shell').addEventListener("pointerup",           GRshell);
-$i('Far').addEventListener("pointerup",             GRfar);
-$i('Forward').addEventListener("pointerup",         forward_time);
-$i('Backward').addEventListener("pointerup",        backward_time);
-$i('centered_button').addEventListener("pointerup", centeredButton);
-$i('XT_span').addEventListener("pointerup",         XT);
-$i('XT_Yplus_span').addEventListener("pointerup",   XT_Yplus);
-$i('XT_Yminus_span').addEventListener("pointerup",  XT_Yminus);
-$i('YT_span').addEventListener("pointerup",         YT);
+function eventListeners(down,out,up)
+{
+  // radio input
+  $i('Lab').addEventListener(up,             SRlab);
+  $i('Rocket').addEventListener(up,          SRrocket);
+  $i('Rain').addEventListener(up,            GRrain);
+  $i('Shell').addEventListener(up,           GRshell);
+  $i('Far').addEventListener(up,             GRfar);
+  $i('Forward').addEventListener(up,         forward_time);
+  $i('Backward').addEventListener(up,        backward_time);
+  $i('centered_button').addEventListener(up, centeredButton);
+  $i('XT_span').addEventListener(up,         XT);
+  $i('XT_Yplus_span').addEventListener(up,   XT_Yplus);
+  $i('XT_Yminus_span').addEventListener(up,  XT_Yminus);
+  $i('YT_span').addEventListener(up,         YT);
+  
+  // spans
+  $i('speed_span').addEventListener(up,      speedSpan);
+  $i('gamma_span').addEventListener(up,      gammaSpan);
+  $i('r_span').addEventListener(up,          rSpan);
+  $i('current_time').addEventListener(up,    get_t);
+  
+  // checkboxes as firstChild
+  $i('Photons').addEventListener(up,                 toggleCheckbox);
+  $i('Annotation').addEventListener(up,              toggleCheckbox);
+  $i('Retarded').addEventListener(up,                toggleCheckbox);
+  $i('Advanced').addEventListener(up,                toggleCheckbox);
+  $i('Full').addEventListener(up,                    toggleCheckbox);
+  $i('S_grid_span').addEventListener(up,             toggleCheckbox);
+  $i('Sprime_grid_span').addEventListener(up,        toggleCheckbox);
+  $i('Sdblprime_grid_span').addEventListener(up,     toggleCheckbox);
+  $i('S_clocks_span').addEventListener(up,           toggleCheckbox);
+  $i('Sprime_clocks_span').addEventListener(up,      toggleCheckbox);
+  $i('Sdblprime_clocks_span').addEventListener(up,   toggleCheckbox);
+  $i('mini_lightclocks').addEventListener(up,        toggleCheckbox);
+  $i('S_diagrams_span').addEventListener(up,         toggleCheckbox);
+  $i('Sprime_diagrams_span').addEventListener(up,    toggleCheckbox);
+  $i('Sdblprime_diagrams_span').addEventListener(up, toggleCheckbox);
+  
+  // buttons
+  $i('zoom_out_button').addEventListener(down,       zoom_out_down);
+  $i('zoom_out_button').addEventListener(out,        zoom_out_up);
+  $i('zoom_out_button').addEventListener(up,         zoom_out_up);
+  $i('zoom_zero_button').addEventListener(up,        zoom_zero);
+  $i('zoom_in_button').addEventListener(down,        zoom_in_down);
+  $i('zoom_in_button').addEventListener(out,         zoom_in_up);
+  $i('zoom_in_button').addEventListener(up,          zoom_in_up);
+  $i('rotate_ccw_button').addEventListener(down,     rotate_ccw_down);
+  $i('rotate_ccw_button').addEventListener(out,      rotate_ccw_up);
+  $i('rotate_ccw_button').addEventListener(up,       rotate_ccw_up);
+  $i('rotate_zero_button').addEventListener(up,      rotate_zero);
+  $i('rotate_cw_button').addEventListener(down,      rotate_cw_down);
+  $i('rotate_cw_button').addEventListener(out,       rotate_cw_up);
+  $i('rotate_cw_button').addEventListener(up,        rotate_cw_up);
+  $i('slower_button').addEventListener(up,           slower);
+  $i('faster_button').addEventListener(up,           faster);
+  $i('reset_button').addEventListener(up,            reset);
+  $i('exit_button').addEventListener(up,             exit);
+  $i('pause_resume_button').addEventListener(up,     pause_resume);
+  $i('stepbackward_button').addEventListener(down,   stepbackward_down);
+  $i('stepbackward_button').addEventListener(out,    stepbackward_up);
+  $i('stepbackward_button').addEventListener(up,     stepbackward_up);
+  $i('stepforward_button').addEventListener(down,    stepforward_down);
+  $i('stepforward_button').addEventListener(out,     stepforward_up);
+  $i('stepforward_button').addEventListener(up,      stepforward_up);
+  $i('set_E1_button').addEventListener(up,           set_E1);
+  $i('set_E2_button').addEventListener(up,           set_E2);
+  $i('goto_E1_button').addEventListener(up,          goto_E1);
+  $i('goto_E2_button').addEventListener(up,          goto_E2);
+  $i('SR_button').addEventListener(up,               SR);
+  $i('GR_button').addEventListener(up,               GR);
+  $i('return_to_start').addEventListener(up,         return_to_start);
+  $i('return_from_UI').addEventListener(up,          return_to_start);
+  $i('return_from_FAQ_1').addEventListener(up,       return_to_start);
+  $i('return_from_FAQ_2').addEventListener(up,       return_to_start);
+  $i('return_from_SR').addEventListener(up,          return_to_description);
+  $i('return_from_GR').addEventListener(up,          return_to_description);
+  $i('start_button').addEventListener(up,            start);
+  $i('description_button').addEventListener(up,      description);
+  $i('FAQ_button').addEventListener(up,              FAQ);
+  $i('UI_button').addEventListener(up,               UI);
+}
 
-// spans
-$i('speed_span').addEventListener("pointerup",      speedSpan);
-$i('gamma_span').addEventListener("pointerup",      gammaSpan);
-$i('r_span').addEventListener("pointerup",          rSpan);
-$i('current_time').addEventListener("pointerup",    get_t);
-
-// checkboxes as firstChild
-$i('Photons').addEventListener("pointerup",                 toggleCheckbox);
-$i('Annotation').addEventListener("pointerup",              toggleCheckbox);
-$i('Retarded').addEventListener("pointerup",                toggleCheckbox);
-$i('Advanced').addEventListener("pointerup",                toggleCheckbox);
-$i('Full').addEventListener("pointerup",                    toggleCheckbox);
-$i('S_grid_span').addEventListener("pointerup",             toggleCheckbox);
-$i('Sprime_grid_span').addEventListener("pointerup",        toggleCheckbox);
-$i('Sdblprime_grid_span').addEventListener("pointerup",     toggleCheckbox);
-$i('S_clocks_span').addEventListener("pointerup",           toggleCheckbox);
-$i('Sprime_clocks_span').addEventListener("pointerup",      toggleCheckbox);
-$i('Sdblprime_clocks_span').addEventListener("pointerup",   toggleCheckbox);
-$i('mini_lightclocks').addEventListener("pointerup",        toggleCheckbox);
-$i('S_diagrams_span').addEventListener("pointerup",         toggleCheckbox);
-$i('Sprime_diagrams_span').addEventListener("pointerup",    toggleCheckbox);
-$i('Sdblprime_diagrams_span').addEventListener("pointerup", toggleCheckbox);
-
-// buttons
-$i('zoom_out_button').addEventListener("pointerdown",       zoom_out_down);
-$i('zoom_out_button').addEventListener("pointerup",         zoom_out_up);
-$i('zoom_zero_button').addEventListener("pointerup",        zoom_zero);
-$i('zoom_in_button').addEventListener("pointerdown",        zoom_in_down);
-$i('zoom_in_button').addEventListener("pointerup",          zoom_in_up);
-$i('rotate_ccw_button').addEventListener("pointerdown",     rotate_ccw_down);
-$i('rotate_ccw_button').addEventListener("pointerout",      rotate_ccw_up);
-$i('rotate_zero_button').addEventListener("pointerup",      rotate_zero);
-$i('rotate_cw_button').addEventListener("pointerdown",      rotate_cw_down);
-$i('rotate_cw_button').addEventListener("pointerup",        rotate_cw_up);
-$i('slower_button').addEventListener("pointerup",           slower);
-$i('faster_button').addEventListener("pointerup",           faster);
-$i('reset_button').addEventListener("pointerup",            reset);
-$i('exit_button').addEventListener("pointerup",             exit);
-$i('pause_resume_button').addEventListener("pointerup",     pause_resume);
-$i('stepbackward_button').addEventListener("pointerdown",   stepbackward_down);
-$i('stepbackward_button').addEventListener("pointerup",     stepbackward_up);
-$i('stepforward_button').addEventListener("pointerdown",    stepforward_down);
-$i('stepforward_button').addEventListener("pointerup",      stepforward_up);
-$i('set_E1_button').addEventListener("pointerup",           set_E1);
-$i('set_E2_button').addEventListener("pointerup",           set_E2);
-$i('goto_E1_button').addEventListener("pointerup",          goto_E1);
-$i('goto_E2_button').addEventListener("pointerup",          goto_E2);
-$i('SR_button').addEventListener("pointerup",               SR);
-$i('GR_button').addEventListener("pointerup",               GR);
-$i('return_to_start').addEventListener("pointerup",         return_to_start);
-$i('return_from_UI').addEventListener("pointerup",          return_to_start);
-$i('return_from_FAQ_1').addEventListener("pointerup",       return_to_start);
-$i('return_from_FAQ_2').addEventListener("pointerup",       return_to_start);
-$i('return_from_SR').addEventListener("pointerup",          return_to_description);
-$i('return_from_GR').addEventListener("pointerup",          return_to_description);
-$i('start_button').addEventListener("pointerup",            start);
-$i('description_button').addEventListener("pointerup",      description);
-$i('FAQ_button').addEventListener("pointerup",              FAQ);
-$i('UI_button').addEventListener("pointerup",               UI);
-
+if ('onpointerdown' in window) eventListeners("pointerdown","pointerout","pointerup");
+else if ('ontouchstart' in window) eventlisteners("touchstart","touchmove","touchend");
+else eventListeners("mousedown","mouseout","mouseup");
     </script>
   </body>
 </html>
