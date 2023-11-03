@@ -16,7 +16,7 @@
     <meta name="description" content="Light Clock">
     <meta name="author" content="joekahr@gmail.com">
     <meta name="generator" content="Joe Kahr">
-    <meta name="version" content="17.7">
+    <meta name="version" content="18.0">
     <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	
     <style type="text/css">
@@ -178,59 +178,9 @@
     </div>
         
     <div id="SR_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-      <div style="text-align:center">
-      Lorentz-Einstein transformations between<br>
-      coordinate systems <span style="color:lime">S</span> and <span style="color:cyan">S'</span> with  <span style="color:cyan">S'</span> moving<br>
-      at speed v in +x direction relative to <span style="color:lime">S</span><br>
-      <br>
-      Lorentz factor: &gamma; &equiv; (1-v&sup2;/c&sup2;)<sup>- &half;</sup><br>
-      <br>
-      </div>
-      <table style="margin-left:auto; margin-right:auto;">
-        <tr>
-          <td style="text-align:left; padding:10px;">
-          x' = &gamma;(x - vt)<br>
-          y' = y<br>
-          z' = z<br>
-          t' = &gamma;(t - vx/c&sup2;)<br>
-          <br>
-          &Delta;x' = &gamma;(&Delta;x - v&Delta;t)<br>
-          &Delta;t' = &gamma;(&Delta;t - v&Delta;x/c&sup2;)<br>
-          <br>
-          &Delta;x'/&Delta;t' = (&Delta;x - v&Delta;t)/(&Delta;t - v&Delta;x/c&sup2;)<br>
-          <br>
-          &Delta;x = 0 &rArr; &Delta;x'/&Delta;t' = -v
-          </td>
-          <td style="text-align:left; padding:10px;">
-          x = &gamma;(x' + vt')<br>
-          y = y'<br>
-          z = z'<br>
-          t = &gamma;(t' + vx'/c&sup2;)<br>
-          <br>
-          &Delta;x = &gamma;(&Delta;x' - v&Delta;t')<br>
-          &Delta;t = &gamma;(&Delta;t' - v&Delta;x'/c&sup2;)<br>
-          <br>
-          &Delta;x/&Delta;t = (&Delta;x' - v&Delta;t')/(&Delta;t' - v&Delta;x'/c&sup2;)<br>
-          <br>
-          &Delta;x' = 0 &rArr; &Delta;x/&Delta;t = v
-          </td>
-        </tr>
-      </table>
-      <div style="text-align:center">
-        relativity of length contraction<br>
-        <span style="color:lime">S length</span>:  &Delta;t = 0   &Implies;   &Delta;x = &Delta;x'/&gamma;<br>
-        <span style="color:cyan">S' length</span>: &Delta;t' = 0   &Implies;   &Delta;x'  = &Delta;x/&gamma;<br>
-        <br>
-        relativity of time dilation<br>
-        <span style="color:lime">S duration</span>:  &Delta;x = 0   &Implies;   &Delta;t = &Delta;t'/&gamma;<br>
-        <span style="color:cyan">S' duration</span>: &Delta;x' = 0   &Implies;   &Delta;t'  = &Delta;t/&gamma;<br>
-        <br>
-        invariant spacetime interval<br>
-        (&Delta;<font color='lime'>x</font>)&sup2; + (&Delta;<font color='lime'>y</font>)&sup2; + (&Delta;<font color='lime'>z</font>)&sup2; - (c&Delta;<font color='lime'>t</font>)&sup2;
-        = (&Delta;<font color='cyan'>x'</font>)&sup2; + (&Delta;<font color='cyan'>y'</font>)&sup2; + (&Delta;<font color='cyan'>z'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;
-      </div>
-			<br><br>
-			<button type="button" id="return_from_SR" style="font-weight:bold">RETURN</button>
+			<button type="button" id="return_from_SR_1" style="font-weight:bold">RETURN</button><br>
+      <iframe src="SR.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
+      <button type="button" id="return_from_SR_2" style="font-weight:bold">RETURN</button><br>
     </div>
         
 		<div id="GR_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
@@ -317,6 +267,8 @@
 			<font color='cyan'>S'</font> is also the frame of a stationary fiducial observer in General Relativity (local shell frame).<br>
 			<font color='orange'>Orange</font> represents the <font color='orange'>S"</font> reference frame of a far-away bookkeeper in General Relativity (global Schwarzschild frame).<br>
       <font color='orange'>S"</font> is an idealized global coordinate system which extends far-away flat spacetime to radius r as if there where no gravitating mass M.<br>
+      Note: mass M in Schwarzschild geometry is assumed to be a non-rotating, uncharged, point mass.<br>
+      <br>
       You can select whether the animation shows Special or General Relativity, and which reference frame is yours:<br>
       <br>
       <table>
@@ -325,7 +277,7 @@
           <td><font color='lime'>Lab</font></td>
           <td>Laboratory Frame</td>
           <td>Special Relativity</td>
-          <td>You are a local observer with the Light Clock moving to the right (left) at speed v (-v) through motionless space.</td>
+          <td>You are a local observer with the Light Clock moving to the right (left) at velocity v (-v) through motionless space.</td>
           <td></td>
         </tr>
         <tr style="vertical-align:top">
@@ -333,7 +285,7 @@
           <td><font color='cyan'>Rocket</font></td>
           <td>Rocket Frame</td>
           <td>Special Relativity</td>
-          <td>You are a local observer with the Light Clock stationary in your frame, space is motionless.</td>
+          <td>You are a local observer with the Light Clock stationary in your frame; space is motionless.</td>
           <td></td>
         </tr>
         <tr style="vertical-align:top">
@@ -341,9 +293,9 @@
           <td><font color='lime'>Rain</font></td>
           <td>Rain Frame</td>
           <td>General Relativity</td>
-          <td>You are a local observer free-falling past the Light Clock.<br>
-            The Light Clock is at a constant distance r from mass M.<br>
-            You are comoving with space at speed [2GM/r]<sup>1/2</sup> toward mass M.</td>
+          <td>You are a local observer free-falling past the Light Clock from far away with zero initial velocity.<br>
+            The Light Clock is at a constant distance r = |&Delta;<font color='orange'>x</font>| from mass M as determined by a far away bookkeeper.<br>
+            You are comoving with space toward mass M at speed [2GM/r]<sup>1/2</sup> relative to the <font color='cyan'>Shell</font> frame.</td>
           <td></td>
         </tr>
         <tr style="vertical-align:top">
@@ -352,8 +304,8 @@
           <td>Shell Frame</td>
           <td>General Relativity</td>
           <td>You are a local observer with the Light Clock stationary in your frame.<br>
-            The Light Clock is at a constant distance r from mass M.<br>
-            Space is moving past you at speed [2GM/r]<sup>1/2</sup> toward mass M.</td>
+            The Light Clock is at a constant distance r = |&Delta;<font color='orange'>x</font>| from mass M as determined by a far away bookkeeper.<br>
+            Space is moving past you toward mass M at speed [2GM/r]<sup>1/2</sup> relative to your frame.</td>
           <td></td>
         </tr>
         <tr style="vertical-align:top">
@@ -362,8 +314,8 @@
           <td>Far-Away Frame</td>
           <td>General Relativity</td>
           <td>You are a global bookkeeper far away from mass M (your location is at r = &infin;).<br>
-            The Light Clock is at a constant distance r from mass M.<br>
-            You are unaware (or choose to ignore) that space is moving at speed &gamma;<sup>-2</sup>[2GM/r]<sup>1/2</sup>, in your frame, past the stationary Light Clock toward mass M.</td>
+            You determine the Light Clock to be a constant distance r = |&Delta;<font color='orange'>x</font>| from mass M which is at r = 0.<br>
+            You are unaware (or choose to ignore) that space is moving toward mass M at speed &gamma;<sup>-2</sup>[2GM/r]<sup>1/2</sup> relative to your frame.</td>
           <td></td>
         </tr>
       </table>
@@ -400,13 +352,16 @@
 			<span style="font-weight:bold">How are the spatial coordinate axes oriented in the animation?</span><br>
 			The <font color='lime'>x</font>, <font color='cyan'>x'</font>, and <font color='orange'>x"</font> axes are collinear and horizontal, increasing to the right.
       The <font color='lime'>y</font>, <font color='cyan'>y'</font>, and <font color='orange'>y"</font> axes are vertical, increasing upward.
-			Only the <font color='lime'>xy</font>, <font color='cyan'>x'y'</font>, and <font color='orange'>x"y"</font> planes are shown in the animation
-      (<font color='lime'>z</font> = <font color='cyan'>z'</font> = <font color='orange'>z"</font> = 0) so each circular wavefront is a 2D slice through the center of a 3D spherical wavefront. 
-			Lorentz contraction is limited to the x-axes, because all motion is in the x direction. 
-      The <font color='lime'>y</font>, <font color='cyan'>y'</font>, and <font color='orange'>y"</font> axes are identical, and the <font color='lime'>z</font>, <font color='cyan'>z'</font>, and <font color='orange'>z"</font> axes are identical.
-			The positive <font color='lime'>z</font>, <font color='cyan'>z'</font>, and <font color='orange'>z"</font> axes extend out of the screen toward you.
-      For the General Relativity cases the gravitating mass M is on the x-axis, at a distance r from the <font color='cyan'>S'</font> Light Clock as measured in the <font color='orange'>Far</font> frame (r is the Schwarschild radial coordinate).<br>
-      Tip: Select the <font color='lime'>xy</font>, <font color='cyan'>x'y'</font>, and <font color='orange'>x"y"</font> grids with v set to a non-zero value.  Notice the horizontal grid lines stay aligned, and the vertical grid lines for the three frames have different spacing.<br>
+      The positive <font color='lime'>z</font>, <font color='cyan'>z'</font>, and <font color='orange'>z"</font> axes extend out of the screen toward you.
+      At time t = 0 the origin of the <font color='lime'>xyz</font> coordinate system is at the center of the light clock.
+      As time changes the <font color='lime'>xyz</font> system moves relative to the <font color='cyan'>x'y'z'</font> and <font color='orange'>x"y"z"</font> coordinate systems which have their origins always at the center of the light clock.
+			Only the <font color='lime'>xy</font>, <font color='cyan'>x'y'</font>, and <font color='orange'>x"y"</font> planes (<font color='lime'>z</font> = <font color='cyan'>z'</font> = <font color='orange'>z"</font> = 0) are shown in the animation
+      so each circular wave is a 2D slice through the center of a 3D spherical wavefront. 
+			Lorentz contraction is limited to the x-axes, because all motion is in the x direction.
+      For the General Relativity cases the gravitating mass M is on the x-axis, at a fixed distance r from the stationary light clock, as measured in the <font color='orange'>Far</font> frame (r is the radial coordinate of spherical Schwarschild geometry).<br>
+      Tip: Select a GR frame and turn on the <font color='lime'>xy</font>, <font color='cyan'>x'y'</font>, and <font color='orange'>x"y"</font> grids. Set v to a non-zero value.
+      Notice the <font color='lime'>xy</font> grid moving relative to the <font color='cyan'>x'y'</font> and <font color='orange'>x"y"</font> grids.
+      The horizontal grid lines stay colinear while the vertical grid lines for the three frames have different spacing.<br>
 			<br>
 			
 			<span style="font-weight:bold">What is Time Dilation?</span><br>
@@ -1268,6 +1223,8 @@ function canvasClockCoords(P)
 
 function drawMirrors()
 {
+  var arrowdir,arrowcolor;
+  
   context.save();
   if (ref == "GR_far")
   {
@@ -1299,8 +1256,16 @@ function drawMirrors()
   else if (ref == 'GR_shell')   {limeText("Rain (\u0394x = 0) ");       whiteText("speed wrt "); cyanText("Shell ");      whiteText(": "); cyanText("\u0394x'/\u0394t'");   whiteText(" = -v = " + -v + "c");}
   else if (ref == 'GR_far')     {limeText("Rain (\u0394x = 0) ");       whiteText("speed wrt "); orangeText("Far Away "); whiteText(": "); orangeText('\u0394x"/\u0394t"'); whiteText(" = -v/\u03B3\u00B2 = " + -v/(gamma*gamma) + "c");}
   centerText();
-  if      ((v > 0 && ref == 'SR_lab') || (v < 0 && ref == 'SR_rocket') || (v > 0 && ref == 'GR_rain') || (v < 0 && ref == 'GR_shell') || (v < 0 && ref == 'GR_far')) annotateArrow("stroke",-20,d/2+12, 20,d/2+12,S_color(1)); // right arrow
-  else if ((v < 0 && ref == 'SR_lab') || (v > 0 && ref == 'SR_rocket') || (v < 0 && ref == 'GR_rain') || (v > 0 && ref == 'GR_shell') || (v > 0 && ref == 'GR_far')) annotateArrow("stroke", 20,d/2+12,-20,d/2+12,S_color(1)); // left arrow
+  arrowdir = "none";
+  if      ((v > 0 && ref == 'SR_lab') || (v < 0 && ref == 'SR_rocket') || (v > 0 && ref == 'GR_rain') || (v < 0 && ref == 'GR_shell') || (v < 0 && ref == 'GR_far')) arrowdir = "right";
+  else if ((v < 0 && ref == 'SR_lab') || (v > 0 && ref == 'SR_rocket') || (v < 0 && ref == 'GR_rain') || (v > 0 && ref == 'GR_shell') || (v > 0 && ref == 'GR_far')) arrowdir = "left";
+  if      (ref == 'SR_lab')     arrowcolor = Sprime_color(1);
+  else if (ref == 'SR_rocket')  arrowcolor = S_color(1);
+  else if (ref == 'GR_rain')    arrowcolor = Sprime_color(1);
+  else if (ref == 'GR_shell')   arrowcolor = S_color(1);
+  else if (ref == 'GR_far')     arrowcolor = S_color(1);
+  if      (arrowdir == "right") annotateArrow("stroke",-20,d/2+12, 20,d/2+12,arrowcolor); // right arrow
+  else if (arrowdir == "left")  annotateArrow("stroke", 20,d/2+12,-20,d/2+12,arrowcolor); // left arrow
   context.restore();
 }
 
@@ -2181,49 +2146,45 @@ function drawInfo()  // using untransformed coordinates
   {
     newText(w/2,0,'left','top',0); whiteText("You are an inertial observer in the "); limeText("Laboratory Frame"); whiteText(" in Special Relativity"); centerText();
     newText(w/2,20,'left','top',0); whiteText("The light clock "); cyanText("(Rocket Frame)");
-    if (v == 0)     whiteText(" is not moving relative to your frame");
-    else if (v > 0) whiteText(" is moving to the right at speed v relative to your frame");
-    else            whiteText(" is moving to the left at speed -v relative to your frame");
-    centerText();
+    if (v == 0)     whiteText(" is motionless (v = 0)");
+    else            {whiteText(" is moving at speed "); limeText("\u0394x/\u0394t"); whiteText(" = v relative to your frame");} centerText();
     if (v != 0 && centered) {newText(w/2,40,'left','top',0); whiteText("The display window is kept artificially aligned with the light clock in the "); cyanText("Rocket Frame"); centerText();}
   }
   else if (ref == 'SR_rocket')
   {
     newText(w/2,0,'left','top',0); whiteText("You are an inertial observer in the "); cyanText("Rocket Frame"); whiteText(" in Special Relativity"); centerText();
-    newText(w/2,20,'left','top',0); whiteText("The light clock is always stationary relative to your frame"); centerText();
+    newText(w/2,20,'left','top',0); whiteText("The light clock is always stationary relative to your frame ("); cyanText("\u0394x'/\u0394t'"); whiteText(" = 0)"); centerText();
     newText(w/2,40,'left','top',0); whiteText("The "); limeText("Lab Frame");
-    if (v == 0)     whiteText(" is not moving relative to your frame");
-    else if (v > 0) whiteText(" is moving to left at speed -v relative to your frame");
-    else            whiteText(" is moving to the right at speed v relative to your frame"); centerText();
+    if (v == 0)     whiteText(" is motionless (v = 0)");
+    else            {whiteText(" is moving at speed "); cyanText("\u0394x'/\u0394t'"); whiteText(" = -v relative to your frame");} centerText();
     if (v != 0 && !centered) {newText(w/2,60,'left','top',0); whiteText("The display window is kept artificially aligned with the "); limeText("Lab Frame"); centerText();}
   }
   else if (ref == 'GR_rain')
   {
-    newText(w/2,0,'left','top',0); whiteText("You are an inertial observer free-falling from far away ("); limeText("Rain Frame"); whiteText(") in General Relativity"); centerText();
+    newText(w/2,0,'left','top',0); whiteText("You are an inertial observer free-falling toward mass M from far away ("); limeText("Rain Frame"); whiteText(") in General Relativity"); centerText();
     newText(w/2,20,'left','top',0); whiteText("The light clock ("); cyanText("Shell Frame");
-    if (v == 0)     whiteText(") is not moving relative to your frame");
-    else if (v > 0) whiteText(") is moving to the right relative to your frame");
-    else            whiteText(") is moving to the left relative to your frame"); centerText();
-    newText(w/2,40,'left','top',0); if (v == 0) speedtext = "0"; else speedtext = "\u221A(2GM/r)"; whiteText("You are comoving with space at speed |v| = ");
-    limeText("\u0394x/\u0394t"); whiteText(" = " + speedtext + " toward mass M"); centerText();
+    if (v == 0) whiteText(") is motionless (v = 0)");
+    else        {whiteText(") is moving at speed "); limeText("\u0394x/\u0394t"); whiteText(" = v = \u221A(2GM/r) relative to your frame");} centerText();
+    newText(w/2,40,'left','top',0); if (v == 0) speedtext = "0"; else speedtext = "\u221A(2GM/r)"; whiteText("You are comoving with space toward mass M at speed ");
+    cyanText("\u0394x'/\u0394t'"); whiteText(" = -v = -" + speedtext + " relative to the "); cyanText("Shell Frame"); centerText();
     if (v != 0 && centered) {newText(w/2,80,'left','top',0); whiteText("The display window is kept artificially aligned with the light clock in the "); cyanText("Shell Frame"); centerText();}
   }
   else if (ref == 'GR_shell')
   {
-    newText(w/2,0,'left','top',0); whiteText("You are an inertial stationary observer in General Relativity ("); cyanText("Shell Frame"); whiteText(")"); centerText();
-    newText(w/2,20,'left','top',0); whiteText("The light clock is always stationary relative to your frame"); centerText();
-    if (v == 0) speedtext = "0"; else speedtext = "\u221A(2GM/r)";
-    newText(w/2,40,'left','top',0); whiteText("Space ("); limeText("Rain Frame"); whiteText(") is moving past you at speed |v| = ");
-    limeText("\u0394x/\u0394t"); whiteText(" = " + speedtext + " toward mass M"); centerText();
+    newText(w/2,0,'left','top',0); whiteText("You are an inertial stationary observer ("); cyanText("Shell Frame"); whiteText(") in General Relativity"); centerText();
+    newText(w/2,20,'left','top',0); whiteText("The light clock is always stationary relative to your frame ("); cyanText("\u0394x'/\u0394t'"); whiteText(" = 0)"); centerText();
+    newText(w/2,40,'left','top',0); whiteText("Space ("); limeText("Rain Frame");
+    if (v == 0) whiteText(") is motionless (v = 0)");
+    else {whiteText(") is moving toward mass M at speed "); cyanText("\u0394x'/\u0394t'"); whiteText(" = -v = -\u221A(2GM/r) relative to your frame");} centerText();
     if (v != 0 && !centered) {newText(w/2,80,'left','top',0); whiteText("The display window is kept artificially aligned with the "); limeText("Rain Frame"); centerText();}
   }
-  else if (refSdblprime())
+  else if (ref == 'GR_far')
   {
-    newText(w/2,0,'left','top',0); whiteText("You are a far-away bookkeeper in General Relativity ("); orangeText("Schwarzschild Frame"); whiteText(")"); centerText();
-    newText(w/2,20,'left','top',0); whiteText("The light clock ("); cyanText("Shell Frame"); whiteText(") is always stationary relative to your frame"); centerText();
-    if (v == 0) speedtext = "0"; else speedtext = "\u221A(2GM/r)/\u03B3\u00B2";
-    newText(w/2,40,'left','top',0); whiteText("Space ("); limeText("Rain Frame"); whiteText(") is moving at speed |v| = ");
-    orangeText('\u0394x"/\u0394t"'); whiteText(" = " + speedtext + " past your frame toward mass M"); centerText();
+    newText(w/2,0,'left','top',0); whiteText("You are a far-away bookkeeper ("); orangeText("Schwarzschild Frame"); whiteText(") in General Relativity"); centerText();
+    newText(w/2,20,'left','top',0); whiteText("The light clock ("); cyanText("Shell Frame"); whiteText(") is always stationary relative to your frame ("); orangeText('\u0394x"/\u0394t"'); whiteText(" = 0)"); centerText();
+    newText(w/2,40,'left','top',0); whiteText("Space ("); limeText("Rain Frame");
+    if (v == 0) whiteText(") is motionless (v = 0)");
+    else {whiteText(") is moving toward mass M at speed "); orangeText('\u0394x"/\u0394t"'); whiteText(" = -v/\u03B3\u00B2 = -\u221A(2GM/r)/\u03B3\u00B2 relative to your frame");} centerText();
     if (v != 0 && !centered) {newText(w/2,80,'left','top',0); whiteText("The display window is kept artificially aligned with the "); limeText("Rain Frame"); centerText();}
   }
   
@@ -2231,9 +2192,9 @@ function drawInfo()  // using untransformed coordinates
   else                  {x = x0_init + v*t/(gamma*gamma) + offset_x; y = y0 + offset_y;}
 
   newText(w/2,60,'left','top',0);
-  if      (refGR() && v == 0)     whiteText("M (r = 0) is at \u221E distance from the light clock (or M = 0)");
-  else if (refGR() && v > 0)      {whiteText("\u261A M (r = 0) is at location "); orangeText('x"'); whiteText(" = -r = -2GM/v\u00B2 to the left of the light clock");}
-  else if (refGR() && v < 0)      whiteText('M (r = 0) is at location x" = r = 2GM/v\u00B2 to the right of the light clock \u261B'); centerText();
+  if      (refGR() && v == 0)     whiteText("M is at r = 0 and the light clock is at r = \u221E (or M = 0)");
+  else if (refGR() && v > 0)      {whiteText("\u261A M is at r = 0 ("); cyanText("x'"); whiteText(" = -\u03B32GM/v\u00B2, "); orangeText('x"'); whiteText(" = -2GM/v\u00B2) and the light clock is at "); cyanText("x'"); whiteText(" = "); orangeText('x"'); whiteText(" = 0");}
+  else if (refGR() && v < 0)      {whiteText("\u261B M is at r = 0 ("); cyanText("x'"); whiteText(" = \u03B32GM/v\u00B2, "); orangeText('x"'); whiteText(" = 2GM/v\u00B2) and the light clock is at "); cyanText("x'"); whiteText(" = "); orangeText('x"'); whiteText(" = 0");} centerText();
 
   newText(0,h,'left','bottom',0);
   if      (refGR() && gamma > 1)  whiteText("r/M = " + r_over_GM + " G/c"  + '\u00B2');
@@ -3186,9 +3147,9 @@ function diagramsOn()
   }
   else if (reason != "")
   {
-    title = S_diagrams_title + "\n--> To enable S diagrams uncheck " + reason; if ($i("S_diagrams_span").title != title) $i("S_diagrams_span").title = title;
-    title = Sprime_diagrams_title + "\n--> To enable S' diagrams uncheck " + reason; if ($i("Sprime_diagrams_span").title != title) $i("Sprime_diagrams_span").title = title;
-    title = Sdblprime_diagrams_title + '\n--> To enable S" diagrams uncheck ' + reason; if ($i("Sdblprime_diagrams_span").title != title) $i("Sdblprime_diagrams_span").title = title;
+    title = S_diagrams_title + "\n--> To enable S diagrams undo " + reason; if ($i("S_diagrams_span").title != title) $i("S_diagrams_span").title = title;
+    title = Sprime_diagrams_title + "\n--> To enable S' diagrams undo " + reason; if ($i("Sprime_diagrams_span").title != title) $i("Sprime_diagrams_span").title = title;
+    title = Sdblprime_diagrams_title + '\n--> To enable S" diagrams undo ' + reason; if ($i("Sdblprime_diagrams_span").title != title) $i("Sdblprime_diagrams_span").title = title;
     $i("S_diag_checkbox").disabled = true; $i("Sprime_diag_checkbox").disabled = true; $i("Sdblprime_diag_checkbox").disabled = true;
     disableDiagrams();
     return false;
@@ -3324,7 +3285,8 @@ function eventListeners(down,out,up)
   $i('return_from_UI').addEventListener(up,          return_to_start);
   $i('return_from_FAQ_1').addEventListener(up,       return_to_start);
   $i('return_from_FAQ_2').addEventListener(up,       return_to_start);
-  $i('return_from_SR').addEventListener(up,          return_to_description);
+  $i('return_from_SR_1').addEventListener(up,        return_to_description);
+  $i('return_from_SR_2').addEventListener(up,        return_to_description);
   $i('return_from_GR').addEventListener(up,          return_to_description);
   $i('start_button').addEventListener(up,            start);
   $i('description_button').addEventListener(up,      description);
