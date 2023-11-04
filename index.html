@@ -171,16 +171,36 @@
 			This results in length contraction (in the direction of motion) and time dilation, consistent with Relativity.<br>
 			</p>
 			<br>
-			<button type="button" id="SR_button" style="font-weight:bold">Special Relativity</button>
+      Special Relativity<br>
+			<button type="button" id="SR_1_button" style="font-weight:bold">Lorentz Transforms</button>
+      <button type="button" id="SR_2_button" style="font-weight:bold">Invariant Interval</button>
+      <button type="button" id="SR_3_button" style="font-weight:bold">Time Dilation</button>
+      <button type="button" id="SR_4_button" style="font-weight:bold">Length Contraction</button>
+      <br>
       <button type="button" id="GR_button" style="font-weight:bold">General Relativity</button>
 			<br><br>
 			<button type="button" id="return_to_start" style="font-weight:bold">RETURN</button>
     </div>
         
-    <div id="SR_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-			<button type="button" id="return_from_SR_1" style="font-weight:bold">RETURN</button><br>
-      <iframe src="SR.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
-      <button type="button" id="return_from_SR_2" style="font-weight:bold">RETURN</button><br>
+    <div id="SR_1" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+			<button type="button" id="return_from_SR_1a" style="font-weight:bold">RETURN</button><br>
+      <iframe src="SR_1.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
+      <button type="button" id="return_from_SR_1b" style="font-weight:bold">RETURN</button><br>
+    </div>
+    <div id="SR_2" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+			<button type="button" id="return_from_SR_2a" style="font-weight:bold">RETURN</button><br>
+      <iframe src="SR_2.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
+      <button type="button" id="return_from_SR_2b" style="font-weight:bold">RETURN</button><br>
+    </div>
+    <div id="SR_3" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+			<button type="button" id="return_from_SR_3a" style="font-weight:bold">RETURN</button><br>
+      <iframe src="SR_3.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
+      <button type="button" id="return_from_SR_3b" style="font-weight:bold">RETURN</button><br>
+    </div>
+    <div id="SR_4" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+			<button type="button" id="return_from_SR_4a" style="font-weight:bold">RETURN</button><br>
+      <iframe src="SR_4.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
+      <button type="button" id="return_from_SR_4b" style="font-weight:bold">RETURN</button><br>
     </div>
         
 		<div id="GR_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
@@ -693,7 +713,7 @@ var offset_y_down=0; // offset_y at mousedown event
 var offset_x=0; //x location of space coord origin
 var offset_y=0; //y location of space coord origin
 
-var controls, SRtext, GRtext, FAQtext, descriptiontext, UItext, canvas;
+var controls, canvas;
 var context;
 
 var fps=24;
@@ -2555,12 +2575,12 @@ function init()
 	document.querySelector('#speed_range').value = 0;
 	
 	controls = $i('controls'); hidden('controls');
-  SRtext = $i('SR_text'); hidden('SR_text');
-  GRtext = $i('GR_text'); hidden('SR_text');
-	FAQtext = $i('FAQ'); hidden('FAQ');
+  hidden('SR_1'); hidden('SR_2'); hidden('SR_3'); hidden('SR_4');
+  hidden('GR_text');
+	hidden('FAQ');
   canvas = $i('canvas'); hidden('canvas');
-  descriptiontext = $i('description'); hidden('description');
-	UItext = $i('UI'); hidden('UI');
+  hidden('description');
+	hidden('UI');
   inherit('start');
 	
   mthick = 5; mlen = 50; mlen_prime = mlen/gamma;
@@ -2656,7 +2676,10 @@ function start()		    {hidden('start'); start_animation(); inherit('canvas');}
 
 function description()	{hidden('start'); inherit('description');}
 
-function SR()			      {hidden('description'); inherit('SR_text'); $i('body').style.overflow = "auto";}
+function SR_1()			    {hidden('description'); inherit('SR_1'); $i('body').style.overflow = "auto";}
+function SR_2()			    {hidden('description'); inherit('SR_2'); $i('body').style.overflow = "auto";}
+function SR_3()			    {hidden('description'); inherit('SR_3'); $i('body').style.overflow = "auto";}
+function SR_4()			    {hidden('description'); inherit('SR_4'); $i('body').style.overflow = "auto";}
 
 function GR()			      {hidden('description'); inherit('GR_text'); $i('body').style.overflow = "auto";}
 
@@ -2678,7 +2701,7 @@ function return_to_start()
 function return_to_description()
 {
 	window.scrollTo(0,0);
-	hidden('SR_text');
+	hidden('SR_1'); hidden('SR_2'); hidden('SR_3'); hidden('SR_4');
 	hidden('GR_text');
 	inherit('description');
 	$i('body').style.overflow = "hidden";
@@ -3279,14 +3302,23 @@ function eventListeners(down,out,up)
   $i('set_E2_button').addEventListener(up,           set_E2);
   $i('goto_E1_button').addEventListener(up,          goto_E1);
   $i('goto_E2_button').addEventListener(up,          goto_E2);
-  $i('SR_button').addEventListener(up,               SR);
+  $i('SR_1_button').addEventListener(up,             SR_1);
+  $i('SR_2_button').addEventListener(up,             SR_2);
+  $i('SR_3_button').addEventListener(up,             SR_3);
+  $i('SR_4_button').addEventListener(up,             SR_4);
   $i('GR_button').addEventListener(up,               GR);
   $i('return_to_start').addEventListener(up,         return_to_start);
   $i('return_from_UI').addEventListener(up,          return_to_start);
   $i('return_from_FAQ_1').addEventListener(up,       return_to_start);
   $i('return_from_FAQ_2').addEventListener(up,       return_to_start);
-  $i('return_from_SR_1').addEventListener(up,        return_to_description);
-  $i('return_from_SR_2').addEventListener(up,        return_to_description);
+  $i('return_from_SR_1a').addEventListener(up,       return_to_description);
+  $i('return_from_SR_1b').addEventListener(up,       return_to_description);
+  $i('return_from_SR_2a').addEventListener(up,       return_to_description);
+  $i('return_from_SR_2b').addEventListener(up,       return_to_description);
+  $i('return_from_SR_3a').addEventListener(up,       return_to_description);
+  $i('return_from_SR_3b').addEventListener(up,       return_to_description);
+  $i('return_from_SR_4a').addEventListener(up,       return_to_description);
+  $i('return_from_SR_4b').addEventListener(up,       return_to_description);
   $i('return_from_GR').addEventListener(up,          return_to_description);
   $i('start_button').addEventListener(up,            start);
   $i('description_button').addEventListener(up,      description);
