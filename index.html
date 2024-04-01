@@ -2,13 +2,15 @@
 <html lang="en">
   <head>
 
-    <!-- Google Tag Manager -->
-<!--    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-5W68J24');</script>-->
-    <!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<!--<script async src="https://www.googletagmanager.com/gtag/js?id=G-NG6CL55HYM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NG6CL55HYM');
+</script>-->
 
     <title>LightClock</title>
 
@@ -16,7 +18,7 @@
     <meta name="description" content="Light Clock">
     <meta name="author" content="joekahr@gmail.com">
     <meta name="generator" content="Joe Kahr">
-    <meta name="version" content="18.0">
+    <meta name="version" content="18.2">
     <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	
     <style type="text/css">
@@ -64,11 +66,6 @@
   </head>
 
   <body id="body" onload="init();" onresize="resize();" style="background-color:rgb(0,0,0)">
-    
-    <!-- Google Tag Manager (noscript) -->
-<!--    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5W68J24"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>-->
-    <!-- End Google Tag Manager (noscript) -->
 
     <canvas id="canvas" style="background-color:rgb(0, 0, 0); position:absolute; overflow:hidden; z-index:1; visibility:hidden;"></canvas>
         
@@ -78,12 +75,17 @@
         <span style="font-family:cambria_math">T = </span>proper light clock period<span style="font-family:cambria_math"> = D/c</span><br>
         <span title="Special Relativity Reference Frames" id="SR">SR:</span>
         <span title="Special Relativity: Laboratory Frame S" id="Lab"><input id="SR_lab_button" type="radio" name="reference"><span style="color:lime">Lab</span></span>
-        <span title="Special Relativity: Rocket Frame S'" id="Rocket"><input id="SR_rocket_button" type="radio" name="reference"><span style="color:cyan">Rocket</span></span><br>
+        <span title="Special Relativity: Rocket Frame S'" id="Rocket"><input id="SR_rocket_button" type="radio" name="reference"><span style="color:cyan">Rocket</span></span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span title="Mirror Pairs" id="Mirrors">Mirrors:</span>
+        <span title="Initially Horizontal Pair" id="Pair1"><input id="horizontal_checkbox" type="checkbox">&harr;</span>&nbsp;
+        <span title="Initially Vertical Pair" id="Pair2"><input id="vertical_checkbox" type="checkbox">&#x2195;</span><br>
         <span title="General Relativity Reference Frames" id="GR">GR:</span>
         <span title="General Relativity: Free-Falling Rain Frame S" id="Rain"><input id="GR_rain_button" type="radio" name="reference"><span style="color:lime">Rain</span></span>
         <span title="General Relativity: Stationary Shell Frame S'" id="Shell"><input id="GR_shell_button" type="radio" name="reference"><span style="color:cyan">Shell</span></span>
-        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference"><span style="color:orange">Far</span></span><br>
-        <span title="Relative Light Clock Speed v&#013;(-c < v < c)" id="SpeedSlider"">
+        <span title='General Relativity: Far-Away Bookkeeper Frame S"' id="Far"><input id="GR_far_button" type="radio" name="reference"><span style="color:orange">Far</span></span>
+        <button title="Keep Light Clock in Center of Window" id="centered_button" type="button" style="font-weight:bold; text-align:center; padding:0px; width:105px;">Center</button><br>
+        <span title="Relative Light Clock Speed v&#013;(-c < v < c)" id="SpeedSlider">
           <span style="font-family:cambria_math">speed (v): -c</span>
           <input id="speed_range" type="range" min="-1000" max="1000" value="0" class="slider"
           style="background:rgb(126,126,126); width:210px; height:10px; vertical-align:middle"><span style="font-family:cambria_math">c</span>
@@ -91,13 +93,15 @@
         <span id="speed_span" title="" style="padding:0px; font-family:cambria_math">
           <span>v/c = </span><span style="font-family:cambria_math"><span id="v_over_c">0</span></span>
         </span>&nbsp;&nbsp;
-        <span id="gamma_span" title="gamma is the Lorentz factor: ratio for length contraction and time dilation&#013;[Click value to change it]" style="padding:0px; font-family:cambria_math">
+        <span id="gamma_span" title="gamma is the Lorentz factor: ratio for length contraction and time dilation&#013;[Click to change value]" style="padding:0px; font-family:cambria_math">
           <span>&gamma; = </span><span id="gamma" style="font-family:cambria_math">1</span></span>&nbsp;&nbsp;
-        <span id="r_span" title='r is the r-coordinate (reduced circumference) for a Schwarzschild geometry&#013;(in this animation r is a distance in x" coordinates)&#013;[Click value to change it]' style="padding:0px; font-family:cambria_math">
+        <span id="r_span" title='r is the r-coordinate (reduced circumference) for a Schwarzschild geometry&#013;(in this animation r is a distance in x" coordinates)&#013;[Click to change value]' style="padding:0px; font-family:cambria_math">
           <span>rc&sup2;/GM = </span><span style="font-family:cambria_math"><span id="r_reduced">&infin;</span></span></span><br>
         <span title="Light Particles of Light Clock" id="Photons"><input id="photons_checkbox" type="checkbox">Photons</span>
-        <span title="Notation Explaining Animation" id="Annotation"><input id="annotation_checkbox" type="checkbox">Annotation</span>&nbsp;&nbsp;
-        <button title="Keep Light Clock in Center of Window" id="centered_button" type="button" style="font-weight:bold; text-align:center; padding:0px; width:105px;">Center</button><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span title="Paths for Light Clock photons" id="Paths"><input id="paths_checkbox" type="checkbox">Paths</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span title="Notation Explaining Animation" id="Annotation"><input id="annotation_checkbox" type="checkbox">Annotation</span><br>
         <span title="Light Waves of Light Clock" id="waves">waves:</span>
         <span title="Forward-in-Time Light Waves" id="Retarded"><input id="retarded_waves_checkbox" type="checkbox">Retarded</span>
         <span title="Backward-in-Time Light Waves" id="Advanced"><input id="advanced_waves_checkbox" type="checkbox">Advanced</span>
@@ -135,7 +139,7 @@
       <button id="faster_button" title="Speed Up the Animation 2x" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;">Faster</button>
       <button id="reset_button" title="Reset the Animation" type="button" style="font-weight:bold; text-align:center; padding:0px; width:60px;">Reset</button>
 			&nbsp;
-			<span id="current_time">
+			<span id="current_time" title="Current time in selected reference frame&#013;[Click to change value]">
         <span id="current_time_span1" style="font-family:cambria_math"></span>
         <span style="font-family:cambria_math">/T =</span>
 				<span id="current_time_span2"></span>
@@ -161,7 +165,7 @@
       </span>
     </div>
 				
-    <div id="description" style="font-family:Cambria,Math; text-align:center; background-color:rgb(0,0,0); color:rgb(255,255,255); position:absolute; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px;">
+    <div id="description" style="font-family:Cambria,Math; text-align:center; background-color:rgb(0,0,0); color:rgb(255,255,255); position:absolute; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden">
 			<p>
 		  Using an animation of light and mirrors functioning as a Light Clock we explore the nature of space and time.<br>
       Spacetime kinematics are depicted, without dynamical effects (no massive particles, forces, or accelerations).<br>
@@ -171,36 +175,67 @@
 			This results in length contraction (in the direction of motion) and time dilation, consistent with Relativity.<br>
 			</p>
 			<br>
-      Special Relativity<br>
-			<button type="button" id="SR_1_button" style="font-weight:bold">Lorentz Transforms</button>
-      <button type="button" id="SR_2_button" style="font-weight:bold">Invariant Interval</button>
-      <button type="button" id="SR_3_button" style="font-weight:bold">Time Dilation</button>
-      <button type="button" id="SR_4_button" style="font-weight:bold">Length Contraction</button>
+      <button type="button" id="SR_button" style="font-weight:bold">Special Theory of Relativity</button><br><br>
       <br>
-      <button type="button" id="GR_button" style="font-weight:bold">General Relativity</button>
+      <button type="button" id="GR_button" style="font-weight:bold">General Theory of Relativity</button>
 			<br><br>
 			<button type="button" id="return_to_start" style="font-weight:bold">RETURN</button>
     </div>
         
-    <div id="SR_1" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-			<button type="button" id="return_from_SR_1a" style="font-weight:bold">RETURN</button><br>
-      <iframe src="SR_1.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
-      <button type="button" id="return_from_SR_1b" style="font-weight:bold">RETURN</button><br>
-    </div>
-    <div id="SR_2" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-			<button type="button" id="return_from_SR_2a" style="font-weight:bold">RETURN</button><br>
-      <iframe src="SR_2.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
-      <button type="button" id="return_from_SR_2b" style="font-weight:bold">RETURN</button><br>
-    </div>
-    <div id="SR_3" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-			<button type="button" id="return_from_SR_3a" style="font-weight:bold">RETURN</button><br>
-      <iframe src="SR_3.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
-      <button type="button" id="return_from_SR_3b" style="font-weight:bold">RETURN</button><br>
-    </div>
-    <div id="SR_4" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-			<button type="button" id="return_from_SR_4a" style="font-weight:bold">RETURN</button><br>
-      <iframe src="SR_4.pdf" style="min-height:100vh;width:100%" frameborder="0"></iframe><br>
-      <button type="button" id="return_from_SR_4b" style="font-weight:bold">RETURN</button><br>
+    <div id="SR_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+      <div style="text-align:center">
+      Lorentz-Einstein transformations between<br>
+      coordinate systems <span style="color:lime">S</span> and <span style="color:cyan">S'</span> with  <span style="color:cyan">S'</span> moving<br>
+      at speed v in +x direction relative to <span style="color:lime">S</span><br>
+      <br>
+      Lorentz factor: &gamma; &equiv; (1-v&sup2;/c&sup2;)<sup>- &half;</sup><br>
+      <br>
+      </div>
+      <table style="margin-left:auto; margin-right:auto;">
+        <tr>
+          <td style="text-align:left; padding:10px;">
+          x' = &gamma;(x - vt)<br>
+          y' = y<br>
+          z' = z<br>
+          t' = &gamma;(t - vx/c&sup2;)<br>
+          <br>
+          &Delta;x' = &gamma;(&Delta;x - v&Delta;t)<br>
+          &Delta;t' = &gamma;(&Delta;t - v&Delta;x/c&sup2;)<br>
+          <br>
+          &Delta;x'/&Delta;t' = (&Delta;x - v&Delta;t)/(&Delta;t - v&Delta;x/c&sup2;)<br>
+          <br>
+          &Delta;x = 0 &rArr; &Delta;x'/&Delta;t' = -v
+          </td>
+          <td style="text-align:left; padding:10px;">
+          x = &gamma;(x' + vt')<br>
+          y = y'<br>
+          z = z'<br>
+          t = &gamma;(t' + vx'/c&sup2;)<br>
+          <br>
+          &Delta;x = &gamma;(&Delta;x' + v&Delta;t')<br>
+          &Delta;t = &gamma;(&Delta;t' + v&Delta;x'/c&sup2;)<br>
+          <br>
+          &Delta;x/&Delta;t = (&Delta;x' + v&Delta;t')/(&Delta;t' + v&Delta;x'/c&sup2;)<br>
+          <br>
+          &Delta;x' = 0 &rArr; &Delta;x/&Delta;t = v
+          </td>
+        </tr>
+      </table>
+      <div style="text-align:center">
+        relativity of length contraction<br>
+        <span style="color:lime">S length</span>:  &Delta;t = 0   &Implies;   &Delta;x = &Delta;x'/&gamma;<br>
+        <span style="color:cyan">S' length</span>: &Delta;t' = 0   &Implies;   &Delta;x'  = &Delta;x/&gamma;<br>
+        <br>
+        relativity of time dilation<br>
+        <span style="color:lime">S duration</span>:  &Delta;x = 0   &Implies;   &Delta;t = &Delta;t'/&gamma;<br>
+        <span style="color:cyan">S' duration</span>: &Delta;x' = 0   &Implies;   &Delta;t'  = &Delta;t/&gamma;<br>
+        <br>
+        invariant spacetime interval<br>
+        (&Delta;<font color='lime'>x</font>)&sup2; + (&Delta;<font color='lime'>y</font>)&sup2; + (&Delta;<font color='lime'>z</font>)&sup2; - (c&Delta;<font color='lime'>t</font>)&sup2;
+        = (&Delta;<font color='cyan'>x'</font>)&sup2; + (&Delta;<font color='cyan'>y'</font>)&sup2; + (&Delta;<font color='cyan'>z'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;
+      </div>
+			<br><br>
+			<button type="button" id="return_from_SR" style="font-weight:bold">RETURN</button>
     </div>
         
 		<div id="GR_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
@@ -346,7 +381,7 @@
       Tip: Toggle between the <font color='lime'>Lab</font> frame and the <font color='lime'>Rain</font> frame to see that there is no difference in space or time effects.
       The same is true for toggling between the <font color='cyan'>Rocket</font> frame and the <font color='cyan'>Shell</font> frame.<br>
       The <font color='orange'>Far</font> frame is not like any of the other frames;
-      the extra space and time distortions (spacetime warping) you see are due to not accounting for the motion of space.<br>
+      the extra space and time distortions (spacetime warping) are due to not accounting for the motion of space.<br>
       <br>
 
 			<span style="font-weight:bold">Why does the Light Clock stay contracted and its time dilated when 'Center' and <font color='lime'>Lab</font> are selected?</span><br>
@@ -713,7 +748,7 @@ var offset_y_down=0; // offset_y at mousedown event
 var offset_x=0; //x location of space coord origin
 var offset_y=0; //y location of space coord origin
 
-var controls, canvas;
+var controls, SRtext, GRtext, FAQtext, descriptiontext, UItext, canvas;
 var context;
 
 var fps=24;
@@ -1261,11 +1296,17 @@ function drawMirrors()
       context.scale(1/gamma,1);
   }
   context.rotate(theta);
-  context.fillStyle = 'silver';  
-  context.fillRect(-d/2-mthick,-mlen/2,mthick,mlen);  //left
-  context.fillRect(+d/2,-mlen/2,mthick,mlen);  //right
-  context.fillRect(-mlen/2,-d/2-mthick,mlen,mthick);  //top
-  context.fillRect(-mlen/2,+d/2,mlen,mthick);  //bottom
+  context.fillStyle = 'silver';
+	if ($i('horizontal_checkbox').checked)
+	{
+		context.fillRect(-d/2-mthick,-mlen/2,mthick,mlen);  //left
+		context.fillRect(+d/2,-mlen/2,mthick,mlen);  //right
+	}
+	if ($i('vertical_checkbox').checked)
+	{
+		context.fillRect(-mlen/2,-d/2-mthick,mlen,mthick);  //top
+		context.fillRect(-mlen/2,+d/2,mlen,mthick);  //bottom
+	}
   context.lineWidth=2;
   context.rotate(-theta);
   if (refS() || refSdblprime()) context.scale(gamma,1);
@@ -1286,6 +1327,65 @@ function drawMirrors()
   else if (ref == 'GR_far')     arrowcolor = S_color(1);
   if      (arrowdir == "right") annotateArrow("stroke",-20,d/2+12, 20,d/2+12,arrowcolor); // right arrow
   else if (arrowdir == "left")  annotateArrow("stroke", 20,d/2+12,-20,d/2+12,arrowcolor); // left arrow
+  context.restore();
+}
+
+function drawPaths()
+{
+  var x_start,y_start;
+  var x_end,y_end;
+  var x_left,y_left;
+  var x_right,y_right;
+  var x_up,y_up;
+  var x_down,y_down;
+  
+  context.save();
+  context.lineWidth=1;
+  context.strokeStyle = lightpath_color(0.5);
+	if (refSdblprime())
+  {
+    if (!centered) translate(x0_init+v*t/(gamma*gamma),y0_init);
+		context.scale(1/gamma,1);  //contract x
+		context.rotate(theta);
+    x_start = x0_init; y_start = y0_init;
+    x_end = x_start; y_end = y_start;
+		x_left = -c*(t_tick/2)/gamma;  y_left = 0; //left
+		x_up = 0; y_up = -c*(t_tick/2)/gamma;  //up
+		x_down = 0; y_down = c*(t_tick/2)/gamma;  //down
+		x_right = c*(t_tick/2)/gamma; y_right = 0;  //right
+  }
+  else if (refS())
+  {
+		if (centered) context.translate(-v*t_cycle,0);
+		else translate(x0,y0);
+    x_start = x0_init; y_start = y0_init;
+    x_end = x_start + v*t_tick; y_end = y_start;
+		x_left = x1; y_left = y1;
+		x_down = x2; y_down = y2;
+		x_up = x3; y_up = y3;
+		x_right = x4; y_right = y4;
+  }
+  else if (refSprime())
+  {
+    if (!centered) translate(x0_init+v*t,y0_init);
+		context.rotate(theta);
+    x_start = x0_init; y_start = y0_init;
+    x_end = x_start; y_end = y_start;
+		x_left = -c*(t_tick/2)/gamma;  y_left = 0; //left
+		x_up = 0; y_up = -c*(t_tick/2)/gamma;  //up
+		x_down = 0; y_down = c*(t_tick/2)/gamma;  //down
+		x_right = c*(t_tick/2)/gamma; y_right = 0;  //right
+  }
+	if ($i('horizontal_checkbox').checked)
+	{
+		drawLine(x_start, y_start, x_left, y_left);   drawLine(x_left, y_left, x_end, y_end);
+		drawLine(x_start, y_start, x_right, y_right); drawLine(x_right, y_right, x_end, y_end);
+	}
+	if ($i('vertical_checkbox').checked)
+	{
+		drawLine(x_start, y_start, x_up, y_up);       drawLine(x_up, y_up, x_end, y_end);
+		drawLine(x_start, y_start, x_down, y_down);   drawLine(x_down, y_down, x_end, y_end);
+	}
   context.restore();
 }
 
@@ -1363,7 +1463,6 @@ function drawFullArc(x,y,r)
   var cross_size=8;
 
   //if (paused) alert("x,y_canvas=" + x_canvas + "," + y_canvas + "   offset_x,y=" + offset_x + "," + offset_y);
-  if ((!$i('full_arcs_checkbox').checked) || r < 0) return;
 	context.save();
 	context.lineWidth=1;
 	context.strokeStyle=wave_color(0.5);  // half strength
@@ -1516,7 +1615,8 @@ function contact_angles(Angle2,Angle3,r0,P0,P1c,t1c,P4c,t4c)
 	}
 	else  //check for contact
 	{
-		P1.x = P1c.x + v*(t_cycle-t1c); P1.y = P1c.y; P4.x = P4c.x + v*(t_cycle-t4c); P4.y = P4c.y;
+		P1.x = P1c.x + v*(t_cycle-t1c); P1.y = P1c.y;
+		P4.x = P4c.x + v*(t_cycle-t4c); P4.y = P4c.y;
 		Pmid.x = (P1.x + P4.x)/2; Pmid.y = (P1.y + P4.y)/2;
 		if (distance2D(P0,P1) <= distance2D(P0,P4)) {contact = contact_points(r0,P0,P1,P2,P3,P4,P1c,P4c);}
 		else {contact = contact_points(r0,P0,P4,P2,P3,P1,P4c,P1c);}
@@ -1586,7 +1686,7 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
 {
   var gamma_1_4,gamma_2_3;
   var v1,v2,v3,v4,t1,t2,t3,t4,r1,r2,r3,r4;
-  var temp,cos_mu_1_4,sin_mu_1_4;
+  var temp,cos_mu_1_4,sin_mu_1_4,cos_mu_2_3,sin_mu_2_3;
   var D0_1_4,D0_2_3,D1,D2,D3,D4;
   var contact1,contact2,contact3,contact4;
 	var angle,sin_angle,cos_angle,tan_angle,r0;
@@ -1599,7 +1699,7 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
     v = 0; t_tick = t_tick/gamma; t_cycle = t_cycle/gamma; x0 = x0/gamma; gamma = 1;
   }
   if (retarded) {speed = v;  angle = theta;}
-  else          {speed = -v; angle = Math.PI/2 - theta; t_cycle = t_tick - t_cycle; x0 = x0 + v*t_tick;}
+	else          {speed = -v; angle = theta; t_cycle = t_tick - t_cycle; x0 = x0 + v*t_tick;}
   if (refS())
   {
     if (!centered)  context.translate(offset_x + x0, offset_y + y0);
@@ -1614,7 +1714,7 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
       else          context.translate(offset_x + x0 + save_v*t_tick - save_v*t_cycle, offset_y + y0);
     }
   }
-  if (!retarded) context.scale(-1,1);
+  if (!retarded) context.scale(-1,-1);
   r0 = c*t_cycle; calcMirrors(angle);
   sin_angle = Math.sin(angle); cos_angle = Math.cos(angle); tan_angle = Math.tan(angle);
   
@@ -1626,27 +1726,21 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
 	//if (paused) {alert("contact=" + contact1 + "  r0=" + r0 + "  P1d:" + P1d.x + "," + P1d.y + "  P1u:" + P1u.x + "," + P1u.y + "  P1d.x + v*(t_cycle-t1d)=" + (P1d.x + v*(t_cycle-t1d)));}
   contact3 = contact_angles(F,G,r0,P0,P3l,t3l,P3r,t3r); //alert("F=" + deg(F) + "  G=" + deg(G));
   //alert("contact1 = " + contact1 + "   contact2 = " + contact2 + "   contact3 = " + contact3 + "   contact4 = " + contact4);
+	if (!On('vertical_checkbox')) {contact2 = false; contact3 = false;}
+	if (!On('horizontal_checkbox')) {contact1 = false; contact4 = false;}
   if ((0 < F.radians) && (F.radians <  Math.PI) && (G.radians > Math.PI)) {temp = F.radians; F.radians = G.radians-2*Math.PI; G.radians = temp;}
   context.lineWidth=2;
   context.strokeStyle=wave_color(1);
   //context.strokeStyle='rgba(255,255,0,' + opacity + ')';  //wave fades to invisible after 1.2*roundtrip
 	//if (paused && (!dragging) && (!scaling_and_rotating)) alert("angle=" + angle*180/Math.PI + "  A=" + deg(A) + "  B=" + deg(B) + "  C=" + deg(C) + "  D=" + deg(D) + "  E=" + deg(E) + "  F=" + deg(F) + "  G=" + deg(G) + "  H=" + deg(H));
-	drawFullArc(0,0,r0);
-	if (angle <= Math.PI/4)
-	{
-		if (C.radians > D.radians) {drawArc(0, 0, r0, A.radians, D.radians);}
-		else {drawArc(0, 0, r0, A.radians, B.radians); drawArc(0, 0, r0, C.radians, D.radians);}
-		if (E.radians > F.radians) {drawArc(0, 0, r0, E.radians, H.radians);}
-		else {drawArc(0, 0, r0, E.radians, F.radians); drawArc(0, 0, r0, G.radians, H.radians);}
-	}
-	else
-	{
-		if (A.radians > B.radians) {drawArc(0, 0, r0, G.radians, B.radians);}
-		else {drawArc(0, 0, r0, G.radians, H.radians); drawArc(0, 0, r0, A.radians, B.radians);}
-		if (C.radians > D.radians) {drawArc(0, 0, r0, C.radians, F.radians);}
-		else {drawArc(0, 0, r0, C.radians, D.radians); drawArc(0, 0, r0, E.radians, F.radians);}
-	}
-    
+	if ((On('vertical_checkbox') || On('horizontal_checkbox')) && On('full_arcs_checkbox') && r0 > 0) drawFullArc(0,0,r0);
+	if (On('vertical_checkbox') && On('horizontal_checkbox'))
+		{drawArc(0, 0, r0, A.radians, B.radians); drawArc(0, 0, r0, C.radians, D.radians); drawArc(0, 0, r0, E.radians, F.radians); drawArc(0, 0, r0, G.radians, H.radians);}
+	else if (On('horizontal_checkbox'))
+		{drawArc(0, 0, r0, A.radians, D.radians); drawArc(0, 0, r0, E.radians, H.radians);}
+	else if (On('vertical_checkbox'))
+		{drawArc(0, 0, r0, G.radians, B.radians); drawArc(0, 0, r0, C.radians, F.radians);}
+	
   //reflected waves
   cos_mu_1_4 = 1/Math.sqrt(1 + tan_angle*tan_angle/gamma/gamma); sin_mu_1_4 = Math.sqrt(1 - cos_mu_1_4*cos_mu_1_4);
   cos_mu_2_3 = 1/Math.sqrt(1 + tan_angle*tan_angle*gamma*gamma); sin_mu_2_3 = Math.sqrt(1 - cos_mu_2_3*cos_mu_2_3);
@@ -1658,10 +1752,10 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
   t1 = D0_1_4/(c+v1); t2 = D0_2_3/(c+v2); t3 = D0_2_3/(c+v3); t4 = D0_1_4/(c+v4);
   r1 = r0 + 2*v1*t1/(1-v1/c); r2 = r0 + 2*v2*t2/(1-v2/c); r3 = r0 + 2*v3*t3/(1-v3/c); r4 = r0 + 2*v4*t4/(1-v4/c);
   //if (paused) alert("r1 = " + r1 + "   r2 = " + r2 + "   r3 = " + r3 + "   r4 = " + r4);
-  P1reflect.x = -D1*cos_mu_1_4;	P1reflect.y = -D1*sin_mu_1_4;
+  P1reflect.x = -D1*cos_mu_1_4;	 P1reflect.y = -D1*sin_mu_1_4;
   P2reflect.x = -D2*sin_mu_2_3;	P2reflect.y =  D2*cos_mu_2_3;
   P3reflect.x =  D3*sin_mu_2_3;	P3reflect.y = -D3*cos_mu_2_3;
-  P4reflect.x =  D4*cos_mu_1_4;	P4reflect.y =  D4*sin_mu_1_4;
+  P4reflect.x =  D4*cos_mu_1_4;	 P4reflect.y =  D4*sin_mu_1_4;
   //alert("D0_2_3 = " + D0_2_3 + "   D3 = " + D3 + "   P3reflect.x = " + P3reflect.x + "   P3reflect.y = " + P3reflect.y);
   contact_angles(D,E,r1,P1reflect,P1d,t1d,P1u,t1u);
   if ((0 < D.radians) && (D.radians < Math.PI) && (E.radians > Math.PI)) {temp = D.radians; D.radians = E.radians-2*Math.PI; E.radians = temp;}
@@ -1670,15 +1764,20 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
   contact_angles(F,G,r3,P3reflect,P3l,t3l,P3r,t3r);
   contact_angles(A,H,r4,P4reflect,P4u,t4u,P4d,t4d);
 	//if (paused && (!dragging) && (!scaling_and_rotating)) alert("A=" + deg(A) + "  B=" + deg(B) + "  C=" + deg(C) + "  D=" + deg(D) + "  E=" + deg(E) + "  F=" + deg(F) + "  G=" + deg(G) + "  H=" + deg(H));
-  drawFullArc(P1reflect.x, P1reflect.y, r1);
-	drawFullArc(P2reflect.x, P2reflect.y, r2);
-	drawFullArc(P3reflect.x, P3reflect.y, r3);
-	drawFullArc(P4reflect.x, P4reflect.y, r4);
-	if (contact1) drawArc(P1reflect.x, P1reflect.y, r1, D.radians, E.radians);
-  if (contact2) drawArc(P2reflect.x, P2reflect.y, r2, B.radians, C.radians);
-  if (contact3) drawArc(P3reflect.x, P3reflect.y, r3, F.radians, G.radians);
-  if (contact4) drawArc(P4reflect.x, P4reflect.y, r4, A.radians, H.radians);
-  
+  if (On('vertical_checkbox'))
+	{
+		if (($i('full_arcs_checkbox').checked) && r2 > 0) drawFullArc(P2reflect.x, P2reflect.y, r2); //bottom
+		if (($i('full_arcs_checkbox').checked) && r3 > 0) drawFullArc(P3reflect.x, P3reflect.y, r3); //top
+		if (contact2) drawArc(P2reflect.x, P2reflect.y, r2, B.radians, C.radians); //bottom
+  	if (contact3) drawArc(P3reflect.x, P3reflect.y, r3, F.radians, G.radians); //top
+	}
+	if (On('horizontal_checkbox'))
+	{
+		if (($i('full_arcs_checkbox').checked) && r1 > 0) drawFullArc(P1reflect.x, P1reflect.y, r1); //left
+		if (($i('full_arcs_checkbox').checked) && r4 > 0) drawFullArc(P4reflect.x, P4reflect.y, r4); //right
+		if (contact1) drawArc(P1reflect.x, P1reflect.y, r1, D.radians, E.radians); //left
+		if (contact4) drawArc(P4reflect.x, P4reflect.y, r4, A.radians, H.radians); //right
+	}
   context.restore();
   v = save_v; gamma = save_gamma; t_cycle = save_t_cycle; t_tick = save_t_tick; x0 = save_x0; calcMirrors(theta); 
 }
@@ -2498,7 +2597,9 @@ function drawFrame()
     else if ($i('XT_Yplus_button').checked)   {drawXT_Y(true); up_photon = mark_up; down_photon = mark_down;}
     else if ($i('XT_Yminus_button').checked)  {drawXT_Y(false); up_photon = mark_up; down_photon = mark_down;}
     else if ($i('YT_button').checked)         {drawYT(); up_photon = true; down_photon = true;}
-    if ($i('photons_checkbox').checked) drawPhotons(left_photon,right_photon,up_photon,down_photon);
+    if (!$i('vertical_checkbox').checked)     {up_photon = false; down_photon = false;}
+    if (!$i('horizontal_checkbox').checked)   {left_photon = false; right_photon = false;}
+    if ($i('photons_checkbox').checked)       drawPhotons(left_photon,right_photon,up_photon,down_photon);
   }
   else
   {
@@ -2509,7 +2610,10 @@ function drawFrame()
     $i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
     if (retarded_waves) if (ref == "GR_far") {drawEllipticalWaves(true);} else {drawWaves(true);}
     if (advanced_waves) if (ref == "GR_far") {drawEllipticalWaves(false);} else {drawWaves(false);}
-    if ($i('photons_checkbox').checked) drawPhotons(true,true,true,true);
+    if ($i('paths_checkbox').checked) drawPaths();
+    up_photon = $i('vertical_checkbox').checked; down_photon = up_photon;
+    left_photon = $i('horizontal_checkbox').checked; right_photon = left_photon;
+    if ($i('photons_checkbox').checked)       drawPhotons(left_photon,right_photon,up_photon,down_photon);
     drawMirrors();
     drawTicks_Sprime();
   }
@@ -2564,47 +2668,50 @@ function reset()
 
 function init()
 {
-	isMac = (navigator.platform.substr(0,3) == "Mac");
+    isMac = (navigator.platform.substr(0,3) == "Mac");
 	speed_slider = false;
 	
 	$i('body').style.overflow = "hidden";
 	window.scrollTo(0,0);
 	v = 0; v_text = "0"; $i('v_over_c').innerHTML = v_text;
-  gamma = 1; gamma_text = "1"; $i('gamma').innerHTML = gamma_text;
+    gamma = 1; gamma_text = "1"; $i('gamma').innerHTML = gamma_text;
 	r_over_GM_text = '\u221E'; $i('r_reduced').innerHTML = r_over_GM_text;
 	document.querySelector('#speed_range').value = 0;
 	
 	controls = $i('controls'); hidden('controls');
-  hidden('SR_1'); hidden('SR_2'); hidden('SR_3'); hidden('SR_4');
-  hidden('GR_text');
-	hidden('FAQ');
-  canvas = $i('canvas'); hidden('canvas');
-  hidden('description');
-	hidden('UI');
-  inherit('start');
+    SRtext = $i('SR_text'); hidden('SR_text');
+    GRtext = $i('GR_text'); hidden('SR_text');
+	FAQtext = $i('FAQ'); hidden('FAQ');
+    canvas = $i('canvas'); hidden('canvas');
+    descriptiontext = $i('description'); hidden('description');
+	UItext = $i('UI'); hidden('UI');
+    inherit('start');
 	
-  mthick = 5; mlen = 50; mlen_prime = mlen/gamma;
+    mthick = 5; mlen = 50; mlen_prime = mlen/gamma;
+    $i('vertical_checkbox').checked = true;
+    $i('horizontal_checkbox').checked = true;
 	$i('photons_checkbox').checked = true;
-  $i('retarded_waves_checkbox').checked = false;
+    $i('paths_checkbox').checked = false;
+    $i('retarded_waves_checkbox').checked = false;
 	$i('advanced_waves_checkbox').checked = false;
-  $i('full_arcs_checkbox').checked = false; $i('full_arcs_checkbox').disabled = true;
+    $i('full_arcs_checkbox').checked = false; $i('full_arcs_checkbox').disabled = true;
 	coords = false; $i('coord_checkbox').checked = false;
-  paused = false; $i('pause_resume_button').innerHTML = "Pause "; hidden('single_steps');
+    paused = false; $i('pause_resume_button').innerHTML = "Pause "; hidden('single_steps');
 	centered = false; $i("centered_button").innerHTML="Center"; hidden('centered_button');
 	$i('S_grid_checkbox').checked = false; $i('Sprime_grid_checkbox').checked = false; $i('Sdblprime_grid_checkbox').checked = false;
 	$i('S_clocks_checkbox').checked = false; $i('Sprime_clocks_checkbox').checked = false; $i('Sdblprime_clocks_checkbox').checked = false;
-  $i('mini_lightclocks_checkbox').checked = false; $i('mini_lightclocks_checkbox').disabled = true;
-  $i('annotation_checkbox').checked = false;
+    $i('mini_lightclocks_checkbox').checked = false; $i('mini_lightclocks_checkbox').disabled = true;
+    $i('annotation_checkbox').checked = false;
 	initDiagrams(); disableDiagrams();
 	$i('coord_checkbox').checked = false;
 	hidden('coordinates'); hidden('goto_E1_button'); hidden('goto_E2_button');
-  theta = 0; prev_theta = theta;
-  $i('forward_button').checked = true; $i('backward_button').checked = false;
+    theta = 0; prev_theta = theta;
+    $i('forward_button').checked = true; $i('backward_button').checked = false;
 	scaling_enabled = true; initScaling();
 	rotation_enabled = true; initRotation();
-  started = false;
+    started = false;
 	reset();
-  SRlab();
+    SRlab();
 }
 
 function start_animation()
@@ -2676,10 +2783,7 @@ function start()		    {hidden('start'); start_animation(); inherit('canvas');}
 
 function description()	{hidden('start'); inherit('description');}
 
-function SR_1()			    {hidden('description'); inherit('SR_1'); $i('body').style.overflow = "auto";}
-function SR_2()			    {hidden('description'); inherit('SR_2'); $i('body').style.overflow = "auto";}
-function SR_3()			    {hidden('description'); inherit('SR_3'); $i('body').style.overflow = "auto";}
-function SR_4()			    {hidden('description'); inherit('SR_4'); $i('body').style.overflow = "auto";}
+function SR()			      {hidden('description'); inherit('SR_text'); $i('body').style.overflow = "auto";}
 
 function GR()			      {hidden('description'); inherit('GR_text'); $i('body').style.overflow = "auto";}
 
@@ -2701,7 +2805,7 @@ function return_to_start()
 function return_to_description()
 {
 	window.scrollTo(0,0);
-	hidden('SR_1'); hidden('SR_2'); hidden('SR_3'); hidden('SR_4');
+	hidden('SR_text');
 	hidden('GR_text');
 	inherit('description');
 	$i('body').style.overflow = "hidden";
@@ -2792,7 +2896,7 @@ function SRlab()
   $i("Sprime_clocks_span").title = "Grid of Rocket Frame t' Clocks";
   S_diagrams_title = "Spacetime Diagrams for Laboratory Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Rocket Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
-  $i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click value to change it]";
+  $i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click to change value]";
   centeredChange(false);
   setTime(ref, 'SR_lab'); ref = 'SR_lab'; if (paused) setCurrentTime();
   drawFrame();
@@ -2810,7 +2914,7 @@ function SRrocket()
   $i("Sprime_clocks_span").title = "Grid of Rocket Frame t' Clocks";
   S_diagrams_title = "Spacetime Diagrams for Laboratory Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Rocket Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
-  $i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click value to change it]";
+  $i("speed_span").title = "v = speed the Light Clock is moving through space\n[Click to change value]";
   centeredChange(true);
   setTime(ref, 'SR_rocket'); ref = 'SR_rocket'; if (paused) setCurrentTime();
   drawFrame();
@@ -2828,7 +2932,7 @@ function GRrain()
   $i("Sprime_clocks_span").title = "Grid of Stationary Shell Frame t' Clocks";
   S_diagrams_title = "Spacetime Diagrams for Free-Falling Rain Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
-  $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]";
+  $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click to change value]";
   centeredChange(false);
   setTime(ref, 'GR_rain'); ref = 'GR_rain'; if (paused) setCurrentTime();
   drawFrame();
@@ -2846,7 +2950,7 @@ function GRshell()
   $i("Sprime_clocks_span").title = "Grid of Stationary Shell Frame t' Clocks";
   S_diagrams_title = "Spacetime Diagrams for Free-Falling Rain Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
-  $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]";
+  $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click to change value]";
   centeredChange(true);
   setTime(ref, 'GR_shell'); ref = 'GR_shell'; if (paused) setCurrentTime();
   drawFrame();
@@ -2865,7 +2969,7 @@ function GRfar()
   S_diagrams_title = "Spacetime Diagrams for Free-Falling Rain Frame"; $i("S_diagrams_span").title = S_diagrams_title;
   Sprime_diagrams_title = "Spacetime Diagrams for Stationary Shell Frame"; $i("Sprime_diagrams_span").title = Sprime_diagrams_title;
   Sdblprime_diagrams_title = "Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)"; $i("Sdblprime_diagrams_span").title = Sdblprime_diagrams_title;
-  $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click value to change it]]";
+  $i("speed_span").title = "v = speed space is moving past the stationary Light Clock\n[Click to change value]";
   centeredChange(true);
   setTime(ref, 'GR_far'); ref = 'GR_far'; if (paused) setCurrentTime();
   drawFrame();
@@ -3145,6 +3249,7 @@ function diagram_disabled()
   if (On("Sdblprime_clocks_checkbox"))  {if (reason != "") reason = reason + ", "; reason = reason + 't" clocks';}
   if (On("retarded_waves_checkbox"))    {if (reason != "") reason = reason + ", "; reason = reason + "Retarded Waves";}
   if (On("advanced_waves_checkbox"))    {if (reason != "") reason = reason + ", "; reason = reason + "Advanced Waves";}
+  if (On("paths_checkbox"))             {if (reason != "") reason = reason + ", "; reason = reason + "Paths";}
   if (On("coord_checkbox") && paused)   {if (reason != "") reason = reason + ", "; reason = reason + "Events";}
   if (!On("photons_checkbox"))          {reason = "Photons off";}
   return (reason);
@@ -3257,6 +3362,7 @@ function eventListeners(down,out,up)
   
   // checkboxes as firstChild
   $i('Photons').addEventListener(up,                 toggleCheckbox);
+  $i('Paths').addEventListener(up,                   toggleCheckbox);
   $i('Annotation').addEventListener(up,              toggleCheckbox);
   $i('Retarded').addEventListener(up,                toggleCheckbox);
   $i('Advanced').addEventListener(up,                toggleCheckbox);
@@ -3302,23 +3408,13 @@ function eventListeners(down,out,up)
   $i('set_E2_button').addEventListener(up,           set_E2);
   $i('goto_E1_button').addEventListener(up,          goto_E1);
   $i('goto_E2_button').addEventListener(up,          goto_E2);
-  $i('SR_1_button').addEventListener(up,             SR_1);
-  $i('SR_2_button').addEventListener(up,             SR_2);
-  $i('SR_3_button').addEventListener(up,             SR_3);
-  $i('SR_4_button').addEventListener(up,             SR_4);
+  $i('SR_button').addEventListener(up,               SR);
   $i('GR_button').addEventListener(up,               GR);
   $i('return_to_start').addEventListener(up,         return_to_start);
   $i('return_from_UI').addEventListener(up,          return_to_start);
   $i('return_from_FAQ_1').addEventListener(up,       return_to_start);
   $i('return_from_FAQ_2').addEventListener(up,       return_to_start);
-  $i('return_from_SR_1a').addEventListener(up,       return_to_description);
-  $i('return_from_SR_1b').addEventListener(up,       return_to_description);
-  $i('return_from_SR_2a').addEventListener(up,       return_to_description);
-  $i('return_from_SR_2b').addEventListener(up,       return_to_description);
-  $i('return_from_SR_3a').addEventListener(up,       return_to_description);
-  $i('return_from_SR_3b').addEventListener(up,       return_to_description);
-  $i('return_from_SR_4a').addEventListener(up,       return_to_description);
-  $i('return_from_SR_4b').addEventListener(up,       return_to_description);
+  $i('return_from_SR').addEventListener(up,          return_to_description);
   $i('return_from_GR').addEventListener(up,          return_to_description);
   $i('start_button').addEventListener(up,            start);
   $i('description_button').addEventListener(up,      description);
