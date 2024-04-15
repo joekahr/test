@@ -18,7 +18,7 @@
     <meta name="description" content="Light Clock">
     <meta name="author" content="joekahr@gmail.com">
     <meta name="generator" content="Joe Kahr">
-    <meta name="version" content="18.2">
+    <meta name="version" content="18.6">
     <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	
     <style type="text/css">
@@ -76,10 +76,11 @@
         <span title="Special Relativity Reference Frames" id="SR">SR:</span>
         <span title="Special Relativity: Laboratory Frame S" id="Lab"><input id="SR_lab_button" type="radio" name="reference"><span style="color:lime">Lab</span></span>
         <span title="Special Relativity: Rocket Frame S'" id="Rocket"><input id="SR_rocket_button" type="radio" name="reference"><span style="color:cyan">Rocket</span></span>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <span title="Mirror Pairs" id="Mirrors">Mirrors:</span>
-        <span title="Initially Horizontal Pair" id="Pair1"><input id="horizontal_checkbox" type="checkbox">&harr;</span>&nbsp;
-        <span title="Initially Vertical Pair" id="Pair2"><input id="vertical_checkbox" type="checkbox">&#x2195;</span><br>
+        &nbsp;&nbsp;&nbsp;
+        <span title="-x mirror"><input id='left_mirror' type="checkbox">&larr;</span>
+        <span title="+y mirror"><input id='up_mirror' type="checkbox">&uarr;</span>
+        <span title="-y mirror"><input id='down_mirror' type="checkbox">&darr;</span>
+        <span title="+x mirror"><input id='right_mirror' type="checkbox">&rarr;</span><br>
         <span title="General Relativity Reference Frames" id="GR">GR:</span>
         <span title="General Relativity: Free-Falling Rain Frame S" id="Rain"><input id="GR_rain_button" type="radio" name="reference"><span style="color:lime">Rain</span></span>
         <span title="General Relativity: Stationary Shell Frame S'" id="Shell"><input id="GR_shell_button" type="radio" name="reference"><span style="color:cyan">Shell</span></span>
@@ -101,7 +102,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span title="Paths for Light Clock photons" id="Paths"><input id="paths_checkbox" type="checkbox">Paths</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <span title="Notation Explaining Animation" id="Annotation"><input id="annotation_checkbox" type="checkbox">Annotation</span><br>
+        <span title="Annotation Explaining Animation" id="Annotation"><input id="annotation_checkbox" type="checkbox">Notation</span><br>
         <span title="Light Waves of Light Clock" id="waves">waves:</span>
         <span title="Forward-in-Time Light Waves" id="Retarded"><input id="retarded_waves_checkbox" type="checkbox">Retarded</span>
         <span title="Backward-in-Time Light Waves" id="Advanced"><input id="advanced_waves_checkbox" type="checkbox">Advanced</span>
@@ -119,10 +120,10 @@
         <span title="" id="S_diagrams_span"><input id="S_diag_checkbox" type="checkbox"><span style="color:lime">S</span></span>
         <span title="" id="Sprime_diagrams_span"><input id="Sprime_diag_checkbox" type="checkbox"><span style="color:cyan">S'</span></span>
         <span title="Spacetime Diagrams for Far-Away Bookkeeper (Schwarzschild Frame)" id="Sdblprime_diagrams_span"><input id="Sdblprime_diag_checkbox" type="checkbox"><span style="color:orange">S"</span></span><br>
-        <span title="x-t diagram for photons moving left and right" id="XT_span" style="font-family:cambria_math"><input id="XT_button" type="radio" name="diagram"><span>&harr; xt</span></span>
-        <span title="x-t diagram for upward moving photon" id="XT_Yplus_span" style="font-family:cambria_math"><input id="XT_Yplus_button" type="radio" name="diagram"><span>&uarr; xt</span></span>
-        <span title="x-t diagram for downward moving photon" id="XT_Yminus_span" style="font-family:cambria_math"><input id="XT_Yminus_button" type="radio" name="diagram"><span>&darr; xt</span></span>
-        <span title="y-t diagram for photons moving up and down" id="YT_span" style="font-family:cambria_math"><input id="YT_button" type="radio" name="diagram"><span>&#x2195; yt</span></span><br>
+        <span title="x-t diagram for +/-x photons" id="XT_span" style="font-family:cambria_math"><input id="XT_button" type="radio" name="diagram"><span>&harr; xt</span></span>
+        <span title="x-t diagram for +y photon" id="XT_Yplus_span" style="font-family:cambria_math"><input id="XT_Yplus_button" type="radio" name="diagram"><span>&uarr; xt</span></span>
+        <span title="x-t diagram for -y photon" id="XT_Yminus_span" style="font-family:cambria_math"><input id="XT_Yminus_button" type="radio" name="diagram"><span>&darr; xt</span></span>
+        <span title="y-t diagram for +/-y photons" id="YT_span" style="font-family:cambria_math"><input id="YT_button" type="radio" name="diagram"><span>&#x2195; yt</span></span><br>
         <span title="Change Animation Scale" id="zoom">zoom:</span>
         <button title="Zoom Out" id="zoom_out_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">-</button>
         <button title="Undo Zooming" id="zoom_zero_button" style="font-weight:bold; text-align:center; padding:0px; width:30px;">0</button>
@@ -166,6 +167,8 @@
     </div>
 				
     <div id="description" style="font-family:Cambria,Math; text-align:center; background-color:rgb(0,0,0); color:rgb(255,255,255); position:absolute; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden">
+      <button type="button" id="return_to_start" style="font-weight:bold">RETURN</button><br>
+      <br>
 			<p>
 		  Using an animation of light and mirrors functioning as a Light Clock we explore the nature of space and time.<br>
       Spacetime kinematics are depicted, without dynamical effects (no massive particles, forces, or accelerations).<br>
@@ -174,124 +177,46 @@
 			the mirrors are positioned so the round trip times are the same in all directions.<br>
 			This results in length contraction (in the direction of motion) and time dilation, consistent with Relativity.<br>
 			</p>
-			<br>
-      <button type="button" id="SR_button" style="font-weight:bold">Special Theory of Relativity</button><br><br>
+			<br><br><br>
+      <h1>Special Relativity</h1><br>
       <br>
-      <button type="button" id="GR_button" style="font-weight:bold">General Theory of Relativity</button>
-			<br><br>
-			<button type="button" id="return_to_start" style="font-weight:bold">RETURN</button>
+      <button type="button" id="Transforms_button" style="font-weight:bold">Coordinate Transformations</button><br><br>
+      <br>
+      <button type="button" id="Dilation_button" style="font-weight:bold">Time Dilation</button><br><br>
+      <br>
+      <button type="button" id="Contraction_button" style="font-weight:bold">Length Contraction</button><br><br>
+      <br><br><br>
+      <h1>General Relativity</h1><br>
+      <br>
+      <button type="button" id="FlowingSpace_button" style="font-weight:bold">Gravity as Flowing Space</button><br><br>
+      <br>
+      <button type="button" id="Differentials_button" style="font-weight:bold">Spacetime Differentials</button>
     </div>
         
-    <div id="SR_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-      <div style="text-align:center">
-      Lorentz-Einstein transformations between<br>
-      coordinate systems <span style="color:lime">S</span> and <span style="color:cyan">S'</span> with  <span style="color:cyan">S'</span> moving<br>
-      at speed v in +x direction relative to <span style="color:lime">S</span><br>
-      <br>
-      Lorentz factor: &gamma; &equiv; (1-v&sup2;/c&sup2;)<sup>- &half;</sup><br>
-      <br>
-      </div>
-      <table style="margin-left:auto; margin-right:auto;">
-        <tr>
-          <td style="text-align:left; padding:10px;">
-          x' = &gamma;(x - vt)<br>
-          y' = y<br>
-          z' = z<br>
-          t' = &gamma;(t - vx/c&sup2;)<br>
-          <br>
-          &Delta;x' = &gamma;(&Delta;x - v&Delta;t)<br>
-          &Delta;t' = &gamma;(&Delta;t - v&Delta;x/c&sup2;)<br>
-          <br>
-          &Delta;x'/&Delta;t' = (&Delta;x - v&Delta;t)/(&Delta;t - v&Delta;x/c&sup2;)<br>
-          <br>
-          &Delta;x = 0 &rArr; &Delta;x'/&Delta;t' = -v
-          </td>
-          <td style="text-align:left; padding:10px;">
-          x = &gamma;(x' + vt')<br>
-          y = y'<br>
-          z = z'<br>
-          t = &gamma;(t' + vx'/c&sup2;)<br>
-          <br>
-          &Delta;x = &gamma;(&Delta;x' + v&Delta;t')<br>
-          &Delta;t = &gamma;(&Delta;t' + v&Delta;x'/c&sup2;)<br>
-          <br>
-          &Delta;x/&Delta;t = (&Delta;x' + v&Delta;t')/(&Delta;t' + v&Delta;x'/c&sup2;)<br>
-          <br>
-          &Delta;x' = 0 &rArr; &Delta;x/&Delta;t = v
-          </td>
-        </tr>
-      </table>
-      <div style="text-align:center">
-        relativity of length contraction<br>
-        <span style="color:lime">S length</span>:  &Delta;t = 0   &Implies;   &Delta;x = &Delta;x'/&gamma;<br>
-        <span style="color:cyan">S' length</span>: &Delta;t' = 0   &Implies;   &Delta;x'  = &Delta;x/&gamma;<br>
-        <br>
-        relativity of time dilation<br>
-        <span style="color:lime">S duration</span>:  &Delta;x = 0   &Implies;   &Delta;t = &Delta;t'/&gamma;<br>
-        <span style="color:cyan">S' duration</span>: &Delta;x' = 0   &Implies;   &Delta;t'  = &Delta;t/&gamma;<br>
-        <br>
-        invariant spacetime interval<br>
-        (&Delta;<font color='lime'>x</font>)&sup2; + (&Delta;<font color='lime'>y</font>)&sup2; + (&Delta;<font color='lime'>z</font>)&sup2; - (c&Delta;<font color='lime'>t</font>)&sup2;
-        = (&Delta;<font color='cyan'>x'</font>)&sup2; + (&Delta;<font color='cyan'>y'</font>)&sup2; + (&Delta;<font color='cyan'>z'</font>)&sup2; - (c&Delta;<font color='cyan'>t'</font>)&sup2;
-      </div>
-			<br><br>
-			<button type="button" id="return_from_SR" style="font-weight:bold">RETURN</button>
+    <div id="Transforms_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; height:100%; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+			<button type="button" id="return_from_Transforms" style="font-weight:bold">RETURN</button>
+      <iframe src="transforms.pdf" width="100%" height="100%" style="border:none;"></iframe>
+    </div>
+
+    <div id="Dilation_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; height:100%; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+      <button type="button" id="return_from_Dilation" style="font-weight:bold">RETURN</button>
+      <iframe src="dilation.pdf" width="100%" height="100%" style="border:none;"></iframe>
+    </div>
+
+    <div id="Contraction_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; height:100%; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+      <button type="button" id="return_from_Contraction" style="font-weight:bold">RETURN</button>
+      <iframe src="contraction.pdf" width="100%" height="100%" style="border:none;"></iframe>
     </div>
         
-		<div id="GR_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-      Given a non-rotating neutrally charged point mass M (Schwarzschild geometry), the general relativistic effects at radial distance r from M<br>
-			are the same as the special relativistic effects due to relative velocity v = (2GM/r)<sup>&half;</sup> [see derivation below].<br>
-			Thus, warped 4D spacetime is equivalent to 3D space moving at velocity v toward M (relative to a stationary observer at distance r from M).<br>
-			<br>
-			References:<br>
-      <div style="margin-left:10px">
-        <a style="color:white" href="http://arxiv.org/abs/gr-qc/0411060">Andrew Hamilton's "River Model"</a><br>
-        <a style="color:white" href="http://jila.colorado.edu/~ajsh/insidebh/waterfall.html">Andrew Hamilton's "Waterfall of Space"</a><br>
-        <a style="color:white" href="http://www.eftaylor.com/general.html">Taylor and Wheeler's "Rain Frame"</a><br>
-        <a style="color:white" href="http://en.wikipedia.org/wiki/Gullstrand%E2%80%93Painlev%C3%A9_coordinates">Gullstrand-Painleve coordinates</a>
-      </div>
-			<br>
-      To see the equivalence of gravity and moving space select <font color='lime'>Rain</font> and 'Center'.<br>
-			Consider the Light Clock to be stationary in a gravitational field (constant r).<br>
-			<div style="display:inline-block; text-align:left;">
-        <font color='lime'>x, y</font> Grid: local free-fall (rain) spatial coordinates<br>
-        <font color='lime'>t</font> Clocks: local free-fall (rain) time coordinates</div><br>
-      Select <font color='cyan'>Shell</font> to see Schwarzschild geometry from a Shell Frame Observer's point of view (at constant distance r from M).<br>
-      <div style="display:inline-block; text-align:left;">
-        <font color='cyan'>x', y'</font> Grid: local stationary (shell) spatial coordinates<br>
-        <font color='cyan'>t'</font> Clocks: local stationary (shell) time coordinates</div><br>
-			Select <font color='orange'>Far</font> to see Schwarzschild geometry from a far-away bookkeeper's point of view (at large distance from M).<br>
-			<div style="display:inline-block; text-align:left;">
-        <font color='orange'>x", y"</font> : spatial coordinates of far-away bookkeeper, extended to radius r<br>
-        <font color='orange'>t"</font> : ephemeris time coordinates of far-away bookkeeper, extended to radius r
-			</div><br>
-			[the far-away frame is also the Schwarzschild frame which is usually represented by (t, x, y), but here (<font color='orange'>t", x", y"</font>) is used instead]<br>
-			<br>
-			<button type="button" id="return_from_GR" style="text-align:center; font-weight:bold">RETURN</button><br>
-			<br>
-		
-			<u>Derivation of the "velocity of space"</u><br>
-			<br>
-			Modeling gravity as a flow of space means a test particle free-falling from far away rides along with space.<br>
-			The test particle's motion, comoving with space, reveals the motion of space.<br>
-			We use Newton's laws to derive the velocity of free-fall (velocity of space), equal in magnitude to the Newtonian escape velocity.<br>
-      This is valid because, in the special case of radial free-fall from far away in Schwarzschild geometry, General Relativity and Newtonian physics agree.<br>
-      The time used in velocity and acceleration is the proper time of the free-falling particle, because a free-falling clock maintains Newtonian time throughout its fall (always an inertial frame).<br>
-			<br>
-			Let m<span style="vertical-align:sub; font-size:small;">g</span> be the gravitational mass of the test particle.<br>
-			Let m<span style="vertical-align:sub; font-size:small;">i</span> be the inertial mass of the test particle.<br>
-			Newtonian force of gravity on the test particle is F = -Gm<span style="vertical-align:sub; font-size:small;">g</span>M/r&sup2;<br>
-			Newtonian acceleration is directly proportional to the force of gravity: F = m<span style="vertical-align:sub; font-size:small;">i</span>a<br>
-			Therefore, F = m<span style="vertical-align:sub; font-size:small;">i</span>a = -Gm<span style="vertical-align:sub; font-size:small;">g</span>M/r&sup2;<br>
-			Using the Equivalence Principle (m<span style="vertical-align:sub; font-size:small;">g</span> = m<span style="vertical-align:sub; font-size:small;">i</span>)
-			gives:  a = -GM/r&sup2;<br>
-			<br>
-			To prove this is consistent with v&sup2; = 2GM/r<br>
-			Differentiate wrt proper time:&nbsp; 2vv&#775; = (-2GM/r&sup2;)r&#775; = -2vGM/r&sup2;<br>
-			Divide by 2v:&nbsp; v&#775; = a = -GM/r&sup2;  <b>&check;</b></font><br>
-			<br>
-			At the Schwarzschild radius (event horizon in Schwarzschild geometry) r = 2GM/c&sup2; and v = -c 
-		</div>
+		<div id="FlowingSpace_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); height:100%; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+      <button type="button" id="return_from_FlowingSpace" style="font-weight:bold">RETURN</button>
+      <iframe src="flowingspace.pdf" width="100%" height="100%" style="border:none;"></iframe>
+    </div>
+
+    <div id="Differentials_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); height:100%; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
+      <button type="button" id="return_from_Differentials" style="font-weight:bold">RETURN</button>
+      <iframe src="differentials.pdf" width="100%" height="100%" style="border:none;"></iframe>
+    </div>
 		
 		<div id="FAQ" style="font-family:Cambria,Math; text-align:left; visibility:hidden; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2">
 			<div style="text-align:center; font-weight:bold"> <button type="button" id="return_from_FAQ_1">RETURN</button></div>
@@ -586,7 +511,7 @@
 			<div style="text-align:center; font-weight:bold"> <button type="button" id="return_from_FAQ_2">RETURN</button> </div>
 		</div>
 		
-  	<div id="start" style="font-family:Arial,Helvetica,sans-serif; text-align:center; font-weight:bold; background-color:rgb(0,0,0); position:absolute; width:100%; height:100%; left:0%; top:0px">
+  	<div id="start" style="font-family:Arial,Helvetica,sans-serif; visibility:hidden; text-align:center; font-weight:bold; background-color:rgb(0,0,0); position:absolute; width:100%; height:100%; left:0%; top:0px">
 			<br>
 			<button title="Start the Light Clock Animation" type="button" id="start_button" style="text-align:center; background-color:rgb(0,255,0);">START ANIMATION</button>
 			<br><br>
@@ -664,7 +589,6 @@ var t_cycle;  //time since start of current tick cycle
 var r_left,r_right;
 var d;   //distance2D between mirrors (in Light Clock frame)
 var steps_per_tick=128;  // power of 2 for clean calculation
-var mark_left, mark_right, mark_up, mark_down;
 
 // x,y coordinates of space
 var x0,y0;  //center of clock at start of tick, moves with each tick
@@ -748,7 +672,7 @@ var offset_y_down=0; // offset_y at mousedown event
 var offset_x=0; //x location of space coord origin
 var offset_y=0; //y location of space coord origin
 
-var controls, SRtext, GRtext, FAQtext, descriptiontext, UItext, canvas;
+var controls, GRtext, FAQtext, descriptiontext, UItext, canvas;
 var context;
 
 var fps=24;
@@ -1297,16 +1221,11 @@ function drawMirrors()
   }
   context.rotate(theta);
   context.fillStyle = 'silver';
-	if ($i('horizontal_checkbox').checked)
-	{
-		context.fillRect(-d/2-mthick,-mlen/2,mthick,mlen);  //left
-		context.fillRect(+d/2,-mlen/2,mthick,mlen);  //right
-	}
-	if ($i('vertical_checkbox').checked)
-	{
-		context.fillRect(-mlen/2,-d/2-mthick,mlen,mthick);  //top
-		context.fillRect(-mlen/2,+d/2,mlen,mthick);  //bottom
-	}
+	if (On('left_mirror'))  context.fillRect(-d/2-mthick,-mlen/2,mthick,mlen);  //left
+  if (On('right_mirror')) context.fillRect(+d/2,-mlen/2,mthick,mlen);         //right
+  if (On('up_mirror'))    context.fillRect(-mlen/2,-d/2-mthick,mlen,mthick);  //up
+  if (On('down_mirror'))  context.fillRect(-mlen/2,+d/2,mlen,mthick);         //down
+
   context.lineWidth=2;
   context.rotate(-theta);
   if (refS() || refSdblprime()) context.scale(gamma,1);
@@ -1341,7 +1260,7 @@ function drawPaths()
   
   context.save();
   context.lineWidth=1;
-  context.strokeStyle = lightpath_color(0.5);
+  context.strokeStyle = lightpath_color(1);
 	if (refSdblprime())
   {
     if (!centered) translate(x0_init+v*t/(gamma*gamma),y0_init);
@@ -1376,23 +1295,18 @@ function drawPaths()
 		x_down = 0; y_down = c*(t_tick/2)/gamma;  //down
 		x_right = c*(t_tick/2)/gamma; y_right = 0;  //right
   }
-	if ($i('horizontal_checkbox').checked)
-	{
-		drawLine(x_start, y_start, x_left, y_left);   drawLine(x_left, y_left, x_end, y_end);
-		drawLine(x_start, y_start, x_right, y_right); drawLine(x_right, y_right, x_end, y_end);
-	}
-	if ($i('vertical_checkbox').checked)
-	{
-		drawLine(x_start, y_start, x_up, y_up);       drawLine(x_up, y_up, x_end, y_end);
-		drawLine(x_start, y_start, x_down, y_down);   drawLine(x_down, y_down, x_end, y_end);
-	}
+	if (On('left_mirror'))  {drawLine(x_start, y_start, x_left, y_left);    drawLine(x_left, y_left, x_end, y_end);}
+	if (On('right_mirror')) {drawLine(x_start, y_start, x_right, y_right);  drawLine(x_right, y_right, x_end, y_end);}
+  if (On('up_mirror'))    {drawLine(x_start, y_start, x_up, y_up);        drawLine(x_up, y_up, x_end, y_end);}
+	if (On('down_mirror'))  {drawLine(x_start, y_start, x_down, y_down);    drawLine(x_down, y_down, x_end, y_end);}
+
   context.restore();
 }
 
-function drawPhoton(x,y,mark)
+function drawPhoton(x,y)
 {
 	context.fillStyle = photon_color(1); fillCircle(x, y, 4);
-  if (mark) {context.strokeStyle = lightpath_color(1); drawCircle(x, y, 10);}
+  //if (mark) {context.strokeStyle = lightpath_color(1); drawCircle(x, y, 10);}
 }
 
 function drawPhotons(left, right, up, down)
@@ -1439,17 +1353,17 @@ function drawPhotons(left, right, up, down)
 		x_down = 0; y_down = c*t_photon;  //down
 		x_right = c*t_photon; y_right = 0;  //right
   }
-  if (left)  drawPhoton(x_left, y_left, mark_left);     //left photon
-  if (right) drawPhoton(x_right, y_right, mark_right);  //right photon
-	if (up)    drawPhoton(x_up, y_up, mark_up);           //up photon
-  if (down)  drawPhoton(x_down, y_down, mark_down);     //down photon
+  if (left)  drawPhoton(x_left, y_left);   //left photon
+  if (right) drawPhoton(x_right, y_right); //right photon
+	if (up)    drawPhoton(x_up, y_up);       //up photon
+  if (down)  drawPhoton(x_down, y_down);   //down photon
 	context.restore();
 }
 
 function drawArc(x,y,r,angle1,angle2)
 {
   context.beginPath();
-  context.arc(x, y, r, angle1, angle2, false);
+  context.arc(x, y, r, angle1, angle2, false);  //angles measured clockwise from x-axis
   context.stroke();
 }
 
@@ -1470,26 +1384,6 @@ function drawFullArc(x,y,r)
 	context.arc(x, y, r, 0, 2*Math.PI, false);
 	context.stroke();
 	context.translate(x,y);
-	drawLine(-cross_size, 0, cross_size, 0);
-	drawLine(0, -cross_size, 0, cross_size);
-	context.restore();
-}
-
-function drawEllipticalFullArc(x,y,r)
-{
-  var cross_size=8;
-    
-	//if (paused) alert("x,y_canvas=" + x_canvas + "," + y_canvas + "   offset_x,y=" + offset_x + "," + offset_y);
-  if ((!$i('full_arcs_checkbox').checked) || r < 0) return;
-	context.save();
-	context.lineWidth=1;
-	context.strokeStyle=wave_color(0.5);
-	context.beginPath();
-	//context.arc(x, y, r, angle1, angle2, false);
-	context.arc(x, y, r, 0, 2*Math.PI, false);
-	context.stroke();
-	context.translate(x,y);
-	context.rotate(-theta);
 	drawLine(-cross_size, 0, cross_size, 0);
 	drawLine(0, -cross_size, 0, cross_size);
 	context.restore();
@@ -1643,19 +1537,22 @@ function calcMirrors(angle)
 	
 	sin_angle = Math.sin(angle); cos_angle = Math.cos(angle);
   a = d*sin_angle/2; b = d*cos_angle/2;
-  t1 = quadratic_root1(c*c-v*v,2*b*v/gamma,-a*a-b*b/gamma/gamma);
-  t2 = quadratic_root1(c*c-v*v,2*a*v/gamma,-b*b-a*a/gamma/gamma);
+
+  P0.x = 0; P0.y = 0; //center at origin
+  P1.x = -b/gamma; P1.y = -a;
+  P2.x = -a/gamma; P2.y =  b;
+  P3.x =  a/gamma; P3.y = -b;
+  P4.x =  b/gamma; P4.y =  a;
+  t1 = quadratic_root1(c*c-v*v, 2*b*v/gamma,-a*a-b*b/gamma/gamma);
+  t2 = quadratic_root1(c*c-v*v, 2*a*v/gamma,-b*b-a*a/gamma/gamma);
   t3 = quadratic_root1(c*c-v*v,-2*a*v/gamma,-b*b-a*a/gamma/gamma);
   t4 = quadratic_root1(c*c-v*v,-2*b*v/gamma,-a*a-b*b/gamma/gamma);
-  P1.x = -b/gamma; P1.y = -a;
-  P2.x = -a/gamma; P2.y = b;
-  P3.x = a/gamma; P3.y = -b;
-  P4.x = b/gamma; P4.y = a;
   x1 = P1.x + v*t1; y1 = P1.y;
   x2 = P2.x + v*t2; y2 = P2.y;
   x3 = P3.x + v*t3; y3 = P3.y;
   x4 = P4.x + v*t4; y4 = P4.y;
   //alert("x,y,t 1:"+x1+","+y1+","+t1 + "  2:"+x2+","+y2+","+ t2 + "  3:"+x3+","+y3+","+t3 + "  4:"+x4+","+y4+","+t4);
+  
   e = mlen*sin_angle/2; f = mlen*cos_angle/2;
   t1d = quadratic_root1(c*c-v*v,2*(b+e)*v/gamma,-(b+e)*(b+e)/gamma/gamma-(-a+f)*(-a+f));
   t1u = quadratic_root1(c*c-v*v,2*(b-e)*v/gamma,-(-b+e)*(-b+e)/gamma/gamma-(a+f)*(a+f));
@@ -1670,11 +1567,10 @@ function calcMirrors(angle)
   //alert("t3l = " + t3l + "   t3 = " + t3 + "   t3r = " + t3r);
   //alert("t4d = " + t4d + "   t4 = " + t4 + "   t4u = " + t4u);
   P1d.x = -(b+e)/gamma + v*t1d; P1d.y = -a+f; P1u.x = (-b+e)/gamma + v*t1u; P1u.y = -a-f;
-  P2l.x = -(a+f)/gamma + v*t2l; P2l.y = b-e; P2r.x = (-a+f)/gamma + v*t2r; P2r.y = b+e;
-  P3l.x = (a-f)/gamma + v*t3l; P3l.y = -b-e; P3r.x = (a+f)/gamma + v*t3r; P3r.y = -b+e;
-  P4d.x = (b-e)/gamma + v*t4d; P4d.y = a+f; P4u.x = (b+e)/gamma + v*t4u; P4u.y = a-f;
+  P2l.x = -(a+f)/gamma + v*t2l; P2l.y = b-e;  P2r.x = (-a+f)/gamma + v*t2r; P2r.y = b+e;
+  P3l.x =  (a-f)/gamma + v*t3l; P3l.y = -b-e; P3r.x = (a+f)/gamma + v*t3r;  P3r.y = -b+e;
+  P4d.x =  (b-e)/gamma + v*t4d; P4d.y = a+f;  P4u.x = (b+e)/gamma + v*t4u;  P4u.y = a-f;
   //alert("P3l = " + P3l.x + " , " + P3l.y + "   P3r = " + P3r.x + " , " + P3r.y + "  mlen/gamma = " + mlen/gamma);
-  P0.x = 0; P0.y = 0;
   r1d = c*t1d; r1u = c*t1u;
   r2l = c*t2l; r2r = c*t2r;
   r3l = c*t3l; r3r = c*t3r;
@@ -1682,41 +1578,35 @@ function calcMirrors(angle)
   //alert("r1d = " + r1d + "  r1u = " + r1u + "  r2l = " + r2l + " r2r = " + r2r + "  r3l = " + r3l + "  r3r = " + r3r + "  r4d = " + r4d + "  r4u = " + r4u);	
 }
 
-function drawWaves(retarded)  //center of S waves moves progressively to left of mirrors, S' waves stay centered between mirrors, not used for S"
+function drawCircularWaves(retarded)  //center of S waves moves progressively to left of mirrors, S' waves stay centered between mirrors, not used for S"
 {
   var gamma_1_4,gamma_2_3;
   var v1,v2,v3,v4,t1,t2,t3,t4,r1,r2,r3,r4;
   var temp,cos_mu_1_4,sin_mu_1_4,cos_mu_2_3,sin_mu_2_3;
   var D0_1_4,D0_2_3,D1,D2,D3,D4;
   var contact1,contact2,contact3,contact4;
-	var angle,sin_angle,cos_angle,tan_angle,r0;
-	var speed,save_t_cycle,save_x0,save_v,save_gamma,save_t_tick;
+	var sin_angle,cos_angle,tan_angle,r0;
+	var save_t_cycle,save_x0,save_v,save_t_tick,save_gamma;
 
-  save_v = v; save_gamma = gamma; save_t_cycle = t_cycle; save_t_tick = t_tick; save_x0 = x0;
+  save_v = v; save_gamma = gamma; save_t_cycle = t_cycle; save_t_tick = t_tick; save_x0 = x0; save_t_tick = t_tick; save_gamma = gamma;
   context.save();
   if (refSprime()) // draw as if v = 0
   {
     v = 0; t_tick = t_tick/gamma; t_cycle = t_cycle/gamma; x0 = x0/gamma; gamma = 1;
   }
-  if (retarded) {speed = v;  angle = theta;}
-	else          {speed = -v; angle = theta; t_cycle = t_tick - t_cycle; x0 = x0 + v*t_tick;}
+  if (!retarded) {x0 = x0 + v*t_tick; t_cycle = t_tick - t_cycle; v = -v;} //time reversal with waves from next future tick
   if (refS())
   {
     if (!centered)  context.translate(offset_x + x0, offset_y + y0);
-    else            context.translate(-speed*t_cycle, 0);
+    else            context.translate(-v*t_cycle, 0);
   }
   else if (refSprime())
   {
     if (centered)   context.translate(offset_x + x0_init, offset_y + y0_init);
-    else
-    {
-      if (retarded) context.translate(offset_x + x0 + save_v*t_cycle, offset_y + y0);
-      else          context.translate(offset_x + x0 + save_v*t_tick - save_v*t_cycle, offset_y + y0);
-    }
+    else            context.translate(offset_x + x0 + save_v*t_cycle, offset_y + y0);
   }
-  if (!retarded) context.scale(-1,-1);
-  r0 = c*t_cycle; calcMirrors(angle);
-  sin_angle = Math.sin(angle); cos_angle = Math.cos(angle); tan_angle = Math.tan(angle);
+  r0 = c*t_cycle; calcMirrors(theta);
+  sin_angle = Math.sin(theta); cos_angle = Math.cos(theta); tan_angle = Math.tan(theta);
   
   //expanding wave
   contact4 = contact_angles(H,A,r0,P0,P4u,t4u,P4d,t4d); //alert("A=" + deg(A) + "  H=" + deg(H));
@@ -1726,20 +1616,24 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
 	//if (paused) {alert("contact=" + contact1 + "  r0=" + r0 + "  P1d:" + P1d.x + "," + P1d.y + "  P1u:" + P1u.x + "," + P1u.y + "  P1d.x + v*(t_cycle-t1d)=" + (P1d.x + v*(t_cycle-t1d)));}
   contact3 = contact_angles(F,G,r0,P0,P3l,t3l,P3r,t3r); //alert("F=" + deg(F) + "  G=" + deg(G));
   //alert("contact1 = " + contact1 + "   contact2 = " + contact2 + "   contact3 = " + contact3 + "   contact4 = " + contact4);
-	if (!On('vertical_checkbox')) {contact2 = false; contact3 = false;}
-	if (!On('horizontal_checkbox')) {contact1 = false; contact4 = false;}
+	if (!On('down_mirror'))  contact2 = false;
+  if (!On('up_mirror'))    contact3 = false;
+	if (!On('left_mirror'))  contact1 = false;
+  if (!On('right_mirror')) contact4 = false;
   if ((0 < F.radians) && (F.radians <  Math.PI) && (G.radians > Math.PI)) {temp = F.radians; F.radians = G.radians-2*Math.PI; G.radians = temp;}
   context.lineWidth=2;
   context.strokeStyle=wave_color(1);
   //context.strokeStyle='rgba(255,255,0,' + opacity + ')';  //wave fades to invisible after 1.2*roundtrip
-	//if (paused && (!dragging) && (!scaling_and_rotating)) alert("angle=" + angle*180/Math.PI + "  A=" + deg(A) + "  B=" + deg(B) + "  C=" + deg(C) + "  D=" + deg(D) + "  E=" + deg(E) + "  F=" + deg(F) + "  G=" + deg(G) + "  H=" + deg(H));
-	if ((On('vertical_checkbox') || On('horizontal_checkbox')) && On('full_arcs_checkbox') && r0 > 0) drawFullArc(0,0,r0);
-	if (On('vertical_checkbox') && On('horizontal_checkbox'))
-		{drawArc(0, 0, r0, A.radians, B.radians); drawArc(0, 0, r0, C.radians, D.radians); drawArc(0, 0, r0, E.radians, F.radians); drawArc(0, 0, r0, G.radians, H.radians);}
-	else if (On('horizontal_checkbox'))
-		{drawArc(0, 0, r0, A.radians, D.radians); drawArc(0, 0, r0, E.radians, H.radians);}
-	else if (On('vertical_checkbox'))
-		{drawArc(0, 0, r0, G.radians, B.radians); drawArc(0, 0, r0, C.radians, F.radians);}
+	//if (paused && (!dragging) && (!scaling_and_rotating)) alert("theta=" + theta*180/Math.PI + "  A=" + deg(A) + "  B=" + deg(B) + "  C=" + deg(C) + "  D=" + deg(D) + "  E=" + deg(E) + "  F=" + deg(F) + "  G=" + deg(G) + "  H=" + deg(H));
+	if (On('left_mirror') || On('right_mirror') || On('up_mirror') || On('down_mirror'))
+  {
+    drawArc(0, 0, r0, A.radians, B.radians); drawArc(0, 0, r0, C.radians, D.radians); drawArc(0, 0, r0, E.radians, F.radians); drawArc(0, 0, r0, G.radians, H.radians);
+    if (!On('left_mirror'))  drawArc(0, 0, r0, D.radians, E.radians);
+    if (!On('right_mirror')) drawArc(0, 0, r0, H.radians, A.radians);
+    if (!On('up_mirror'))    drawArc(0, 0, r0, F.radians, G.radians);
+    if (!On('down_mirror'))  drawArc(0, 0, r0, B.radians, C.radians);
+    if (On('full_arcs_checkbox') && r0 > 0) drawFullArc(0,0,r0);
+  }
 	
   //reflected waves
   cos_mu_1_4 = 1/Math.sqrt(1 + tan_angle*tan_angle/gamma/gamma); sin_mu_1_4 = Math.sqrt(1 - cos_mu_1_4*cos_mu_1_4);
@@ -1752,10 +1646,10 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
   t1 = D0_1_4/(c+v1); t2 = D0_2_3/(c+v2); t3 = D0_2_3/(c+v3); t4 = D0_1_4/(c+v4);
   r1 = r0 + 2*v1*t1/(1-v1/c); r2 = r0 + 2*v2*t2/(1-v2/c); r3 = r0 + 2*v3*t3/(1-v3/c); r4 = r0 + 2*v4*t4/(1-v4/c);
   //if (paused) alert("r1 = " + r1 + "   r2 = " + r2 + "   r3 = " + r3 + "   r4 = " + r4);
-  P1reflect.x = -D1*cos_mu_1_4;	 P1reflect.y = -D1*sin_mu_1_4;
+  P1reflect.x = -D1*cos_mu_1_4;	P1reflect.y = -D1*sin_mu_1_4;
   P2reflect.x = -D2*sin_mu_2_3;	P2reflect.y =  D2*cos_mu_2_3;
   P3reflect.x =  D3*sin_mu_2_3;	P3reflect.y = -D3*cos_mu_2_3;
-  P4reflect.x =  D4*cos_mu_1_4;	 P4reflect.y =  D4*sin_mu_1_4;
+  P4reflect.x =  D4*cos_mu_1_4;	P4reflect.y =  D4*sin_mu_1_4;
   //alert("D0_2_3 = " + D0_2_3 + "   D3 = " + D3 + "   P3reflect.x = " + P3reflect.x + "   P3reflect.y = " + P3reflect.y);
   contact_angles(D,E,r1,P1reflect,P1d,t1d,P1u,t1u);
   if ((0 < D.radians) && (D.radians < Math.PI) && (E.radians > Math.PI)) {temp = D.radians; D.radians = E.radians-2*Math.PI; E.radians = temp;}
@@ -1764,61 +1658,73 @@ function drawWaves(retarded)  //center of S waves moves progressively to left of
   contact_angles(F,G,r3,P3reflect,P3l,t3l,P3r,t3r);
   contact_angles(A,H,r4,P4reflect,P4u,t4u,P4d,t4d);
 	//if (paused && (!dragging) && (!scaling_and_rotating)) alert("A=" + deg(A) + "  B=" + deg(B) + "  C=" + deg(C) + "  D=" + deg(D) + "  E=" + deg(E) + "  F=" + deg(F) + "  G=" + deg(G) + "  H=" + deg(H));
-  if (On('vertical_checkbox'))
+  if (On('down_mirror'))
 	{
-		if (($i('full_arcs_checkbox').checked) && r2 > 0) drawFullArc(P2reflect.x, P2reflect.y, r2); //bottom
-		if (($i('full_arcs_checkbox').checked) && r3 > 0) drawFullArc(P3reflect.x, P3reflect.y, r3); //top
-		if (contact2) drawArc(P2reflect.x, P2reflect.y, r2, B.radians, C.radians); //bottom
-  	if (contact3) drawArc(P3reflect.x, P3reflect.y, r3, F.radians, G.radians); //top
+		if (($i('full_arcs_checkbox').checked) && r2 > 0) drawFullArc(P2reflect.x, P2reflect.y, r2); //down
+		if (contact2) drawArc(P2reflect.x, P2reflect.y, r2, B.radians, C.radians); //down
 	}
-	if (On('horizontal_checkbox'))
+  if (On('up_mirror'))
+  {
+    if (($i('full_arcs_checkbox').checked) && r3 > 0) drawFullArc(P3reflect.x, P3reflect.y, r3); //up
+    if (contact3) drawArc(P3reflect.x, P3reflect.y, r3, F.radians, G.radians); //up
+  }
+	if (On('left_mirror'))
 	{
 		if (($i('full_arcs_checkbox').checked) && r1 > 0) drawFullArc(P1reflect.x, P1reflect.y, r1); //left
-		if (($i('full_arcs_checkbox').checked) && r4 > 0) drawFullArc(P4reflect.x, P4reflect.y, r4); //right
 		if (contact1) drawArc(P1reflect.x, P1reflect.y, r1, D.radians, E.radians); //left
-		if (contact4) drawArc(P4reflect.x, P4reflect.y, r4, A.radians, H.radians); //right
 	}
+  if (On('right_mirror'))
+  {
+    if (($i('full_arcs_checkbox').checked) && r4 > 0) drawFullArc(P4reflect.x, P4reflect.y, r4); //right
+    if (contact4) drawArc(P4reflect.x, P4reflect.y, r4, A.radians, H.radians); //right
+  }
   context.restore();
-  v = save_v; gamma = save_gamma; t_cycle = save_t_cycle; t_tick = save_t_tick; x0 = save_x0; calcMirrors(theta); 
+  v = save_v; t_cycle = save_t_cycle; x0 = save_x0; t_tick = save_t_tick; gamma = save_gamma;
+  calcMirrors(theta); 
+}
+
+function drawEllipticalFullArc(x,y,r)
+{
+  var cross_size=8;
+    
+  //if (paused) alert("x,y_canvas=" + x_canvas + "," + y_canvas + "   offset_x,y=" + offset_x + "," + offset_y);
+  if ((!$i('full_arcs_checkbox').checked) || r < 0) return;
+  context.save();
+  context.lineWidth=1;
+  context.strokeStyle=wave_color(0.5);
+  context.beginPath();
+  //context.arc(x, y, r, angle1, angle2, false);
+  context.arc(x, y, r, 0, 2*Math.PI, false);
+  context.stroke();
+  context.translate(x,y);
+  context.rotate(-theta);
+  drawLine(-cross_size, 0, cross_size, 0);
+  drawLine(0, -cross_size, 0, cross_size);
+  context.restore();
 }
 
 function drawEllipticalWaves(retarded)  //center of S" waves always in center of mirrors
 {
-  var angleA,angleB,angleC,angleD,angleE,angleF,r,t_edge;
-	var save_t_cycle, save_x0;
+  var angleA,angleB,angleC,angleD,angleE,angleF,angleG,angleH,r,t_edge;
+  var save_t_cycle,save_x0,save_v;
     
-	if (retarded) {angle = theta;}
-	else {save_t_cycle = t_cycle; t_cycle = t_tick - t_cycle; angle = Math.PI/2-theta; calcMirrors(angle); save_x0 = x0; x0 = x0+v*t_tick;}
-	
-	r = c*t_cycle/gamma;
+  save_t_cycle = t_cycle; save_x0 = x0; save_v = v;
+  if (!retarded) {t_cycle = t_tick - t_cycle; x0 = x0 + v*t_tick; v = -v;} //time reversal with waves from next future tick
+
+  r = c*t_cycle/gamma; calcMirrors(theta);
   t_edge = (t_tick/2)*Math.sqrt(1+(mlen/d)*(mlen/d));
-  if (t_cycle >= 0 && t_cycle<t_tick/2)   //before mirrors
-  {
-  angleA = 0;
-  angleB = 0;
-  angleC = 0;
-  angleD = 0;
-  angleE = 0;
-  angleF = 0;
-  }
-  else if (t_cycle >= t_tick/2 && t_cycle<t_edge)  //at mirrors
-  {
-  angleA = Math.atan((mlen/2)/(c*t_cycle/gamma));
+
+  if (t_cycle >= 0 && t_cycle<t_tick/2)           angleA = 0; //before mirrors
+  else if (t_cycle >= t_tick/2 && t_cycle<t_edge) angleA = Math.atan((mlen/2)/(c*t_cycle/gamma)); //at mirrors
+  else if (t_cycle >= t_edge)                     angleA = Math.atan((mlen/2)/(c*t_edge/gamma)); // beyond mirrors
   angleB = (Math.PI/2)-angleA;
   angleC = (Math.PI/2)+angleA;
-  angleD = angleA;
-  angleE = angleA;
-  angleF = angleA;
-  }
-  else if (t_cycle >= t_edge)  //beyond mirrors
-  {
-  angleA = Math.atan((mlen/2)/(c*t_edge/gamma));
-  angleB = (Math.PI/2)-angleA;
-  angleC = (Math.PI/2)+angleA;
-  angleD = angleA;
-  angleE = angleA;
-  angleF = angleA;
-  }
+  angleD = Math.PI-angleA;
+  angleE = -Math.PI+angleA;
+  angleF = (-Math.PI/2)-angleA;
+  angleG = (-Math.PI/2)+angleA;
+  angleH = -angleA;
+
   context.save();
 	if (!centered) translate(x0_init+v*t/(gamma*gamma),y0_init);
   context.scale(1/gamma,1);
@@ -1827,25 +1733,49 @@ function drawEllipticalWaves(retarded)  //center of S" waves always in center of
   context.strokeStyle=wave_color(1);
   //context.strokeStyle='rgba(255,255,0,' + opacity + ')';  //yellow wave fades to invisible after 1.2*roundtrip
 	
-	drawEllipticalFullArc( 0, 0, r);	//full arc outbound from center
-	
-	drawEllipticalFullArc(-d, 0, r);  //full arc reflection from left mirror
-	drawEllipticalFullArc( 0,-d, r);  //full arc reflection from top mirror
-	drawEllipticalFullArc( 0, d, r);	//full arc reflection from bottom mirror
-	drawEllipticalFullArc( d, 0, r);	//full arc reflection from right mirror
-    
-	drawArc(0, 0, r, angleA, angleB);  				    //arc outbound toward lower right
-  drawArc(0, 0, r, angleC, Math.PI-angleD);		  //arc outbound toward lower left
-  drawArc(0, 0, r,-(Math.PI-angleD), -angleC);	//arc outbound toward upper left
-  drawArc(0, 0, r,-angleB, -angleA);				    //arc outbound toward upper right
-    
-	drawArc(-d, 0, r,-angleE, angleE);					        //arc reflection from left mirror
-  drawArc( 0,-d, r, angleB, angleC);					        //arc reflection from top mirror
-  drawArc( 0, d, r,-angleC,-angleB);					        //arc reflection from bottom mirror
-  drawArc( d, 0, r, Math.PI-angleF, Math.PI+angleF);	//arc reflection from right mirror
+  if (On('left_mirror') || On('right_mirror') || On('up_mirror') || On('down_mirror'))
+  {
+    drawEllipticalFullArc( 0, 0, r);	//full arc outbound from center
+	 
+    if (On('down_mirror'))
+    {
+    	drawEllipticalFullArc( 0, d, r);	//full arc reflection from down mirror
+      drawArc( 0, d, r,angleB-Math.PI,angleC-Math.PI);//arc reflection from down mirror
+    }
+
+    if (On('up_mirror'))
+    {
+      drawEllipticalFullArc( 0,-d, r);  //full arc reflection from up mirror
+      drawArc( 0,-d, r, angleF+Math.PI, angleG+Math.PI);//arc reflection from up mirror
+    }
+
+    if (On('left_mirror'))
+    {
+      drawEllipticalFullArc(-d, 0, r);  //full arc reflection from left mirror
+      drawArc(-d, 0, r,angleD-Math.PI, angleE+Math.PI);//arc reflection from left mirror
+    }
+
+    if (On('right_mirror'))
+    {
+      drawEllipticalFullArc( d, 0, r);  //full arc reflection from right mirror
+      //drawArc( d, 0, r, Math.PI-angleF, Math.PI+angleF);  //arc reflection from right mirror
+      drawArc( d, 0, r,-Math.PI, angleA-Math.PI); //arc reflection from right mirror
+      drawArc( d, 0, r,angleH+Math.PI, Math.PI);  //arc reflection from right mirror
+    }
+      
+  	drawArc(0, 0, r, angleA, angleB); //arc outbound toward lower right
+    drawArc(0, 0, r, angleC, angleD);	//arc outbound toward lower left
+    drawArc(0, 0, r, angleE, angleF);	//arc outbound toward upper left
+    drawArc(0, 0, r, angleG, angleH);	//arc outbound toward upper right
+
+    if (!On('left_mirror'))  {drawArc(0, 0, r, angleD, Math.PI); drawArc(0, 0, r, -Math.PI,angleE);}
+    if (!On('right_mirror')) drawArc(0, 0, r, angleH, angleA);
+    if (!On('up_mirror'))    drawArc(0, 0, r, angleF, angleG);
+    if (!On('down_mirror'))  drawArc(0, 0, r, angleB, angleC);
+  }
+
   context.restore();
-	
-	if (!retarded) {t_cycle = save_t_cycle; calcMirrors(theta); x0 = save_x0;}
+	t_cycle = save_t_cycle; x0 = save_x0; v = save_v; calcMirrors(theta); 
 }
 
 function drawCoordLines(diagram,dir,Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV)
@@ -1959,8 +1889,6 @@ function drawXT_Y(plus)  //only for theta == 0
   
   context.save();
   if (plus) dir = "XT_Y+"; else dir = "XT_Y-";
-  mark_up = (plus && (t_cycle < t_tick/2)) || (!plus && (t_cycle >= t_tick/2));
-  mark_down = !mark_up;
 
   if (t_cycle < t_tick/2) {x_center = x0;             y_center = y0 + (t_cycle/t_tick)*(gamma-1)*d;               tick_cnt = ticks;}
   else                    {x_center = x0 + v*t_tick;  y_center = y0 + (t_cycle/t_tick)*(gamma-1)*d - d*(gamma-1); tick_cnt = ticks+1;}
@@ -2022,12 +1950,18 @@ function drawXT_Y(plus)  //only for theta == 0
   else
   {
     context.rotate(Hangle);
-    if      ( plus && v >= 0) {drawLine(-Hw,Hh,Hw,-Hh);}  // draw light path as diagonal /
-    else if ( plus && v <  0) {drawLine(-Hw,-Hh,Hw,Hh);}  // draw light path as diagonal \
-    else if (!plus && v <  0) {drawLine(-Hw,Hh,Hw,-Hh);}  // draw light path as diagonal /
-    else if (!plus && v >= 0) {drawLine(-Hw,-Hh,Hw,Hh);}  // draw light path as diagonal \
+    if      ( plus && v >= 0 && On('up_mirror'))    drawLine(-Hw,Hh,Hw,-Hh); // draw light path as diagonal /
+    else if ( plus && v <  0 && On('up_mirror'))    drawLine(Hw,Hh,-Hw,-Hh); // draw light path as diagonal \
+    else if (!plus && v <  0 && On('down_mirror'))  drawLine(-Hw,Hh,Hw,-Hh); // draw light path as diagonal /
+    else if (!plus && v >= 0 && On('down_mirror'))  drawLine(-Hw,-Hh,Hw,Hh); // draw light path as diagonal \
   }
   context.restore();
+  if (plus && On('up_mirror'))
+    if (t_cycle <= t_tick/2) drawPhotons(false,false,true,false); // use xy path of up photon as first half of xt path
+    else                     drawPhotons(false,false,false,true); // use xy path of down photon as second half of xt path
+  else if (!plus && On('down_mirror'))
+    if (t_cycle <= t_tick/2) drawPhotons(false,false,false,true); // use xy path of down photon as first half of xt path
+    else                     drawPhotons(false,false,true,false); // use xy path of up photon as second half of xt path
 }
 
 function refS()         {return(ref == 'SR_lab' || ref == 'GR_rain');}
@@ -2067,8 +2001,6 @@ function drawXT()  //only for theta == 0
   var Vangle,Vw,Vh,v0,dv_per_dV;
   var angle1,angle2,cos1,cos2,cos3,t_bottom,x_left;
   
-  mark_left = true; mark_right = true; xfactor = 1;
-  
   if      (refSdblprime())  {b = c*t_tick/2;          a = (d/2)/gamma;  f = 0;          }
   else if (refSprime())     {b = c*t_tick/(2*gamma);  a = (d/2);        f = 0;          }
 	else if (refS())          {b = c*t_tick/2;          a = (d/2)*gamma;  f = v*t_tick/2; }
@@ -2096,37 +2028,38 @@ function drawXT()  //only for theta == 0
   if (On('Sprime_diag_checkbox'))
   {
     diagram = "S'"; x_label="x'"; t_label="t'"; t_bottom = ticks; x_left = -0.5; speedcolor=Sprime_color(1); speedfactor = "";
-    if      (refS())         {Hangle = -angle1; Hw = e;       Hh = e*cos3;  h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = angle1;   Vh = e;      Vw = e*cos3; v0 = x_left;    dv_per_dV = 1/(2*Vw);}
-    else if (refSprime())    {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;    dv_per_dV = 1/(2*Vw);}
-    else if (refSdblprime()) {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;    dv_per_dV = 1/(2*Vw);}
+    if      (refS())         {Hangle = -angle1; Hw = e;       Hh = e*cos3;  h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = angle1;   Vh = e;      Vw = e*cos3; v0 = x_left;  dv_per_dV = 1/(2*Vw);}
+    else if (refSprime())    {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = 1/(2*Vw);}
+    else if (refSdblprime()) {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = 1/(2*Hh);       Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = 1/(2*Vw);}
     drawCoordLines(diagram,'XT',Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
   }
   if (On('Sdblprime_diag_checkbox'))
   {
     diagram = 'S"'; x_label='x"'; t_label='t"'; t_bottom = gamma*ticks; x_left = xprime_to_xdblprime(-0.5); speedcolor=Sdblprime_color(1); if (v != 0) speedfactor = "/\u03B3\u00B2"; else speedfactor = "";
-    if      (refS())         {Hangle = -angle1; Hw = e;       Hh = e*cos3;  h0 = t_bottom;   dh_per_dH = gamma/(2*Hh);  Vangle = angle1;   Vh = e;      Vw = e*cos3; v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
-    else if (refSprime())    {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;   dh_per_dH = gamma/(2*Hh);  Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
-    else if (refSdblprime()) {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;   dh_per_dH = gamma/(2*Hh);  Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
+    if      (refS())         {Hangle = -angle1; Hw = e;       Hh = e*cos3;  h0 = t_bottom;  dh_per_dH = gamma/(2*Hh);   Vangle = angle1;   Vh = e;      Vw = e*cos3; v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
+    else if (refSprime())    {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = gamma/(2*Hh);   Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
+    else if (refSdblprime()) {Hangle = 0;       Hw = a;       Hh = b;       h0 = t_bottom;  dh_per_dH = gamma/(2*Hh);   Vangle = 0;        Vh = b;      Vw = a;      v0 = x_left;  dv_per_dV = 1/(gamma*2*Vw);}
     drawCoordLines(diagram,'XT',Hangle,Hw,Hh,h0,dh_per_dH,Vangle,Vh,Vw,v0,dv_per_dV);
   }
-    
+
+  speedtext = "\u0394" + x_label + "/\u0394" + t_label;
   if (On('S_diag_checkbox') || On('Sprime_diag_checkbox') || (On('Sdblprime_diag_checkbox') && ref != 'SR_lab')) // draw light paths
 	{
 		context.strokeStyle = lightpath_color(0.8); context.lineWidth=2.0;
     X0 =-f;Y0 = b;    X1 = -a;Y1 = f;    X2 = a;Y2 =-f;    X3 = f; Y3 = -b;
-		drawLine(X0,Y0,X1,Y1);  // SW
-    drawLine(X0,Y0,X2,Y2);  // SE
-    drawLine(X1,Y1,X3,Y3);  // NW
-    drawLine(X2,Y2,X3,Y3);  // NE
+		if (On('left_mirror'))
+    {
+      drawLine(X0,Y0,X1,Y1); annotate(speedtext + ' = -c' + speedfactor,(-f-a)/2,(b+f)/2,'center','top',   Math.atan((b-f)/(-f+a)),speedcolor); // SW
+      drawLine(X1,Y1,X3,Y3); annotate(speedtext + ' = c'  + speedfactor, (f-a)/2,(f-b)/2,'center','bottom',Math.atan((f+b)/(-a-f)),speedcolor); // NW
+    }
+    if (On('right_mirror'))
+    {
+      drawLine(X0,Y0,X2,Y2); annotate(speedtext + ' = c'  + speedfactor, (a-f)/2,(b-f)/2,'center','top',   Math.atan((-f-b)/(a+f)),speedcolor); // SE
+      drawLine(X2,Y2,X3,Y3); annotate(speedtext + ' = -c' + speedfactor,(f+a)/2,(-b-f)/2,'center','bottom',Math.atan((-b+f)/(f-a)),speedcolor); // NE
+    }
 	}
-  
-  speedtext = "\u0394" + x_label + "/\u0394" + t_label;
-	annotate(speedtext + ' = -c' + speedfactor,(f+a)/2,(-b-f)/2,'center','bottom',Math.atan((-b+f)/(f-a)),speedcolor); 	//NE
-	annotate(speedtext + ' = c' + speedfactor, (a-f)/2,(b-f)/2, 'center','top',   Math.atan((-f-b)/(a+f)),speedcolor);  //SE
-	annotate(speedtext + ' = -c' + speedfactor,(-f-a)/2,(b+f)/2,'center','top',   Math.atan((b-f)/(-f+a)),speedcolor);	//SW
-	annotate(speedtext + ' = c' + speedfactor, (f-a)/2,(f-b)/2, 'center','bottom',Math.atan((f+b)/(-a-f)),speedcolor);	//NW
-  
   context.restore();
+  drawPhotons(On('left_mirror'),On('right_mirror'),false,false)
   //annotate("spacetime diagram for " + x_label + " direction",w/2,h,'center','bottom',0,xt_color;
 }
 
@@ -2138,7 +2071,6 @@ function drawYT()  //only for theta == 0
   
   context.save();
   context.lineWidth=1;
-  mark_up = true; mark_down = true; mark_left = false; mark_right = false;
   if      (centered)        {context.translate(-c*t_tick/2 + c*t_cycle, 0);}
   else if	(ref != 'GR_far')	{context.translate(offset_x + x0_init + v*t - c*t_tick/2 + c*t_cycle, offset_y + y0);}
   else if	(ref == 'GR_far')	{context.translate(offset_x + (x0_init + v*t)/(gamma*gamma) - c*t_tick/2 + c*t_cycle, offset_y + y0);}
@@ -2192,12 +2124,11 @@ function drawYT()  //only for theta == 0
 		a = c*t_tick/2; b = d/2;
 		context.strokeStyle = lightpath_color(0.8);
     context.lineWidth=2.0;
-		drawLine(0,-b,a,0);
-		drawLine(a,0,0,b);
-		drawLine(0,b,-a,0);
-		drawLine(-a,0,0,-b);
+		if (On('up_mirror'))    {drawLine(0,-b,a,0); drawLine(-a,0,0,-b);}  // NW / and NE \
+		if (On('down_mirror'))  {drawLine(0,b,-a,0); drawLine(a,0,0,b);}    // SE / and SW \
     context.restore();
 	}
+  drawPhotons(false,false,On('up_mirror'),On('down_mirror'));
   //annotate("spacetime diagram for " + y_label + " direction",w/2,h,'center','bottom',yt_color,0);
 }
 
@@ -2577,7 +2508,7 @@ function On(id) {return ($i(id).checked && !$i(id).disabled);}
 
 function drawFrame()
 {
-  var left_photon,right_photon,up_photon,down_photon,retarded_waves,advanced_waves;
+  var retarded_waves,advanced_waves;
   
   context.save();
   context.clearRect(0,0,w,h);  //erase frame
@@ -2589,17 +2520,14 @@ function drawFrame()
 	drawLattice("S",  On('S_grid_checkbox'),          On('S_clocks_checkbox'),          On('mini_lightclocks_checkbox'));
 	drawLattice("S'", On('Sprime_grid_checkbox'),     On('Sprime_clocks_checkbox'),     On('mini_lightclocks_checkbox'));
 	drawLattice('S"', On('Sdblprime_grid_checkbox'),  On('Sdblprime_clocks_checkbox'),  On('mini_lightclocks_checkbox'));
-  mark_left = false; mark_right = false; mark_up = false; mark_down = false;
   setCurrentTime();
   if (diagramsOn())
   {
-    if      ($i('XT_button').checked)         {drawXT(); left_photon = true; right_photon = true;}
-    else if ($i('XT_Yplus_button').checked)   {drawXT_Y(true); up_photon = mark_up; down_photon = mark_down;}
-    else if ($i('XT_Yminus_button').checked)  {drawXT_Y(false); up_photon = mark_up; down_photon = mark_down;}
-    else if ($i('YT_button').checked)         {drawYT(); up_photon = true; down_photon = true;}
-    if (!$i('vertical_checkbox').checked)     {up_photon = false; down_photon = false;}
-    if (!$i('horizontal_checkbox').checked)   {left_photon = false; right_photon = false;}
-    if ($i('photons_checkbox').checked)       drawPhotons(left_photon,right_photon,up_photon,down_photon);
+    if ($i('photons_checkbox').checked)
+      if      ($i('XT_button').checked)         drawXT();
+      else if ($i('XT_Yplus_button').checked)   drawXT_Y(true);
+      else if ($i('XT_Yminus_button').checked)  drawXT_Y(false);
+      else if ($i('YT_button').checked)         drawYT();
   }
   else
   {
@@ -2608,12 +2536,10 @@ function drawFrame()
     advanced_waves = $i("advanced_waves_checkbox").checked;
     retarded_waves = $i("retarded_waves_checkbox").checked;
     $i('full_arcs_checkbox').disabled = (!retarded_waves) && (!advanced_waves);
-    if (retarded_waves) if (ref == "GR_far") {drawEllipticalWaves(true);} else {drawWaves(true);}
-    if (advanced_waves) if (ref == "GR_far") {drawEllipticalWaves(false);} else {drawWaves(false);}
+    if (retarded_waves) if (ref == "GR_far") {drawEllipticalWaves(true);} else {drawCircularWaves(true);}
+    if (advanced_waves) if (ref == "GR_far") {drawEllipticalWaves(false);} else {drawCircularWaves(false);}
     if ($i('paths_checkbox').checked) drawPaths();
-    up_photon = $i('vertical_checkbox').checked; down_photon = up_photon;
-    left_photon = $i('horizontal_checkbox').checked; right_photon = left_photon;
-    if ($i('photons_checkbox').checked)       drawPhotons(left_photon,right_photon,up_photon,down_photon);
+    if ($i('photons_checkbox').checked) drawPhotons(On('left_mirror'),On('right_mirror'),On('up_mirror'),On('down_mirror'));
     drawMirrors();
     drawTicks_Sprime();
   }
@@ -2668,50 +2594,51 @@ function reset()
 
 function init()
 {
-    isMac = (navigator.platform.substr(0,3) == "Mac");
-	speed_slider = false;
-	
-	$i('body').style.overflow = "hidden";
-	window.scrollTo(0,0);
-	v = 0; v_text = "0"; $i('v_over_c').innerHTML = v_text;
-    gamma = 1; gamma_text = "1"; $i('gamma').innerHTML = gamma_text;
-	r_over_GM_text = '\u221E'; $i('r_reduced').innerHTML = r_over_GM_text;
-	document.querySelector('#speed_range').value = 0;
-	
-	controls = $i('controls'); hidden('controls');
-    SRtext = $i('SR_text'); hidden('SR_text');
-    GRtext = $i('GR_text'); hidden('SR_text');
-	FAQtext = $i('FAQ'); hidden('FAQ');
-    canvas = $i('canvas'); hidden('canvas');
-    descriptiontext = $i('description'); hidden('description');
-	UItext = $i('UI'); hidden('UI');
-    inherit('start');
-	
-    mthick = 5; mlen = 50; mlen_prime = mlen/gamma;
-    $i('vertical_checkbox').checked = true;
-    $i('horizontal_checkbox').checked = true;
-	$i('photons_checkbox').checked = true;
-    $i('paths_checkbox').checked = false;
-    $i('retarded_waves_checkbox').checked = false;
-	$i('advanced_waves_checkbox').checked = false;
-    $i('full_arcs_checkbox').checked = false; $i('full_arcs_checkbox').disabled = true;
-	coords = false; $i('coord_checkbox').checked = false;
-    paused = false; $i('pause_resume_button').innerHTML = "Pause "; hidden('single_steps');
-	centered = false; $i("centered_button").innerHTML="Center"; hidden('centered_button');
-	$i('S_grid_checkbox').checked = false; $i('Sprime_grid_checkbox').checked = false; $i('Sdblprime_grid_checkbox').checked = false;
-	$i('S_clocks_checkbox').checked = false; $i('Sprime_clocks_checkbox').checked = false; $i('Sdblprime_clocks_checkbox').checked = false;
-    $i('mini_lightclocks_checkbox').checked = false; $i('mini_lightclocks_checkbox').disabled = true;
-    $i('annotation_checkbox').checked = false;
-	initDiagrams(); disableDiagrams();
-	$i('coord_checkbox').checked = false;
-	hidden('coordinates'); hidden('goto_E1_button'); hidden('goto_E2_button');
-    theta = 0; prev_theta = theta;
-    $i('forward_button').checked = true; $i('backward_button').checked = false;
-	scaling_enabled = true; initScaling();
-	rotation_enabled = true; initRotation();
-    started = false;
-	reset();
-    SRlab();
+  isMac = (navigator.platform.substr(0,3) == "Mac");
+  speed_slider = false;
+
+  $i('body').style.overflow = "hidden";
+  window.scrollTo(0,0);
+  v = 0; v_text = "0"; $i('v_over_c').innerHTML = v_text;
+  gamma = 1; gamma_text = "1"; $i('gamma').innerHTML = gamma_text;
+  r_over_GM_text = '\u221E'; $i('r_reduced').innerHTML = r_over_GM_text;
+  document.querySelector('#speed_range').value = 0;
+
+  controls = $i('controls'); hidden('controls');
+  GRtext = $i('GR_text');
+  FAQtext = $i('FAQ'); hidden('FAQ');
+  canvas = $i('canvas'); hidden('canvas');
+  descriptiontext = $i('description'); hidden('description');
+  UItext = $i('UI'); hidden('UI');
+  inherit('start');
+
+  mthick = 5; mlen = 50; mlen_prime = mlen/gamma;
+  $i('left_mirror').checked = true;
+  $i('right_mirror').checked = true;
+  $i('up_mirror').checked = true;
+  $i('down_mirror').checked = true;
+  $i('photons_checkbox').checked = true;
+  $i('paths_checkbox').checked = false;
+  $i('retarded_waves_checkbox').checked = false;
+  $i('advanced_waves_checkbox').checked = false;
+  $i('full_arcs_checkbox').checked = false; $i('full_arcs_checkbox').disabled = true;
+  coords = false; $i('coord_checkbox').checked = false;
+  paused = false; $i('pause_resume_button').innerHTML = "Pause "; hidden('single_steps');
+  centered = false; $i("centered_button").innerHTML="Center"; hidden('centered_button');
+  $i('S_grid_checkbox').checked = false; $i('Sprime_grid_checkbox').checked = false; $i('Sdblprime_grid_checkbox').checked = false;
+  $i('S_clocks_checkbox').checked = false; $i('Sprime_clocks_checkbox').checked = false; $i('Sdblprime_clocks_checkbox').checked = false;
+  $i('mini_lightclocks_checkbox').checked = false; $i('mini_lightclocks_checkbox').disabled = true;
+  $i('annotation_checkbox').checked = false;
+  initDiagrams(); disableDiagrams();
+  $i('coord_checkbox').checked = false;
+  hidden('coordinates'); hidden('goto_E1_button'); hidden('goto_E2_button');
+  theta = 0; prev_theta = theta;
+  $i('forward_button').checked = true; $i('backward_button').checked = false;
+  scaling_enabled = true; initScaling();
+  rotation_enabled = true; initRotation();
+  started = false;
+  reset();
+  SRlab();
 }
 
 function start_animation()
@@ -2783,9 +2710,15 @@ function start()		    {hidden('start'); start_animation(); inherit('canvas');}
 
 function description()	{hidden('start'); inherit('description');}
 
-function SR()			      {hidden('description'); inherit('SR_text'); $i('body').style.overflow = "auto";}
+function Transforms()		{hidden('description'); inherit('Transforms_text'); $i('body').style.overflow = "auto";}
 
-function GR()			      {hidden('description'); inherit('GR_text'); $i('body').style.overflow = "auto";}
+function Dilation()     {hidden('description'); inherit('Dilation_text'); $i('body').style.overflow = "auto";}
+
+function Contraction()  {hidden('description'); inherit('Contraction_text'); $i('body').style.overflow = "auto";}
+
+function FlowingSpace()	{hidden('description'); inherit('FlowingSpace_text'); $i('body').style.overflow = "auto";}
+
+function Differentials(){hidden('description'); inherit('Differentials_text'); $i('body').style.overflow = "auto";}
 
 function FAQ()			    {hidden('description'); inherit('FAQ'); $i('body').style.overflow = "auto";}
 
@@ -2805,8 +2738,11 @@ function return_to_start()
 function return_to_description()
 {
 	window.scrollTo(0,0);
-	hidden('SR_text');
-	hidden('GR_text');
+	hidden('Transforms_text');
+  hidden('Dilation_text')
+  hidden('Contraction_text');
+	hidden('FlowingSpace_text');
+  hidden('Differentials_text');
 	inherit('description');
 	$i('body').style.overflow = "hidden";
 }
@@ -3408,14 +3344,20 @@ function eventListeners(down,out,up)
   $i('set_E2_button').addEventListener(up,           set_E2);
   $i('goto_E1_button').addEventListener(up,          goto_E1);
   $i('goto_E2_button').addEventListener(up,          goto_E2);
-  $i('SR_button').addEventListener(up,               SR);
-  $i('GR_button').addEventListener(up,               GR);
+  $i('Transforms_button').addEventListener(up,       Transforms);
+  $i('Dilation_button').addEventListener(up,         Dilation);
+  $i('Contraction_button').addEventListener(up,      Contraction);
+  $i('FlowingSpace_button').addEventListener(up,     FlowingSpace);
+  $i('Differentials_button').addEventListener(up,    Differentials);
   $i('return_to_start').addEventListener(up,         return_to_start);
   $i('return_from_UI').addEventListener(up,          return_to_start);
   $i('return_from_FAQ_1').addEventListener(up,       return_to_start);
   $i('return_from_FAQ_2').addEventListener(up,       return_to_start);
-  $i('return_from_SR').addEventListener(up,          return_to_description);
-  $i('return_from_GR').addEventListener(up,          return_to_description);
+  $i('return_from_Transforms').addEventListener(up,  return_to_description);
+  $i('return_from_Dilation').addEventListener(up,    return_to_description);
+  $i('return_from_Contraction').addEventListener(up, return_to_description);
+  $i('return_from_FlowingSpace').addEventListener(up,return_to_description);
+  $i('return_from_Differentials').addEventListener(up,return_to_description);
   $i('start_button').addEventListener(up,            start);
   $i('description_button').addEventListener(up,      description);
   $i('FAQ_button').addEventListener(up,              FAQ);
