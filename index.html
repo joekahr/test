@@ -66,6 +66,9 @@
   </head>
 
   <body id="body" onload="init();" onresize="resize();" style="background-color:rgb(0,0,0)">
+    <div id="loading" style="font-family:Arial,Helvetica,sans-serif; text-align:center; background-color:rgb(0,0,0); color:rgb(255,255,255); position:absolute; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:visible">
+      <br>Loading...
+    </div>
 
     <canvas id="canvas" style="background-color:rgb(0, 0, 0); position:absolute; overflow:hidden; z-index:1; visibility:hidden;"></canvas>
         
@@ -168,7 +171,6 @@
 				
     <div id="description" style="font-family:Cambria,Math; text-align:center; background-color:rgb(0,0,0); color:rgb(255,255,255); position:absolute; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden">
       <button type="button" id="return_to_start" style="font-weight:bold">RETURN</button><br>
-      <br>
 			<p>
 		  Using an animation of light and mirrors functioning as a Light Clock we explore the nature of space and time.<br>
       Spacetime kinematics are depicted, without dynamical effects (no massive particles, forces, or accelerations).<br>
@@ -177,20 +179,20 @@
 			the mirrors are positioned so the round trip times are the same in all directions.<br>
 			This results in length contraction (in the direction of motion) and time dilation, consistent with Relativity.<br>
 			</p>
-			<br><br><br>
-      <h1>Special Relativity</h1><br>
+			<br><br>
+      <h1>Special Relativity</h1>
       <br>
       <button type="button" id="Transforms_button" style="font-weight:bold">Coordinate Transformations</button><br><br>
       <br>
       <button type="button" id="Dilation_button" style="font-weight:bold">Time Dilation</button><br><br>
       <br>
       <button type="button" id="Contraction_button" style="font-weight:bold">Length Contraction</button><br><br>
-      <br><br><br>
-      <h1>General Relativity</h1><br>
+      <br>
+      <h1>General Relativity</h1>
       <br>
       <button type="button" id="FlowingSpace_button" style="font-weight:bold">Gravity as Flowing Space</button><br><br>
       <br>
-      <button type="button" id="Differentials_button" style="font-weight:bold">Spacetime Differentials</button>
+      <button type="button" id="Differentials_button" style="font-weight:bold">Differential Transformations</button>
     </div>
         
     <div id="Transforms_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; height:100%; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
@@ -234,7 +236,7 @@
 			<span style="font-weight:bold">What is the scale of the animation?</span><br>
       The scale is assumed to be appropriate for the animation to depict an inertial reference frame (flat spacetime).<br>
       For the <font color='lime'>Lab</font> and <font color='cyan'>Rocket</font> animations of Special Relativity the scale can be from the sub-microscopic to the very large, but smaller than cosmological distances where expanding space would be a factor.<br>
-			For the <font color='lime'>Rain</font>, <font color='cyan'>Shell</font> and <font color='orange'>Far</font> animations of General Relativity the scale is small enough for gravitational effects (e.g. tidal distortions) to be insignificant.<br>
+			For the <font color='lime'>Rain</font>, <font color='cyan'>Shell</font> and <font color='orange'>Far</font> animations of General Relativity the scale is small enough for a constant r to be assumed and for gravitational effects (e.g. tidal distortions) to be insignificant.<br>
       Lengths are expressed as dimensionless fractions of the proper distance D between the mirrors, with no spatial scale specified.<br>
       Similarly, time durations are expressed as dimensionless fractions of the proper period T, with no time scale specified.<br>
       Tip:Note that times are shown as decimal fractions of the clock period (e.g.,<font color='lime'> t/T=0.750 </font> has the <font color='lime'> S </font> clock hand in the "9 o'clock" position).<br>
@@ -247,7 +249,7 @@
 			<font color='cyan'>S'</font> is also the frame of a stationary fiducial observer in General Relativity (local shell frame).<br>
 			<font color='orange'>Orange</font> represents the <font color='orange'>S"</font> reference frame of a far-away bookkeeper in General Relativity (global Schwarzschild frame).<br>
       <font color='orange'>S"</font> is an idealized global coordinate system which extends far-away flat spacetime to radius r as if there where no gravitating mass M.<br>
-      Note: mass M in Schwarzschild geometry is assumed to be a non-rotating, uncharged, point mass.<br>
+      Note: the animation uses the Schwarzschild geometry with M as a non-rotating, uncharged, point mass.<br>
       <br>
       You can select whether the animation shows Special or General Relativity, and which reference frame is yours:<br>
       <br>
@@ -430,11 +432,11 @@
 			<br>
       
       <span style="font-weight:bold">Why are the light waves elliptical when the <font color='orange'>Far</font> frame option is selected?</span><br>
-			<font color='orange'>Far</font> depicts how a far-away bookkeeper represents the events in the vicinity of the light clock.  It is not what the bookkeeper observes directly; he is not a local observer of those events.<br>
-      The free-falling observer (<font color='lime'>Rain</font> frame) and the stationary observer (<font color='cyan'>Shell</font>) frame are local observers, therefore they see events consistent with special relativity.<br>
+			<font color='orange'>Far</font> depicts how a far-away bookkeeper represents the events in the vicinity of the light clock.  It is not what the bookkeeper observes directly; she is not a local observer of those events.<br>
+      The free-falling observer (<font color='lime'>Rain</font> frame) and the stationary observer (<font color='cyan'>Shell</font> frame) are local observers, therefore they see events consistent with special relativity.<br>
       The <font color='orange'>Far</font> distortions are the result of extrapolating from far-away flat spacetime to the vicinity of the light clock, without compensationg for the effects of the downward flowing space.<br>
       These distortions (apparent spacetime warping) include contracted radial lengths (&Delta;<font color='orange'>x"</font> = &Delta;<font color='lime'>x</font> = &Delta;<font color='cyan'>x'</font>/&gamma;)
-      and slowed clocks (&Delta;<font color='orange'>t"</font> = &gamma;<sup>2</sup>&Delta;<font color='lime'>t</font> = &gamma;&Delta;<font color='cyan'>t'</font>).
+      and slowed clocks (&Delta;<font color='orange'>t"</font> = &gamma;<sup>2</sup>&Delta;<font color='lime'>t</font> = &gamma;&Delta;<font color='cyan'>t'</font>).<br>
       This explains the <font color='orange'>Far</font> view of <font color='cyan'>Shell</font> frame length contractions
       (e.g. elliptical appearence of the light waves, contracted appearance of the Light Clock even though it is motionless in the <font color='orange'>Far</font> frame),
       time dilations (e.g. slowed clocks), and the extra slow inward speed (v/&gamma;<sup>2</sup>) of the free-falling <font color='lime'>Rain</font> frame.<br>
@@ -444,7 +446,7 @@
       
 			<span style="font-weight:bold">What is an Inertial Reference Frame?</span><br>	
 			An Inertial Reference Frame is defined as a frame of reference in which Newton's first law holds (constant motion with no forces).  An inertial observer does not detect acceleration, or forces, or gravity.<br>
-      We represent an inertial frame as a uniform spatial coordinate grid with identical synchronized clocks at each position in the grid, to locally measure the position and time of spacetime events.
+      We represent an inertial frame as a uniform spatial coordinate grid with identical synchronized clocks at each position in the grid, to locally measure the position and time of spacetime events.<br>
 			Clocks are synchronized using Einstein's method of round-trip light signals that are <u>assumed</u> to travel at the same speed c in all directions (light travel time A-to-B is the same as B-to-A).<br>
 			Check any of the <font color='lime'>xy</font>  <font color='cyan'>x'y'</font>  <font color='orange'>x"y"</font> space grids to see the spatial coordinates.
 			Check any of the <font color='lime'>t</font>  <font color='cyan'>t'</font>  <font color='orange'>t"</font> times to see the time coordinates depicted as clocks.<br>
@@ -455,9 +457,9 @@
       <span style="font-weight:bold">Is the <font color='cyan'>Shell</font> frame an Inertial Reference Frame?</span><br>
       Locally, Yes.  Globally, No.<br>
       <br>
-      <span style="font-weight:bold">Yes:</span> If the scale of the spacetime region is sufficiently small to exclude gravitational effects (see next FAQ) then the <font color='cyan'>Shell</font> frame is "locally inertial", but not "globally inertial".
-      The animation does not depict space as accelerating toward the gravitating mass; it assumes the radial extent of the <font color='cyan'>Shell</font> frame is small enough that the speed of downward moving space is constant across the window width.
-      The <font color='cyan'>Shell</font> frame is depicted as a stationary inertial frame while the inertial <font color='lime'>Rain</font> frame (comoving with space) moves downward.
+      <span style="font-weight:bold">Yes:</span> If the scale of the spacetime region is sufficiently small to exclude gravitational effects (see next FAQ) then the <font color='cyan'>Shell</font> frame is "locally inertial", but not "globally inertial".<br>
+      The animation does not depict space as accelerating toward the gravitating mass; it assumes the radial extent of the <font color='cyan'>Shell</font> frame is small enough that the speed of downward moving space is constant across the window width.<br>
+      The <font color='cyan'>Shell</font> frame is depicted as a stationary inertial frame while the inertial <font color='lime'>Rain</font> frame (comoving with space) moves downward.<br>
       Effectively, the spacetime region has been magnified enough to appear flat and only Special Relativity applies.<br>
       <br>
       <span style="font-weight:bold">No:</span> If the scale of the spacetime region is not sufficiently small then gravitational effects arise and the <font color='cyan'>Shell</font> frame is neither "locally inertial" nor "globally inertial".
@@ -471,15 +473,16 @@
       <br>
       
       <span style="font-weight:bold">Where are the gravitational effects of General Relativity?</span><br>
-      For simplicity, the animation is limited to only the kinematic effects of Special and General Relativity. This means no accelerations are depicted.
+      For simplicity, the animation is limited to only the kinematic effects of Special and General Relativity. This means no accelerations are depicted.<br>
       The <font color='cyan'>Rocket</font> frame moves at constant speed relative to the <font color='lime'>Lab</font> frame,
-      and the <font color='lime'>Rain</font> frame falls at constant speed relative to the <font color='cyan'>Shell</font> and <font color='orange'>Far</font> frames.
-      Without accelerations we can focus on the effects of radial length contraction and time dilation which are identical for both Special and General Relativity.
-      In the GR cases we see the effects of space moving radially downward toward the gravitating mass, but the scale is assumed to be small enough so only the SR effects are significant.<br>
+      and the <font color='lime'>Rain</font> frame falls at constant speed relative to the <font color='cyan'>Shell</font> frame.<br>
+      In the GR cases we see the effects of space moving radially downward toward the gravitating mass, but the scale is assumed to be small enough so only the SR-like effects are significant.<br>
+      Without accelerations we can focus on the kinematics: radial length contraction and time dilation which in the <font color='lime'>Lab</font>/<font color='cyan'>Rocket</font> and <font color='lime'>Rain</font>/<font color='cyan'>Shell</font> pairs are identical for both Special and General Relativity.<br>
+      The <font color='orange'>Far</font> frame demonstrates "flowing space" effects which are locally identical to "warped spacetime" effects.<br>
       <br>
-      At sufficiently small scale (as depicted in the animation) GR effects are neglible:<br>
+      At sufficiently small scale (as depicted in the animation) these GR effects are neglible:<br>
       a) the region of spacetime has negligible curvature (locally flat spacetime)<br>
-      b) the accelerating downward flow of the <font color='lime'>Rain</font> frame past the <font color='cyan'>Shell</font> frame is neglible (no increasing speed as it falls)<br>
+      b) the accelerating downward flow of the <font color='lime'>Rain</font> frame past the <font color='cyan'>Shell</font> frame is neglible (no increasing speed as it falls, no gravity)<br>
       c) the radial stretching and transverse shrinking of falling objects is neglible (no tidal distortions)<br>
       d) the spherical symmetry of the spatial grid is not noticeable (uniform rectangular spatial grid is sufficient)<br>
       e) the gradient of radial flow velocity and its effect on light frequency is negligible (no gravitational redshift or blueshift)<br>
@@ -493,8 +496,8 @@
       <br>
 
       <span style="font-weight:bold">What are Retarded and Advanced waves?</span><br>
-      A Retarded wave propagates forward in time, producing effects which are retarded from (later than) the originating event at the wave source.
-      An Advanced wave propagates backward in time, producing effects which are in advance of (earlier than) the originating event at the wave source.
+      Retarded waves propagate forward in time, producing effects which are retarded from (later than) the originating events at the wave source.
+      Advanced waves propagate backward in time, producing effects which are in advance of (earlier than) the originating events at the wave source.
       A Retarded wave from a source is the top half of a lightcone with the source event at the vertex; an Advanced wave from that event is the bottom half of that light cone.<br>
       When viewed forward-in-time a Retarded wave expands outward from its source, and an Advanced wave contracts inward toward its source.
       When viewed backward-in-time a Retarded wave contracts inward toward its source, and an Advanced wave expands outward from its source.<br>
@@ -665,7 +668,7 @@ var angle_mousedown;
 var gesture=false;
 var scale=1;
 var prev_scale=1;
-var theta;  //rotation in radians
+var theta;  //clockwise rotation in radians
 var prev_theta;  //previous rotation in radians
 var offset_x_down=0; // offset_x at mousedown event
 var offset_y_down=0; // offset_y at mousedown event
@@ -2639,6 +2642,7 @@ function init()
   started = false;
   reset();
   SRlab();
+  hidden('loading');
 }
 
 function start_animation()
@@ -2665,10 +2669,7 @@ function initRotation()
 
 function calcRotation(theta_change)  //theta_change in radians
 {
-  theta = (prev_theta + theta_change) % (Math.PI/2);
-  if (theta < 0) theta = theta + (Math.PI/2);
-  //alert ("theta_change = " + theta_change + "   prev_theta = " + prev_theta + "   theta = " + theta);
-  if ((theta < 0) || (theta >= (Math.PI/2))) alert("theta = " + theta);
+  theta = prev_theta + theta_change;
 }
 
 function resize()
