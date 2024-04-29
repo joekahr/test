@@ -192,7 +192,15 @@
       <br>
       <button type="button" id="FlowingSpace_button" style="font-weight:bold">Gravity as Flowing Space</button><br><br>
       <br>
-      <button type="button" id="Differentials_button" style="font-weight:bold">Differential Transformations</button>
+      <button type="button" id="Differentials_button" style="font-weight:bold">Differential Transformations</button><br>
+      <br>
+      References:<br>
+      <div style="margin-left:10px">
+        <a style="color:white" href="http://arxiv.org/abs/gr-qc/0411060">Andrew Hamilton's "River Model"</a><br>
+        <a style="color:white" href="http://jila.colorado.edu/~ajsh/insidebh/waterfall.html">Andrew Hamilton's "Waterfall of Space"</a><br>
+        <a style="color:white" href="http://www.eftaylor.com/general.html">Taylor and Wheeler's "Rain Frame"</a><br>
+        <a style="color:white" href="http://en.wikipedia.org/wiki/Gullstrand%E2%80%93Painlev%C3%A9_coordinates">Gullstrand-Painleve coordinates</a>
+      </div>
     </div>
         
     <div id="Transforms_text" style="font-family:Cambria,Math; background-color:rgb(0,0,0); position:absolute; color:rgb(255,255,255); text-align:center; height:100%; width:100%; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
@@ -1761,7 +1769,6 @@ function drawEllipticalWaves(retarded)  //center of S" waves always in center of
     if (On('right_mirror'))
     {
       drawEllipticalFullArc( d, 0, r);  //full arc reflection from right mirror
-      //drawArc( d, 0, r, Math.PI-angleF, Math.PI+angleF);  //arc reflection from right mirror
       drawArc( d, 0, r,-Math.PI, angleA-Math.PI); //arc reflection from right mirror
       drawArc( d, 0, r,angleH+Math.PI, Math.PI);  //arc reflection from right mirror
     }
@@ -2237,7 +2244,7 @@ function drawInfo()  // using untransformed coordinates
     newText(w/2,20,'left','top',0); whiteText("Your flat spacetime frame extends everywhere as if M = 0"); centerText();
     newText(w/2,40,'left','top',0); limeText("Rain"); whiteText(" frame is moving at speed " + speedtext + " relative to your frame"); centerText();
     newText(w/2,60,'left','top',0); cyanText("Shell"); whiteText(" frame is stationary relative to your frame"); centerText();
-    if (v != 0 && !centered) {newText(w/2,100,'left','top',0); whiteText("The display window is kept artificially aligned with the "); limeText("Rain Frame"); centerText();}
+    if (v != 0 && !centered) {newText(w/2,100,'left','top',0); whiteText("The display window is kept artificially aligned with the "); limeText("Rain"); whiteText(" frame"); centerText();}
   }
   
   if (ref != 'GR_far')  {x = x0_init + v*t + offset_x; y = y0 + offset_y;}
@@ -3048,7 +3055,7 @@ function mouseClick(event)
     hidden('controls');
     coords = false;
   }
-  drawFrame();
+  //drawFrame();
 }
 
 function control_input(event)
