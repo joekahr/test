@@ -18,7 +18,7 @@
     <meta name="description" content="Light Clock">
     <meta name="author" content="joekahr@gmail.com">
     <meta name="generator" content="Joe Kahr">
-    <meta name="version" content="18.7">
+    <meta name="version" content="18.8">
     <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
   
     <style type="text/css">
@@ -190,8 +190,6 @@
       <br>
       <h1>General Relativity</h1>
       <br>
-      <button type="button" id="Differentials_button" style="font-weight:bold">Differential Transformations</button><br><br>
-      <br>
       <button type="button" id="FlowingSpace_button" style="font-weight:bold">Gravity as Flowing Space</button><br>
       <br>
       References:<br>
@@ -223,11 +221,6 @@
     <div id="FlowingSpace_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); height:100%; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
       <button type="button" id="return_from_FlowingSpace" style="font-weight:bold">RETURN</button>
       <iframe src="flowingspace.pdf" width="100%" height="100%" style="border:none;"></iframe>
-    </div>
-
-    <div id="Differentials_text" style="font-family:Cambria,Math; text-align:center; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); height:100%; width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2; visibility:hidden;">
-      <button type="button" id="return_from_Differentials" style="font-weight:bold">RETURN</button>
-      <iframe src="differentials.pdf" width="100%" height="100%" style="border:none;"></iframe>
     </div>
     
     <div id="FAQ" style="font-family:Cambria,Math; text-align:left; visibility:hidden; background-color:rgba(0,0,0,1); position:absolute; color:rgb(255,255,255); width:100%; top:0px; padding:0px; border-width:0px; margin:0px; min-width:300px; z-index:2">
@@ -2739,8 +2732,6 @@ function Contraction()  {hidden('description'); inherit('Contraction_text'); $i(
 
 function FlowingSpace() {hidden('description'); inherit('FlowingSpace_text'); $i('body').style.overflow = "auto";}
 
-function Differentials(){hidden('description'); inherit('Differentials_text'); $i('body').style.overflow = "auto";}
-
 function FAQ()          {hidden('description'); inherit('FAQ'); $i('body').style.overflow = "auto";}
 
 function UI()           {hidden('start'); inherit('UI');}
@@ -2763,7 +2754,6 @@ function return_to_description()
   hidden('Dilation_text')
   hidden('Contraction_text');
   hidden('FlowingSpace_text');
-  hidden('Differentials_text');
   inherit('description');
   $i('body').style.overflow = "hidden";
 }
@@ -3369,7 +3359,6 @@ function eventListeners(down,out,up)
   $i('Dilation_button').addEventListener(up,         Dilation);
   $i('Contraction_button').addEventListener(up,      Contraction);
   $i('FlowingSpace_button').addEventListener(up,     FlowingSpace);
-  $i('Differentials_button').addEventListener(up,    Differentials);
   $i('return_to_start').addEventListener(up,         return_to_start);
   $i('return_from_UI').addEventListener(up,          return_to_start);
   $i('return_from_FAQ_1').addEventListener(up,       return_to_start);
@@ -3378,7 +3367,6 @@ function eventListeners(down,out,up)
   $i('return_from_Dilation').addEventListener(up,    return_to_description);
   $i('return_from_Contraction').addEventListener(up, return_to_description);
   $i('return_from_FlowingSpace').addEventListener(up,return_to_description);
-  $i('return_from_Differentials').addEventListener(up,return_to_description);
   $i('start_button').addEventListener(up,            start);
   $i('description_button').addEventListener(up,      description);
   $i('FAQ_button').addEventListener(up,              FAQ);
